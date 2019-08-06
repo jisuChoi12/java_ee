@@ -12,14 +12,15 @@ public class FriendDTO {
 	private int music;
 	private int game;
 	private int shopping;
-	
-	public FriendDTO() {}
-	
+
+	public FriendDTO() {
+	}
+
 	// setters
 	public void setSeq(int seq) {
 		this.seq = seq;
 	}
-	
+
 	public void setName(String name) {
 		this.name = name;
 	}
@@ -64,7 +65,7 @@ public class FriendDTO {
 	public int getSeq() {
 		return seq;
 	}
-	
+
 	public String getName() {
 		return name;
 	}

@@ -149,7 +149,7 @@ public class FriendManager extends JFrame implements ActionListener, ListSelecti
 		// 전체목록 (내용)
 		JScrollPane scroll = new JScrollPane(list);
 		scroll.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
-		scroll.setPreferredSize(new Dimension(300,220));
+		scroll.setPreferredSize(new Dimension(300, 220));
 
 		JPanel listPanel = new JPanel(new FlowLayout());
 		listPanel.add(scroll);
@@ -186,138 +186,82 @@ public class FriendManager extends JFrame implements ActionListener, ListSelecti
 		setTitle("친구");
 		setBounds(300, 300, 650, 400);
 		setVisible(true);
-		
+
 		// DB에서 모든 레코드를 꺼내서 ArrayList에 담아서 JList로
-		FriendDAO dao = FriendDAO.getInstance();
+		FriendDAO dao = FriendDAO.getInstance(); // SingleTon으로 생성
 		ArrayList<FriendDTO> arrayList = dao.getFriendList();
 		for (FriendDTO dto : arrayList) {
 			model.addElement(dto);
 		}
-		list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		list.addListSelectionListener(this);
-		
-		
+
+		updateB.setEnabled(false);
+		deleteB.setEnabled(false);
+		clearB.setEnabled(false);
+
+//		list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 //		list.addMouseListener(new MouseInputAdapter() {
 //			@Override
 //			public void mouseClicked(MouseEvent e) {
-//				if(e.getClickCount()==2) {
-//					readCB.setSelected(true);
-//					movieCB.setSelected(true);
-//					musicCB.setSelected(true);
-//					gameCB.setSelected(true);
-//					shoppingCB.setSelected(true);
-//					
+//				if (e.getClickCount() == 2) {
 //					FriendDTO dto = list.getSelectedValue();
 //					nameT.setText(dto.getName());
 //					tel1C.setSelectedItem(dto.getTel1());
 //					tel2T.setText(dto.getTel2());
 //					tel3T.setText(dto.getTel3());
-//					
-//					if(dto.getGender()==0) {
+//
+//					if (dto.getGender() == 0) {
 //						womanR.setSelected(true);
-//					}
-//					else if(dto.getGender()==1) {
+//					} else if (dto.getGender() == 1) {
 //						manR.setSelected(true);
 //					}
-//					if(dto.getRead()==0) {
-//						readCB.setSelected(false);
-//					}
-//					else if(dto.getRead()==1) {
-//						readCB.setSelected(true);
-//					}
-//					if(dto.getMovie()==0) {
-//						movieCB.setSelected(false);
-//					}
-//					else if(dto.getRead()==1) {
-//						movieCB.setSelected(true);
-//					}
-//					if(dto.getMusic()==0) {
-//						musicCB.setSelected(false);
-//					}
-//					else if(dto.getRead()==1) {
-//						musicCB.setSelected(true);
-//					}
-//					if(dto.getGame()==0) {
-//						gameCB.setSelected(false);
-//					}
-//					else if(dto.getRead()==1) {
-//						gameCB.setSelected(true);
-//					}
-//					if(dto.getShopping()==0) {
-//						shoppingCB.setSelected(false);
-//					}
-//					else if(dto.getRead()==1) {
-//						shoppingCB.setSelected(true);
-//					}
-//					
+//					readCB.setSelected(dto.getRead() == 0 ? false : true);
+//					movieCB.setSelected(dto.getMovie() == 0 ? false : true);
+//					musicCB.setSelected(dto.getMusic() == 0 ? false : true);
+//					gameCB.setSelected(dto.getGame() == 0 ? false : true);
+//					shoppingCB.setSelected(dto.getShopping() == 0 ? false : true);
+//
 //					addB.setEnabled(false);
 //				}
 //			}
 //		});
-		
-		
+
 	}
 
 	public void event() {
+		list.addListSelectionListener(this);
 		addB.addActionListener(this);
 		updateB.addActionListener(this);
 		deleteB.addActionListener(this);
 		clearB.addActionListener(this);
 	}
-	
+
 	@Override
-	public void valueChanged(ListSelectionEvent e) {
-		readCB.setSelected(true);
-		movieCB.setSelected(true);
-		musicCB.setSelected(true);
-		gameCB.setSelected(true);
-		shoppingCB.setSelected(true);
+	public void valueChanged(ListSelectionEvent e) { // 총 두번 호출
+		if (list.getSelectedIndex() == -1) {
+			return;
+		} // 중간에 remove가 되면 index를 잃어버리기 때문에 -1이 나오면 빠져나가라
 
 		FriendDTO dto = list.getSelectedValue();
 		nameT.setText(dto.getName());
 		tel1C.setSelectedItem(dto.getTel1());
 		tel2T.setText(dto.getTel2());
 		tel3T.setText(dto.getTel3());
-		
-		if(dto.getGender()==0) {
+
+		if (dto.getGender() == 0) {
 			womanR.setSelected(true);
-		}
-		else if(dto.getGender()==1) {
+		} else if (dto.getGender() == 1) {
 			manR.setSelected(true);
 		}
-		if(dto.getRead()==0) {
-			readCB.setSelected(false);
-		}
-		else if(dto.getRead()==1) {
-			readCB.setSelected(true);
-		}
-		if(dto.getMovie()==0) {
-			movieCB.setSelected(false);
-		}
-		else if(dto.getRead()==1) {
-			movieCB.setSelected(true);
-		}
-		if(dto.getMusic()==0) {
-			musicCB.setSelected(false);
-		}
-		else if(dto.getRead()==1) {
-			musicCB.setSelected(true);
-		}
-		if(dto.getGame()==0) {
-			gameCB.setSelected(false);
-		}
-		else if(dto.getRead()==1) {
-			gameCB.setSelected(true);
-		}
-		if(dto.getShopping()==0) {
-			shoppingCB.setSelected(false);
-		}
-		else if(dto.getRead()==1) {
-			shoppingCB.setSelected(true);
-		}
-		
+		readCB.setSelected(dto.getRead() == 0 ? false : true);
+		movieCB.setSelected(dto.getMovie() == 0 ? false : true);
+		musicCB.setSelected(dto.getMusic() == 0 ? false : true);
+		gameCB.setSelected(dto.getGame() == 0 ? false : true);
+		shoppingCB.setSelected(dto.getShopping() == 0 ? false : true);
+
 		addB.setEnabled(false);
-		
+		updateB.setEnabled(true);
+		deleteB.setEnabled(true);
+		clearB.setEnabled(true);
 	}
 
 	@Override
@@ -341,7 +285,6 @@ public class FriendManager extends JFrame implements ActionListener, ListSelecti
 			int game = gameCB.isSelected() ? 1 : 0;
 			int shopping = shoppingCB.isSelected() ? 1 : 0;
 
-			// DB
 			FriendDTO dto = new FriendDTO();
 			dto.setName(name);
 			dto.setTel1(tel1);
@@ -354,19 +297,21 @@ public class FriendManager extends JFrame implements ActionListener, ListSelecti
 			dto.setGame(game);
 			dto.setShopping(shopping);
 
+			// DB
 			FriendDAO dao = FriendDAO.getInstance();
 			int seq = dao.getSeq();
 			dto.setSeq(seq);
 			int su = dao.insertFriend(dto);
 
 			// 응답
-			if(su==1) {
-				area.setText("데이터 등록 완료");				
-			} else {
+			clear();
+			if (su == 0) {
 				area.setText("데이터 등록 실패");
+			} else {
+				area.setText("데이터 등록 완료");
 			}
 			model.addElement(dto);
-			
+
 			nameT.setText("");
 			tel1C.setSelectedItem("010");
 			tel2T.setText("");
@@ -381,21 +326,78 @@ public class FriendManager extends JFrame implements ActionListener, ListSelecti
 
 		// 수정
 		else if (e.getSource() == updateB) {
+			// 데이터
+			String name = nameT.getText();
+			String tel1 = (String) tel1C.getSelectedItem();
+			String tel2 = tel2T.getText();
+			String tel3 = tel3T.getText();
+			int gender = 0;
+			if (womanR.isSelected()) {
+				gender = 0;
+			} else if (manR.isSelected()) {
+				gender = 1;
+			}
+			int read = readCB.isSelected() ? 1 : 0;
+			int movie = movieCB.isSelected() ? 1 : 0;
+			int music = musicCB.isSelected() ? 1 : 0;
+			int game = gameCB.isSelected() ? 1 : 0;
+			int shopping = shoppingCB.isSelected() ? 1 : 0;
 
+			FriendDTO dto = new FriendDTO();
+			dto.setSeq(list.getSelectedValue().getSeq()); // list에서 선택된 dto의 seq값을 얻어와서 dto에 집어 넣는다
+			dto.setName(name);
+			dto.setTel1(tel1);
+			dto.setTel2(tel2);
+			dto.setTel3(tel3);
+			dto.setGender(gender);
+			dto.setRead(read);
+			dto.setMovie(movie);
+			dto.setMusic(music);
+			dto.setGame(game);
+			dto.setShopping(shopping);
+
+			// DB
+			FriendDAO dao = FriendDAO.getInstance(); // singleTon으로 생성
+			int su = dao.updateFriend(dto);
+
+			// 응답
+			clear();
+			if (su == 0) {
+				area.setText("데이터 수정 실패");
+			} else {
+				area.setText("데이터 수정 완료");
+			}
+
+			// JList 내용 수정
+			model.setElementAt(dto, list.getSelectedIndex());
+			// model.set(list.getSelectedIndex(), dto);
 		}
 
 		// 삭제
 		else if (e.getSource() == deleteB) {
+			int seq = list.getSelectedValue().getSeq(); // list에서 선택된 dto의 seq값을 얻어와서
 
+			FriendDAO dao = FriendDAO.getInstance();
+			int su = dao.deleteFriend(seq);
+
+			// 응답
+			clear();
+			if (su == 0) {
+				area.setText("데이터 삭제 실패");
+			} else {
+				area.setText("데이터 삭제 완료");
+			}
+
+			// JList 내용 삭제
+			model.remove(list.getSelectedIndex());
 		}
 
 		// 지우기
 		else if (e.getSource() == clearB) {
 			clear();
-			
 		}
 	}
-	
+
 	public void clear() {
 		nameT.setText("");
 		tel1C.setSelectedItem("010");
@@ -408,7 +410,7 @@ public class FriendManager extends JFrame implements ActionListener, ListSelecti
 		gameCB.setSelected(false);
 		shoppingCB.setSelected(false);
 		area.setText("");
-		
+
 		addB.setEnabled(true);
 		updateB.setEnabled(false);
 		deleteB.setEnabled(false);
@@ -416,7 +418,7 @@ public class FriendManager extends JFrame implements ActionListener, ListSelecti
 	}
 
 	public static void main(String[] args) {
-		FriendManager fm = new FriendManager();
-		fm.event();
+		new FriendManager().event();
+
 	}
 }
