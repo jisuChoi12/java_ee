@@ -23,6 +23,7 @@ import java.security.Provider.Service;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.ArrayList;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -108,8 +109,24 @@ public class GameWindow extends JFrame implements Runnable, ActionListener {
 
 	private static int timer = 10; // 한 문제당 푸는 시간
 
-	public GameWindow() { // 생성자
+	private String nickname;
+	private int playerCnt;
+	
+	
+	private ImageIcon playerIcon01;
+	private ImageIcon playerIcon02;
+	private JLabel player01;
+	private JLabel player02;
+	
+	private ArrayList<String> nicks;
+	
+//	private static ArrayList<GamePlayerDTO> gamePlayList = new ArrayList<GamePlayerDTO>();
+	
+	public GameWindow(String nickname, int playerCnt) { // 생성자
 		// TO-DO 대기실에서 게임방 입장(클래스가 호출 될 때) 파라미터로 받아야 할 것 정리하기
+		// playerCnt
+		this.nickname = nickname;
+		this.playerCnt = playerCnt;
 
 // 게임화면 레이아웃 -----------------------------------------------------------------------------------
 		startB = new JButton("Game Start"); // 게임 시작 버튼
@@ -167,7 +184,7 @@ public class GameWindow extends JFrame implements Runnable, ActionListener {
 
 		center1 = new JPanel(new BorderLayout()); // 1번 플레이어
 //		center1.setBackground(Color.WHITE);
-		center1.setOpaque(false);
+//		center1.setOpaque(false);
 
 		nicknameTp1 = new JTextField();
 
@@ -175,13 +192,19 @@ public class GameWindow extends JFrame implements Runnable, ActionListener {
 		center1_north = new JPanel(new FlowLayout());
 
 		Dimension d6 = new Dimension();
-		d6.setSize(200, 30);
+		d6.setSize(200, 70);
 		nicknameTp1.setPreferredSize(d6);
+		nicknameTp1.setEditable(false);
+		nicknameTp1.setFont(new Font("Gothic", Font.BOLD, 20));
+		nicknameTp1.setHorizontalAlignment(JTextField.CENTER);
+//		nicknameTp1.setText("????");
 		center1_north.add(nicknameTp1);
 		correctLp1 = new JLabel("정답: ");
 		correctTp1 = new JTextField("	");
+		correctTp1.setEditable(false);
 		wrongLp1 = new JLabel("오답: ");
 		wrongTp1 = new JTextField("	");
+		wrongTp1.setEditable(false);
 		center1_south.add(correctLp1);
 		center1_south.add(correctTp1);
 		center1_south.add(wrongLp1);
@@ -202,24 +225,30 @@ public class GameWindow extends JFrame implements Runnable, ActionListener {
 		bg.add(jb[0]);
 		bg.add(jb[1]);
 		pack();
-
+		
 		jb[0].setEnabled(false); // 게임 시작 전에는 ox버튼 비활성
 		jb[1].setEnabled(false);
 
 		center3 = new JPanel(new BorderLayout()); // 2번 플레이어
 //		center3.setBackground(Color.WHITE);
-		center3.setOpaque(false);
+//		center3.setOpaque(false);
 		nicknameTp2 = new JTextField();
 		center3_south = new JPanel(new FlowLayout());
 		center3_north = new JPanel(new FlowLayout());
 		Dimension d7 = new Dimension();
-		d7.setSize(200, 30);
+		d7.setSize(200, 70);
 		nicknameTp2.setPreferredSize(d7);
+		nicknameTp2.setEditable(false);
+		nicknameTp2.setFont(new Font("Gothic", Font.BOLD, 20));
+		nicknameTp2.setHorizontalAlignment(JTextField.CENTER);
+//		nicknameTp2.setText("????");
 		center3_north.add(nicknameTp2);
 		correctLp2 = new JLabel("정답: ");
 		correctTp2 = new JTextField("	");
+		correctTp2.setEditable(false);
 		wrongLp2 = new JLabel("오답: ");
 		wrongTp2 = new JTextField("	");
+		wrongTp2.setEditable(false);
 		center3_south.add(correctLp2);
 		center3_south.add(correctTp2);
 		center3_south.add(wrongLp2);
@@ -236,11 +265,20 @@ public class GameWindow extends JFrame implements Runnable, ActionListener {
 		con.add("Center", center);
 		con.add("North", north);
 		con.add("South", south);
-
+		
+		playerIcon01 = new ImageIcon("player1.gif");
+		player01 = new JLabel(playerIcon01);
+		playerIcon02 = new ImageIcon("player2.gif");
+		player02 = new JLabel(playerIcon02);
+		
 		setResizable(false);
 		setBounds(480, 150, 1000, 800);
 		setVisible(true);
 		setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
+		
+		System.out.println("생성자"+this.playerCnt);
+		
+		
 	}
 //----------------------------------------------------------------------------------
 
@@ -260,6 +298,14 @@ public class GameWindow extends JFrame implements Runnable, ActionListener {
 				// else{timeT.setText("X")}
 				// timeT.setText("정답은..!!!"); // 정답공개
 				answerT.setText("정답은 O");
+				
+				if(jb[0].isSelected()) { // o버튼
+					System.out.println("O선택");
+				}
+					
+				else if(jb[1].isSelected()) { // x버튼
+					System.out.println("X선택");
+				}
 
 				// 여기서 플레이어들 좌표 얻어서 정답 맞췄는지 틀렸는지
 
@@ -278,9 +324,7 @@ public class GameWindow extends JFrame implements Runnable, ActionListener {
 	}
 
 	// 플레이어 아이콘 만들어서 초기좌표설정, 한 라운드 스코어 설정(0)
-//	public void playersetting() {
-//		
-//	}
+
 
 	public void service() {
 
@@ -295,19 +339,20 @@ public class GameWindow extends JFrame implements Runnable, ActionListener {
 			// 서버로 보내기 - 방에 입장 했을때
 			PlayInfoDTO dto = new PlayInfoDTO(); // 게임방에 참가한 플레이어의 dto
 			dto.setCommand(PlayInfo.JOIN);
-			dto.setNickname("guest"); // 임시 - 다른 dto에서 불러오기
-
+			dto.setNickname(nickname); // 임시 - 다른 dto에서 불러오기
+			dto.setCorrect(0);
+			dto.setWrong(0);
+			
+			
+//			if(playerCnt==1) {
+//				nicknameTp1.setText(nickname);
+//			}
+//			else if(playerCnt==2) {
+//				nicknameTp2.setText(nickname);
+//			}
+			
 			oos.writeObject(dto);
 			oos.flush();
-
-			// 이걸 run() 안에서 해야함 - 입장하면 플레이어 아이콘이 생기고 나가면 없어지게
-			// JOIN이면 화면에 플레이어아이콘
-			ImageIcon playerIcon = new ImageIcon("resources/player2.gif");
-			JLabel jplayer = new JLabel(playerIcon);
-			// jplayer.setOpaque(false);
-			jplayer.setBounds(300, 300, 78, 120);
-			center1.add(jplayer);
-			nicknameTp1.setText(dto.getNickname());
 
 		} catch (UnknownHostException e) {
 			System.out.println("서버를 찾을 수 없습니다");
@@ -318,6 +363,8 @@ public class GameWindow extends JFrame implements Runnable, ActionListener {
 			e.printStackTrace();
 			System.exit(0);
 		}
+		
+		System.out.println("service"+playerCnt);
 
 		// 스레드 생성 시작
 		Thread t = new Thread(this);
@@ -381,23 +428,84 @@ public class GameWindow extends JFrame implements Runnable, ActionListener {
 			try {
 				PlayInfoDTO dto = (PlayInfoDTO) ois.readObject();
 
-				if (dto.getcommand() == null || dto.getcommand() == PlayInfo.EXIT) {
+				if (dto.getCommand() == null || dto.getCommand() == PlayInfo.EXIT) {
 					ois.close();
 					oos.close();
 					socket.close();
 					es.shutdownNow(); // 남아있는 작업을 마무리하고 스레드 풀을 종료할 때에는 shutdown()을 일반적으로 호출하고, 남아있는 작업과는 상관없이 강제 종료할
 										// 때에는 shutdownNow()를 호출합니다.
 					System.exit(0); // 대기실로 나가기 (바꿔야함)
-				} else if (dto.getcommand() == PlayInfo.JOIN) {
-					output.append(dto.getMessage() + "\n");
+				}
+
+				else if (dto.getCommand() == PlayInfo.SEND) {
+					output.append("<" + dto.getCommand().toString() + "> " + dto.getMessage() + "\n");
 					int pos = output.getText().length(); // 스크롤 자동
 					output.setCaretPosition(pos);
 
-				} else if (dto.getcommand() == PlayInfo.SEND) {
-					output.append(dto.getMessage() + "\n");
-					int pos = output.getText().length(); // 스크롤 자동
-					output.setCaretPosition(pos);
-				} else if (dto.getcommand() == PlayInfo.TIMER) { // 스레드풀 게임이 진행되는 동안에도 다른 command들이 들어 갈 수 있게
+					
+					this.nicks = dto.getNicks();
+					System.out.println("nics 사이즈= "+nicks.size());
+				
+					if(dto.getNum()==1) {
+						//this.nicks = dto.getNicks();
+						//System.out.println("클라이언트= "+nicks);
+						center1.add(player01);		
+						System.out.println("1111111111111");
+						
+						if(nicks.size()==1) {
+							System.out.println("1의1");
+							nicknameTp1.setText(nicks.get(0));
+							nicknameTp2.setText("????");
+						}
+//						else if(nicks.size()==2) {
+//							System.out.println("1의2");
+//							nicknameTp1.setText(nicks.get(0));
+//							nicknameTp2.setText(nicks.get(1));
+//						}
+					}
+					 
+					else {
+						center1.add(player01);
+						center3.add(player02);
+						System.out.println("22222222222222");	
+						
+//						if(nicks.size()==1) {
+//							System.out.println("2의1");
+//							nicknameTp1.setText(nicks.get(0));
+//							nicknameTp2.setText("????");
+//						}
+						if(nicks.size()==2) {
+							System.out.println("2의2");
+							nicknameTp1.setText(nicks.get(0));
+							nicknameTp2.setText(nicks.get(1));
+						}
+					}
+					
+//					this.nicks = dto.getNicks();
+//					System.out.println("nics 사이즈= "+nicks.size());
+//					if(nicks.size()==1) {
+//						nicknameTp1.setText(nicks.get(0));
+//						nicknameTp2.setText("????");
+//					}
+//					else if(nicks.size()==2) {
+//						nicknameTp1.setText(nicks.get(0));
+//						nicknameTp2.setText(nicks.get(1));
+//					}
+					
+
+					try {
+						Thread.sleep(2000);
+					} catch (InterruptedException e) {
+
+						e.printStackTrace();
+					}
+					
+					System.out.println("dto= "+dto);
+					
+
+				}
+
+				else if (dto.getCommand() == PlayInfo.TIMER) { // 스레드풀 게임이 진행되는 동안에도 다른 command들이 들어 갈 수 있게
 					es.submit(new Runnable() {
 						@Override
 						public void run() {
@@ -422,6 +530,7 @@ public class GameWindow extends JFrame implements Runnable, ActionListener {
 	}
 
 	public static void main(String[] args) {
-		new GameWindow().service();
+		new GameWindow("player2",2).service();
+//		new GameWindow().playersetting();
 	}
 }

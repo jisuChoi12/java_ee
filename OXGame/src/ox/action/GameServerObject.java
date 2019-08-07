@@ -6,8 +6,8 @@ import java.net.Socket;
 import java.util.ArrayList;
 
 public class GameServerObject {
-	private ServerSocket ss;
-	private ArrayList<GameHandlerObject> list;
+	private ServerSocket ss; 
+	public ArrayList<GameHandlerObject> list;
 
 	public GameServerObject() {
 
