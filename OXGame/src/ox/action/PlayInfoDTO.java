@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 enum PlayInfo {
-	JOIN, SEND, EXIT, TIMER // 게임방 참가,게임방 채팅, 게임방 나가기
+	JOIN, SEND, EXIT, TIMER, DISP // 게임방 참가,게임방 채팅, 게임방 나가기
 }
 
 public class PlayInfoDTO implements Serializable {

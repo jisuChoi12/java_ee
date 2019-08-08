@@ -1,0 +1,18 @@
+create table questions(
+    qNum number(10) primary key, -- 기본키 문제번호
+    question varchar2(300), -- 문제내용
+    answer number(10) -- 정담 0이면 X 1이면 O
+);
+
+
+create sequence seq_questions nocycle nocache;
+
+commit;
+
+
+
+insert into questions values (seq_questions.nextVal, '문제1번 답 0', 1);
+insert into questions values (seq_questions.nextVal, '문제2번 답 x', 0);
+insert into questions values (seq_questions.nextVal, '문제2번 답 0', 1);
+insert into questions values (seq_questions.nextVal, '문제2번 답 x', 0);
+insert into questions values (seq_questions.nextVal, '문제2번 답 0', 1);

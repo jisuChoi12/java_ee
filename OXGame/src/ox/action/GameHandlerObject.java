@@ -7,6 +7,8 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
 
+import javax.jws.soap.SOAPBinding.ParameterStyle;
+
 public class GameHandlerObject extends Thread {
 
 	private Socket socket;
@@ -44,6 +46,8 @@ public class GameHandlerObject extends Thread {
 	public void run() {
 		String nickname = null;
 		String message = null;
+		int correct = 0;
+		int wrong = 0;
 		
 		while (true) {
 			try {
@@ -73,12 +77,15 @@ public class GameHandlerObject extends Thread {
 					sendDTO.setMessage("[" + nickname + "] " + message);
 					broadcast(sendDTO);
 				} else if (dto.getCommand() == PlayInfo.TIMER) {
+					correct = dto.getCorrect();
+					wrong = dto.getWrong();
+					
 					PlayInfoDTO sendDTO = new PlayInfoDTO();
 					sendDTO.setCommand(PlayInfo.TIMER);
-
+					sendDTO.setCorrect(correct);
+					sendDTO.setWrong(wrong);
 					broadcast(sendDTO);
 				}
-
 				else if (dto.getCommand() == PlayInfo.EXIT) {
 					list.remove(this);
 
