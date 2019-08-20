@@ -1,6 +1,8 @@
-package ox.action;
+package waiting;
 
-public class GamePlayerDTO {	
+import java.io.Serializable;
+
+public class GamePlayerDTO implements Serializable{	
 	private int correct; // 정답 개수
 	private int wrong; // 오답 개수
 	private String nickname; // 플레이어 닉네임

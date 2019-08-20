@@ -1,12 +1,10 @@
 package ox.action;
 
-import java.awt.BorderLayout;
+
 import java.awt.Color;
 import java.awt.Container;
 import java.awt.Dimension;
-import java.awt.FlowLayout;
 import java.awt.Font;
-import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
@@ -16,13 +14,9 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.net.UnknownHostException;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.ButtonGroup;
@@ -30,117 +24,96 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.ScrollPaneConstants;
-import javax.swing.border.Border; 
+import javax.swing.border.Border;
+
 
 public class GameWindow extends JFrame implements Runnable, ActionListener {
 
-	private int room_no;
-	private int round;
-	private int correctCnt;
-	private int wrongCnt;
+	private static int timer = 5; // 한 문제당 푸는 시간
 
-	// DB
-	private String driver = "oracle.jdbc.driver.OracleDriver";
-	private String url = "jdbc:oracle:thin:@localhost:1521:xe";
-	private String user = "java";
-	private String password = "dkdlxl";
-	private Connection conn;
-	private PreparedStatement pstmt;
-	private ResultSet rs;
+	private String nickname; // 플레이어 닉네임
+	private int playerCnt; // 플레이어의 수
+	private String room_name; // 방 이름
+	private int round; // 게임 라운드
+	private int correctCnt; // 플레이어가 맞춘 문제의 수
+	private int wrongCnt; // 풀레이어가 틀린 문제의 수
+	private int winCnt; // 플레이어가 이긴 횟수
 
+	private MemberDAO daoMember = MemberDAO.getInstance(); // 결과(정답수/오답수/이긴 횟수를 디비에 저장)
+	private MemberDTO memberDTO; // 
 	
-	private MemberDAO daoMember = MemberDAO.getInstance(); // 결과
-	private MemberDTO memberDTO;
+	private QuestionsDAO daoQuestion = QuestionsDAO.getInstance(); // ox문제와 답(문제를 디비에서 불러와서 문제창에 뿌려주기)
+	private ArrayList<QuestionsDTO> listlist = daoQuestion.getQuestionList(); // 디비에서 불러온 각각의 문제를 담은 리스트
 	
-	private QuestionsDAO daoQuestion = QuestionsDAO.getInstance(); // 문제
-	private RoomDAO daoRoom = RoomDAO.getInstance(); // 닉네임 방정보 등등
-//	private ArrayList<QuestionsDTO> questionList;
-	private ArrayList<QuestionsDTO> listlist = daoQuestion.getQuestionList();
-	private ArrayList<String> nicksss;  // 방에 있는 사람들의 닉네임
-//	private ArrayList<String> nicksss =daoRoom.getNicksss(room_no); // 방에 있는 사람들의 닉네임
-//	private GamePlayerDTO gameDTO = new GamePlayerDTO();
+	private RoomDAO daoRoom = RoomDAO.getInstance(); // 디비에 저장된 해당 방에대한 정보
+	private ArrayList<String> nicksss; // 해당방에 있는 플레이어들의 닉네임
 
 	// 스레드 풀
-	private ExecutorService es = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
+	private ExecutorService es = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors()); // 채팅과 게임을 동시에 돌아가게 해야하니까
 
 	// 화면
-	private JButton startB;
-	private JButton exitB;
-	private JTextField input;
-	private JTextArea output;
-	private JTextField questionArea;
+	private JButton startB; // 시작버튼
+	private JButton exitB; // 나가기 버튼 (전체 대기실로 돌아가기)
+	private JTextField input; // 채팅입력창
+	private JTextArea output; // 채팅출력창
+	private JTextField questionArea; // 문제출력창
 	private JTextField timeT; // 시간제한, 답
-
-	// OX버튼
-	private JRadioButton[] jb = new JRadioButton[2];
-	private ButtonGroup bg = new ButtonGroup();
-	private Image img_o = new ImageIcon("resources/letter_oo.png").getImage().getScaledInstance(100, 100, // O 이미지 리사이즈
-			Image.SCALE_SMOOTH);
-	private Image img_x = new ImageIcon("resources/letter_xx.png").getImage().getScaledInstance(100, 100, // X 이미지 리사이즈
-			Image.SCALE_SMOOTH);
-
-	private Image img_o_clicked = new ImageIcon("resources/letter_oo_clicked.png").getImage().getScaledInstance(100,
-			100, // O 이미지 리사이즈
-			Image.SCALE_SMOOTH);
-	private Image img_x_clicked = new ImageIcon("resources/letter_xx_clicked.png").getImage().getScaledInstance(100,
-			100, // X 이미지 리사이즈
-			Image.SCALE_SMOOTH);
-	
-	private Image answ_o = new ImageIcon("answ_o.png").getImage().getScaledInstance(180, 180, Image.SCALE_SMOOTH); //정답공개
-	private Image answ_x = new ImageIcon("answ_x.png").getImage().getScaledInstance(180, 180, Image.SCALE_SMOOTH); //정답공개
-	private Image question_mark = new ImageIcon("question_mark.png").getImage().getScaledInstance(180, 180, Image.SCALE_SMOOTH); //정답공개
-	
-
-	private ImageIcon icon_o = new ImageIcon(img_o); // 이미지를 아이콘으로 바꾸기
-	private ImageIcon icon_x = new ImageIcon(img_x);
-	private ImageIcon icon_o_clicked = new ImageIcon(img_o_clicked); // 이미지를 아이콘으로 바꾸기
-	private ImageIcon icon_x_clicked = new ImageIcon(img_x_clicked);
-	
-	private ImageIcon answer_o = new ImageIcon(answ_o);
-	private ImageIcon answer_x = new ImageIcon(answ_x);
-	private ImageIcon qmark = new ImageIcon(question_mark);
-	
-	private JLabel answerL;
-
+	private JLabel player01;
+	private JLabel player02;
+	private JLabel answerL; // 장답공개창
 	private JPanel chatPan, btnPan, south, north;
-
-	private JTextField nicknameTp1;
-	private JTextField nicknameTp2;
-
+	private JTextField nicknameTp1; // 1번 플레이어의 닉네임 창
+	private JTextField nicknameTp2; // 2번 플레이어의 닉네임 창
 	private JPanel center;
 	private JPanel center1, center1_nick, center1_icon;
 	private JPanel center2;
 	private JPanel center3, center3_nick, center3_icon;
 	private Container con;
 
+	// OX버튼
+	private JRadioButton[] jb = new JRadioButton[2]; // O버튼/X버튼
+	private ButtonGroup bg = new ButtonGroup();
+	private Image img_o = new ImageIcon("resources/letter_oo.png").getImage().getScaledInstance(100, 100, // O 이미지 리사이즈
+			Image.SCALE_SMOOTH);
+	private Image img_x = new ImageIcon("resources/letter_xx.png").getImage().getScaledInstance(100, 100, // X 이미지 리사이즈
+			Image.SCALE_SMOOTH);
+	private Image img_o_clicked = new ImageIcon("resources/letter_oo_clicked.png").getImage().getScaledInstance(100,
+			100, // O 이미지 리사이즈 (선택된버튼)
+			Image.SCALE_SMOOTH);
+	private Image img_x_clicked = new ImageIcon("resources/letter_xx_clicked.png").getImage().getScaledInstance(100,
+			100, // X 이미지 리사이즈 (선택된버튼)
+			Image.SCALE_SMOOTH);
+	private Image answ_o = new ImageIcon("answ_o.png").getImage().getScaledInstance(180, 180, Image.SCALE_SMOOTH); // 정답공개창이미지(O)
+	private Image answ_x = new ImageIcon("answ_x.png").getImage().getScaledInstance(180, 180, Image.SCALE_SMOOTH); // 정답공개창이미지(X)
+	private Image question_mark = new ImageIcon("question_mark.png").getImage().getScaledInstance(180, 180,
+			Image.SCALE_SMOOTH); // 정답공개창이미지(?)
+	private ImageIcon icon_o = new ImageIcon(img_o); // 이미지를 아이콘으로 바꾸기
+	private ImageIcon icon_x = new ImageIcon(img_x);
+	private ImageIcon icon_o_clicked = new ImageIcon(img_o_clicked); // 이미지를 아이콘으로 바꾸기
+	private ImageIcon icon_x_clicked = new ImageIcon(img_x_clicked);
+	private ImageIcon answer_o = new ImageIcon(answ_o);
+	private ImageIcon answer_x = new ImageIcon(answ_x);
+	private ImageIcon qmark = new ImageIcon(question_mark);
+	private ImageIcon playerIcon01;
+	private ImageIcon playerIcon02;
+
 	// thread
 	private Socket socket;
 	private ObjectInputStream ois;
 	private ObjectOutputStream oos;
 
-	private static int timer = 5; // 한 문제당 푸는 시간
-
-	private String nickname;
-	private int playerCnt;
-
-	private ImageIcon playerIcon01;
-	private ImageIcon playerIcon02;
-	private JLabel player01;
-	private JLabel player02;
-
-	public GameWindow(String nickname, int playerCnt, int room_no) { // 생성자
-		// TO-DO 대기실에서 게임방 입장(클래스가 호출 될 때) 파라미터로 받아야 할 것 정리하기
-		// playerCnt
+	public GameWindow(String nickname, String room_name) { // 생성자
 		this.nickname = nickname;
-		this.playerCnt = playerCnt;
-		this.room_no = room_no;
-		
+		this.room_name = room_name;
+		this.playerCnt = daoRoom.getPlayerCnt(room_name);
+
 // 게임화면 레이아웃 -----------------------------------------------------------------------------------
 		startB = new JButton("Game Start"); // 게임 시작 버튼
 		exitB = new JButton("Exit"); // 나가기 버튼
@@ -169,7 +142,7 @@ public class GameWindow extends JFrame implements Runnable, ActionListener {
 				.setBorder(BorderFactory.createCompoundBorder(border, BorderFactory.createEmptyBorder(10, 10, 10, 10)));
 		Dimension d4 = new Dimension();
 		d4.setSize(140, 140);
-		questionArea.setFont(new Font("Gothic", Font.BOLD, 50));
+		questionArea.setFont(new Font("Gothic", Font.BOLD, 25));
 		questionArea.setHorizontalAlignment(JTextField.CENTER);
 
 		timeT = new JTextField(Integer.toString(timer)); // 타이머창
@@ -199,11 +172,11 @@ public class GameWindow extends JFrame implements Runnable, ActionListener {
 		north.add(timeT);
 
 ///////////////////////////////////////////////////////////////
-		
+
 		center1 = new JPanel(); // 1번 플레이어 (닉네임+아이콘)
 		nicknameTp1 = new JTextField(); // 1번 플레이어 닉네임
 		nicknameTp1.setBackground(Color.WHITE);
-		
+
 		center1_nick = new JPanel(); // 1번 플레이어 닉네임창
 		Dimension d6 = new Dimension();
 		d6.setSize(200, 70);
@@ -212,19 +185,18 @@ public class GameWindow extends JFrame implements Runnable, ActionListener {
 		nicknameTp1.setFont(new Font("Gothic", Font.BOLD, 20));
 		nicknameTp1.setHorizontalAlignment(JTextField.CENTER);
 		center1_nick.add(nicknameTp1);
-		
+
 		Dimension dd1 = new Dimension();
-		dd1.setSize(500,500);
+		dd1.setSize(500, 500);
 		center1_icon = new JPanel();
 		center1_icon.setPreferredSize(dd1);
-		
+
 		center1.add(center1_nick);
 		center1.add(center1_icon);
 
 ///////////////////////////////////////////////////////////////
-		
+
 		center2 = new JPanel(); // ox버튼+정답공개창
-//		answerL = new JLabel(qmark);
 		answerL = new JLabel();
 		answerL.setIcon(qmark);
 		answerL.setBackground(Color.RED);
@@ -241,9 +213,9 @@ public class GameWindow extends JFrame implements Runnable, ActionListener {
 		pack();
 		jb[0].setEnabled(false); // 게임 시작 전에는 ox버튼 비활성
 		jb[1].setEnabled(false);
-		
+
 ///////////////////////////////////////////////////////////////
-		
+
 		center3 = new JPanel(); // 2번 플레이어 (닉네임+아이콘)
 		nicknameTp2 = new JTextField(); // 2번 플레이어 닉네임
 		nicknameTp2.setBackground(Color.WHITE);
@@ -255,17 +227,17 @@ public class GameWindow extends JFrame implements Runnable, ActionListener {
 		nicknameTp2.setFont(new Font("Gothic", Font.BOLD, 20));
 		nicknameTp2.setHorizontalAlignment(JTextField.CENTER);
 		center3_nick.add(nicknameTp2);
-		
+
 		center3_icon = new JPanel();
-		
+
 		center3.add(center3_nick);
 		center3.add(center3_icon);
-		
+
 ///////////////////////////////////////////////////////////////	
 
 		center = new JPanel(new GridLayout()); // 1번 플레이어+ox+2번 플레이어
 		center.add(center1);
-		center.add(center2); 
+		center.add(center2);
 		center.add(center3);
 
 		con = getContentPane(); // 상중하 패널 전체
@@ -278,65 +250,112 @@ public class GameWindow extends JFrame implements Runnable, ActionListener {
 		playerIcon02 = new ImageIcon("player2.gif");
 		player02 = new JLabel(playerIcon02);
 
+		// 윈도우창
 		setResizable(false);
-		setBounds(480, 150, 1000, 800);
+		setBounds(480, 150, 900, 800);
 		setVisible(true);
 		setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
 
-		System.out.println("생성자" + this.playerCnt);
+		service();
 
+	}
+	
+//----------------------------------------------------------------------------------
+	public void service() {
+		
+		try {
+			
+			socket = new Socket("192.168.0.26", 9500); // "localhost" 포트넘버
+			
+			oos = new ObjectOutputStream(socket.getOutputStream());
+			ois = new ObjectInputStream(socket.getInputStream());
+			
+			// 서버로 보내기 - 방에 입장 했을때
+			PlayInfoDTO dto = new PlayInfoDTO(); // 게임방에 참가한 플레이어의 dto
+			dto.setCommand(PlayInfo.JOIN);
+			dto.setNickname(nickname); 
+			dto.setPlayerCnt(playerCnt);
+			
+			oos.writeObject(dto);
+			oos.flush();
+			
+			memberDTO = daoMember.getOXHistory(nickname); // 이전기록
+			
+		} catch (UnknownHostException e) {
+			System.out.println("서버를 찾을 수 없습니다");
+			e.printStackTrace();
+			System.exit(0);
+		} catch (IOException e) {
+			System.out.println("서버와 연결이 안되었습니다");
+			e.printStackTrace();
+			System.exit(0);
+		}
+		
+		// 스레드 생성 시작
+		Thread t = new Thread(this);
+		t.start();
+		
+		// 이벤트
+		input.addActionListener(this); // 채팅창에 메세지를 치고 엔터를 누르면 이벤트 발생
+		exitB.addActionListener(this); // 나가기 버튼 클릭
+		startB.addActionListener(this); // 시작버튼 클릭
+		jb[0].addActionListener(this); // O버튼
+		jb[1].addActionListener(this); // X버튼
 	}
 
 //----------------------------------------------------------------------------------
 	public void checkAnsw() {
-
 		if (listlist.get(round - 1).getAnswer() == 1 && jb[0].isSelected()) { // 정답 O, 선택 O
-			System.out.println("O O");
 			correctCnt++;
 		}
 		if (listlist.get(round - 1).getAnswer() == 1 && jb[1].isSelected()) { // 정답 O, 선택 X
-			System.out.println("O X");
 			wrongCnt++;
 		}
 		if (listlist.get(round - 1).getAnswer() == 0 && jb[0].isSelected()) { // 정답 X, 선택 O
-			System.out.println("X O");
 			wrongCnt++;
 		}
 		if (listlist.get(round - 1).getAnswer() == 0 && jb[1].isSelected()) { // 정답 X, 선택 X
-			System.out.println("X X");
 			correctCnt++;
 		}
-		System.out.println("정답: " + correctCnt + " | " + "오답: " + wrongCnt);
+		if((!jb[0].isSelected()) && (!jb[1].isSelected())) {
+			wrongCnt++;
+		}
+//		System.out.println("정답: " + correctCnt + " | " + "오답: " + wrongCnt);
 		jb[0].setSelected(false);
 		jb[1].setSelected(false);
-		
 	}
 
 //----------------------------------------------------------------------------------
 
-	public void countTime() { // 문제풀이 제한 시간
+	public void countTime() { // 문제풀이 제한 시간까지 카운트
 		while (true) {
-			timeT.setText(Integer.toString(timer));
+			timeT.setText(Integer.toString(timer)); // 시간창에 뿌려주기
 			try {
 				Thread.sleep(1000); // 1초
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
 			timer--;
+			
 			if (timer == -1) { // 시간 끝
 
-				
-				if(listlist.get(round-1).getAnswer()==1) { // 답:o
+				jb[0].setEnabled(false);
+				jb[1].setEnabled(false);
+
+				if (listlist.get(round - 1).getAnswer() == 1) { // 답:o
 					answerL.setIcon(answer_o);
-				} else if(listlist.get(round-1).getAnswer()==0) { // 답:x
+				} else if (listlist.get(round - 1).getAnswer() == 0) { // 답:x
 					answerL.setIcon(answer_x);
 				}
-				
+
 				checkAnsw(); // 답 체크
 
 				try {
-					Thread.sleep(3000); // 다음 문제 시작 전까지 잠깐 멈춤
-//					answerT.setText(""); // 정답공개창 초기화
+					Thread.sleep(100); // 다음 문제 시작 전까지 잠깐 멈춤
+
+					jb[0].setSelectedIcon(icon_o);
+					jb[1].setSelectedIcon(icon_x);
+
 					jb[0].setEnabled(true); // o버튼 활성화
 					jb[1].setEnabled(true); // x버튼 활성화
 
@@ -348,53 +367,6 @@ public class GameWindow extends JFrame implements Runnable, ActionListener {
 		}
 	}
 
-	public void service() {
-
-		try {
-
-			socket = new Socket("192.168.0.26", 9500); // "localhost" 포트넘버
-
-			// 클라이언트에서 보낼 때 닉네임을 먼저 보내주니까 출력 스트림을 먼저 생성해줘야 한다
-			oos = new ObjectOutputStream(socket.getOutputStream());
-			ois = new ObjectInputStream(socket.getInputStream());
-
-			// 서버로 보내기 - 방에 입장 했을때
-			PlayInfoDTO dto = new PlayInfoDTO(); // 게임방에 참가한 플레이어의 dto
-			dto.setCommand(PlayInfo.JOIN);
-			dto.setNickname(nickname); // 임시 - 다른 dto에서 불러오기
-			dto.setCorrect(0);
-			dto.setWrong(0);
-
-			oos.writeObject(dto);
-			oos.flush();
-			
-			memberDTO = daoMember.getOXHistory(nickname); // 이전기록
-			System.out.println("o카운트="+memberDTO.getO_cnt());
-			System.out.println("x마운트="+memberDTO.getX_cnt());
-
-		} catch (UnknownHostException e) {
-			System.out.println("서버를 찾을 수 없습니다");
-			e.printStackTrace();
-			System.exit(0);
-		} catch (IOException e) {
-			System.out.println("서버와 연결이 안되었습니다");
-			e.printStackTrace();
-			System.exit(0);
-		}
-
-		System.out.println("service" + playerCnt);
-
-		// 스레드 생성 시작
-		Thread t = new Thread(this);
-		t.start();
-
-		// 이벤트
-		input.addActionListener(this); // 채팅창에 메세지를 치고 엔터를 누르면 이벤트 발생
-		exitB.addActionListener(this); // 나가기 버튼 클릭
-		startB.addActionListener(this);
-		jb[0].addActionListener(this); // O버튼
-		jb[1].addActionListener(this); // X버튼
-	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
@@ -411,8 +383,16 @@ public class GameWindow extends JFrame implements Runnable, ActionListener {
 			}
 			input.setText("");
 		} else if (e.getSource() == exitB) {
+
 			PlayInfoDTO dto = new PlayInfoDTO();
 			dto.setCommand(PlayInfo.EXIT);
+			dto.setPlayerCnt(playerCnt - 1);
+//			daoRoom.updatePlayCnt(dto,room_name);
+			daoRoom.updatePlayCnt((playerCnt-1),room_name);
+			daoRoom.updatePlayer01(nickname);
+			daoRoom.updatePlayer02(nickname);
+			System.out.println("지금 플레이어 카운트=" + dto.getPlayerCnt());
+
 			try {
 				oos.writeObject(dto);
 				oos.flush();
@@ -437,7 +417,6 @@ public class GameWindow extends JFrame implements Runnable, ActionListener {
 			PlayInfoDTO dto = new PlayInfoDTO();
 			dto.setCommand(PlayInfo.SEND);
 			dto.setMessage(nickname + " : O 선택!!");
-
 			try {
 				oos.writeObject(dto);
 				oos.flush();
@@ -471,12 +450,15 @@ public class GameWindow extends JFrame implements Runnable, ActionListener {
 				PlayInfoDTO dto = (PlayInfoDTO) ois.readObject();
 
 				if (dto.getCommand() == null || dto.getCommand() == PlayInfo.EXIT) {
-					ois.close();
+					
+					nicksss = daoRoom.getNicksss(room_name);
+				
 					oos.close();
+					ois.close();
+					es.shutdownNow();
 					socket.close();
-					es.shutdownNow(); // 남아있는 작업을 마무리하고 스레드 풀을 종료할 때에는 shutdown()을 일반적으로 호출하고, 남아있는 작업과는 상관없이 강제 종료할
-										// 때에는 shutdownNow()를 호출합니다.
-					System.exit(0); // 대기실로 나가기 (바꿔야함)
+					dispose();
+					break;
 				}
 
 				else if (dto.getCommand() == PlayInfo.SEND) {
@@ -484,26 +466,36 @@ public class GameWindow extends JFrame implements Runnable, ActionListener {
 					int pos = output.getText().length(); // 스크롤 자동
 					output.setCaretPosition(pos);
 
-					// this.nicks = dto.getNicks();
+					System.out.println("플레이어카운트:" + dto.getPlayerCnt());
+					nicksss = daoRoom.getNicksss(room_name);
 
-					nicksss = daoRoom.getNicksss(room_no);
-
-					if (dto.getNum() == 1) { // 1번 플레이어
+					if (dto.getPlayerCnt() == 1) { // 1번 플레이어
 						center1_icon.add(player01); // 플레이어 아이콘
-//						nicknameTp1.setText(dto.getNickname()); // 플레이어 닉네임
-
+//						player02.setIcon(null);
+//						center3_icon.add(player02);
 						nicknameTp1.setText(nicksss.get(0));
-						
 					}
 
-					else {
+					else if (dto.getPlayerCnt() == 2) {
 						center1_icon.add(player01); // 1번 플레이어
 						center3_icon.add(player02); // 2번 플레이어
-//						nicknameTp2.setText(dto.getNickname()); // 플레이어 닉네임
-						
 						nicknameTp1.setText(nicksss.get(0));
 						nicknameTp2.setText(nicksss.get(1));
 					}
+					
+//					if(nicksss.size()==1) {
+//						if (dto.getPlayerCnt() == 1) { // 1번 플레이어
+//							center1_icon.add(player01); // 플레이어 아이콘
+//							nicknameTp1.setText(nicksss.get(0));
+//						}
+//	
+//						else if (dto.getPlayerCnt() == 2) {
+//							center1_icon.add(player01); // 1번 플레이어
+//							center3_icon.add(player02); // 2번 플레이어
+//							nicknameTp1.setText(nicksss.get(0));
+//							nicknameTp2.setText(nicksss.get(1));
+//						}
+//					}
 
 					try {
 						Thread.sleep(2000);
@@ -519,6 +511,11 @@ public class GameWindow extends JFrame implements Runnable, ActionListener {
 						public void run() {
 							while (true) {
 								round++;
+								
+								if(round>5) {
+									break;
+								}
+								
 								System.out.println("라운드=" + round);
 								startB.setEnabled(false);
 
@@ -529,22 +526,54 @@ public class GameWindow extends JFrame implements Runnable, ActionListener {
 								questionArea.setText(qqq);
 
 								countTime(); // countTime -> checkAnsw
-								
+								// dto.setCorrect(correctCnt);// 맞은문제수....?
+
+								if (nickname.equals(nicksss.get(0))) { // 내가 1p 일 경우
+									daoRoom.updatePlayer01Score(nickname, correctCnt);
+								}
+								if (nickname.equals(nicksss.get(1))) { // 내가 2p 일 경우
+									daoRoom.updatePlayer02Score(nickname, correctCnt);
+								}
+
 								answerL.setIcon(qmark);
 								timer = 5;
 
-								if (round == 5) {
-									dto.setCommand(PlayInfo.SEND);
-									dto.setMessage("게임종료");
-									questionArea.setText("<<<게임종료>>>");
+								if (round == 5) { // 게임 끝
+									int p1Score = daoRoom.getP1Score(room_name);
+									int p2Score = daoRoom.getP2Score(room_name);
+
+									if(p1Score>p2Score) { // p1승
+										questionArea.setText(nicksss.get(0)+" 승리!!!");
+										if(nickname.equals(nicksss.get(0))) { // 내가 1p 일 경우
+											winCnt++;
+										}
+									} else if(p2Score>p1Score) { //p2승
+										questionArea.setText(nicksss.get(1)+" 승리!!!");
+										if(nickname.equals(nicksss.get(1))) { // 내가 1p 일 경우
+											winCnt++;
+										}
+									} else { // 비김
+										questionArea.setText("비김");
+									}
 									
-									memberDTO.setO_cnt(correctCnt+memberDTO.getO_cnt());
-									memberDTO.setX_cnt(wrongCnt+memberDTO.getX_cnt());
-									
+									memberDTO.setO_cnt(correctCnt + memberDTO.getO_cnt());
+									memberDTO.setX_cnt(wrongCnt + memberDTO.getX_cnt());
+									memberDTO.setWin_cnt(winCnt+memberDTO.getWin_cnt());
+
 									int su = daoMember.updateOXHistory(nickname, memberDTO);
-									System.out.println("update 결과="+su);
+									System.out.println("update 결과=" + su);
 									
+									correctCnt = 0;
+									wrongCnt = 0;
+									winCnt = 0;
 									
+									if (nickname.equals(nicksss.get(0))) { // 내가 1p 일 경우
+										daoRoom.updatePlayer01Score(nickname, correctCnt);
+									}
+									if (nickname.equals(nicksss.get(1))) { // 내가 2p 일 경우
+										daoRoom.updatePlayer02Score(nickname, correctCnt);
+									}
+
 									try {
 										oos.writeObject(dto);
 										oos.flush();
@@ -566,8 +595,5 @@ public class GameWindow extends JFrame implements Runnable, ActionListener {
 			}
 		}
 	}
-
-	public static void main(String[] args) {
-		new GameWindow("A", 1, 1).service();
-	}
 }
+

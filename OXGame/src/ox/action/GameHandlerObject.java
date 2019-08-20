@@ -3,11 +3,9 @@ package ox.action;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
 
-import javax.jws.soap.SOAPBinding.ParameterStyle;
 
 public class GameHandlerObject extends Thread {
 
@@ -17,7 +15,9 @@ public class GameHandlerObject extends Thread {
 
 	private ObjectInputStream ois;
 	private ObjectOutputStream oos;
-	private static int i;
+//	private static int i;
+	
+	private QuestionsDAO daoQuestion = QuestionsDAO.getInstance(); // 문제
 
 	public GameHandlerObject(Socket socket, ArrayList<GameHandlerObject> list) {
 		this.socket = socket;
@@ -48,6 +48,7 @@ public class GameHandlerObject extends Thread {
 		String message = null;
 		int correct = 0;
 		int wrong = 0;
+		int playerCnt=0;
 		
 		while (true) {
 			try {
@@ -55,13 +56,15 @@ public class GameHandlerObject extends Thread {
 
 				if (dto.getCommand() == PlayInfo.JOIN) {
 					nickname = dto.getNickname();
-					nicks.add(nickname);
-					i++;
+					playerCnt = dto.getPlayerCnt();
+					
+//					i++;
 					PlayInfoDTO sendDTO = new PlayInfoDTO();
 					sendDTO.setNickname(nickname);
 					sendDTO.setCommand(PlayInfo.SEND);
 					sendDTO.setMessage(nickname + "님이 입장하였습니다");
-					sendDTO.setNum(i);
+//					sendDTO.setNum(i);
+					sendDTO.setPlayerCnt(playerCnt);
 					sendDTO.setCorrect(dto.getCorrect());
 					sendDTO.setWrong(dto.getWrong());
 					sendDTO.setNicks(nicks);
@@ -77,13 +80,14 @@ public class GameHandlerObject extends Thread {
 					sendDTO.setMessage("[" + nickname + "] " + message);
 					broadcast(sendDTO);
 				} else if (dto.getCommand() == PlayInfo.TIMER) {
-					correct = dto.getCorrect();
-					wrong = dto.getWrong();
+//					correct = dto.getCorrect();
+//					wrong = dto.getWrong();
 					
 					PlayInfoDTO sendDTO = new PlayInfoDTO();
 					sendDTO.setCommand(PlayInfo.TIMER);
-					sendDTO.setCorrect(correct);
-					sendDTO.setWrong(wrong);
+//					sendDTO.setCorrect(correct);
+//					sendDTO.setWrong(wrong);
+//					sendDTO.setMessage("정답개수카운트+("+nickname+") : "+correct); 
 					broadcast(sendDTO);
 				}
 				else if (dto.getCommand() == PlayInfo.EXIT) {
@@ -92,7 +96,7 @@ public class GameHandlerObject extends Thread {
 					PlayInfoDTO sendDTO = new PlayInfoDTO();
 					sendDTO.setCommand(PlayInfo.SEND);
 					sendDTO.setMessage(nickname + "님이 퇴장하였습니다");
-					
+					sendDTO.setPlayerCnt(playerCnt);
 //					sendDTO.setNum(i-1);
 					
 					broadcast(sendDTO);

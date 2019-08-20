@@ -406,13 +406,13 @@ public class MemberDAO {
 	public int updateOXHistory(String nickname, MemberDTO dto) {
 		int su = 0;
 		getConnection(); // 연결
-		String sql = "update member set o_cnt = ?, x_cnt = ? where nickname = ?";
+		String sql = "update member set o_cnt = ?, x_cnt = ?, win_cnt = ? where nickname = ?";
 		try {
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1,dto.getO_cnt());
 			pstmt.setInt(2,dto.getX_cnt());
-			pstmt.setString(3, nickname);
-			
+			pstmt.setInt(3, dto.getWin_cnt());
+			pstmt.setString(4, nickname);
 			su = pstmt.executeUpdate();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -432,31 +432,4 @@ public class MemberDAO {
 }
 
 
-//// 회원 정보 수정
-//public int updateMember(MemberDTO dto) {
-//	int su = 0;
-//	getConnection();
-//	String sql = "update member set pwd = ?"
-//			+ "nickname = ?,"
-//			+ "tel = ?,"
-//			+ "email = ?";
-//	try {
-//		pstmt = conn.prepareStatement(sql);
-//		pstmt.setString(1, dto.getPwd());
-//		pstmt.setString(2, dto.getNickName());
-//		pstmt.setString(3, dto.getTel());
-//		pstmt.setString(4, dto.getEmail());
-//		
-//		su = pstmt.executeUpdate();
-//	} catch (SQLException e) {
-//		e.printStackTrace();
-//	} finally {
-//		try {
-//			if(pstmt != null) pstmt.close();
-//			if(conn != null) conn.close();
-//		} catch (SQLException e) {
-//			e.printStackTrace();
-//		}
-//	}
-//	return su;
-//}
+

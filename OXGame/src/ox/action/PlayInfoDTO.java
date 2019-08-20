@@ -4,14 +4,14 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 enum PlayInfo {
-	JOIN, SEND, EXIT, TIMER, DISP // 게임방 참가,게임방 채팅, 게임방 나가기
+	JOIN, SEND, EXIT, TIMER // 게임방 참가,게임방 채팅, 게임방 나가기
 }
 
 public class PlayInfoDTO implements Serializable {
 	private String nickname; // 게임방 참가자의 닉네임
 	private String message; // 채팅 내용
 	private PlayInfo command; // 게임방 참가, 채팅, 나가기
-	private int num;
+	private int playerCnt;
 	private int wrong;
 	private int correct;
 	
@@ -41,12 +41,12 @@ public class PlayInfoDTO implements Serializable {
 		this.command = command;
 	}
 
-	public int getNum() {
-		return num;
+	public int getPlayerCnt() {
+		return playerCnt;
 	}
 
-	public void setNum(int num) {
-		this.num = num;
+	public void setPlayerCnt(int playerCnt) {
+		this.playerCnt = playerCnt;
 	}
 
 	public int getWrong() {
