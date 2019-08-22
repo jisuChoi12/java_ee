@@ -45,8 +45,8 @@ public class MemberDAO {
 
 	public int write(MemberDTO memberDTO) {
 		int su = 0;
-		getConnection();
 		String sql = "insert into member values(?,?,?,?,?,?,?,?,?,?,?,?,sysdate)";
+		getConnection();
 		try {
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, memberDTO.getName());
@@ -79,8 +79,8 @@ public class MemberDAO {
 
 	public String checkLogin(MemberDTO memberDTO) {
 		String name = null;
-		getConnection();
 		String sql = "select * from member where id=? and pwd=?";
+		getConnection();
 		try {
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, memberDTO.getId());

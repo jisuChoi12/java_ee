@@ -57,6 +57,8 @@ public class WriteServlet extends HttpServlet {
 		out.print("<body>");
 		if(su==1) {
 			out.print("회원가입을 축하합니다");
+			out.print("<br><br>");
+			out.print("<input type='button' value='로그인' onclick=location.href='/memberServlet/member/loginForm.html'>");
 		} else {
 			out.print("다시 작성해주세요");
 		}
