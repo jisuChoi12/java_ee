@@ -9,7 +9,7 @@
 <body>
 	<form name="loginForm" method="post" action="login.jsp">
 		<h1>로그인</h1>
-		<table border=1>
+		<table border=1 cellspacing="2" cellpadding="5">
 			<tr>
 				<th>아이디</th>
 				<td><input type="text" name="id"></td>
@@ -21,6 +21,7 @@
 			<tr>
 				<td colspan="2" align="center">
 				<input type="button" value="로그인" onclick="checkLogin()"> 
+				<input type="button" value="회원가입" onclick="location.href='writeForm.jsp'">
 				</td>
 			</tr>
 		</table>

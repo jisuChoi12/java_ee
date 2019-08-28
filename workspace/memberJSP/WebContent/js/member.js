@@ -41,15 +41,38 @@ function checkId() {
 }
 
 function checkIdClose(id) {
-	// 데이터 전달
 	opener.writeForm.id.value = id;
 	opener.writeForm.check.value = id;
-	// 창 끄기
 	window.close();
-	// 포커스
 	opener.writeForm.pwd.focus();
 }
 
-function checkPost() {
+function checkPostClose(zipcode, address){
+	//opener.writeForm.zipcode.value = zipcode;
+	//opener.writeForm.addr1.value = address;
 
+	opener.document.getElementById("daum_zipcode").value = zipcode;
+	opener.document.getElementById("daum_addr1").value = address;
+	window.close();
+	opener.document.getElementById("daum_addr2").focus();
 }
+
+function checkPost() {
+	window.open("checkPost.jsp","","width=700 height=500 left=800 top=150 locations=yes scrollbar=yes");
+}
+
+function checkModify(){
+	if (document.modifyForm.name.value == "") {
+		alert("이름 입력하세요");
+		document.modifyForm.name.focus();
+	} else if (document.modifyForm.pwd.value == "") {
+		alert("패스워드름 입력하세요");
+		document.modifyForm.pwd.focus();
+	} else if (document.modifyForm.repwd.value != document.modifyForm.pwd.value) {
+		alert("패스워드가 일치하지 않습니다.");
+		document.modifyForm.repwd.focus();
+	} else {
+		document.modifyForm.submit();
+	}
+}
+

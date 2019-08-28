@@ -5,11 +5,10 @@
 
 <%
 	// 데이터
-	request.setCharacterEncoding("UTF-8");
 	String id = request.getParameter("id");
 
 	// 디비
-	MemberDTO memberDTO = MemberDAO.getInstance().getInfo(id);
+	MemberDTO memberDTO = MemberDAO.getInstance().getMember(id);
 %>
 
 
@@ -20,21 +19,19 @@
 <title>회원정보수정</title>
 </head>
 <body>
-	<form name="modifyForm" method="post" action="">
+	<form name="modifyForm" method="post" action="modify.jsp">
 		<h2>회원정보수정</h2>
 		<table border=3 cellspacing="2" cellpadding="2">
 			<tr>
 				<th width=120>이름</th>
-				<td><input type="text" id="irum" name="name" size=20
+				<td><input type="text" name="name" size=20
 					value="<%=memberDTO.getName()%>"></td>
 			</tr>
 
 			<tr>
 				<th>아이디</th>
 				<td><input type="text" name="id" size=25
-					value=<%=memberDTO.getId()%> readonly> <input type="button"
-					value=중복체크 onclick="checkId()" readonly><input
-					type="hidden" name="check" value=""></td>
+					value=<%=memberDTO.getId()%> readonly></td>
 			</tr>
 
 			<tr>
@@ -49,16 +46,16 @@
 
 			<tr>
 				<th>성별</th>
-				<td><input type="radio" name="gender" value="0"
-					checked="checked"> 여성 <input type="radio" name="gender"
-					value="1"> 남성</td>
+				<td><input type="radio" class="genderRadio" name="gender"
+					value="0"> 여성 <input type="radio" class="genderRadio"
+					name="gender" value="1"> 남성</td>
 			</tr>
 
 			<tr>
 				<th>이메일</th>
 				<td><input type="text" name="email1" size=15
 					value=<%=memberDTO.getEmail1()%>> @ <input list="mailaddr"
-					name="email2" size=15 placeholder="직접입력"> <datalist
+					name="email2" id="email22" size=15 placeholder="직접입력"> <datalist
 						id="mailaddr">
 						<option value="gmail.com"></option>
 						<option value="naver.com"></option>
@@ -68,7 +65,7 @@
 
 			<tr>
 				<th>핸드폰</th>
-				<td><select name="tel1">
+				<td><select name="tel1" id="tel11">
 						<option value="010">010</option>
 						<option value="019">019</option>
 						<option value="011">011</option>
@@ -90,10 +87,21 @@
 
 			<tr>
 				<td colspan=2 align="center"><input type="button"
-					value="회원정보수정" onclick="checkWrite()"> <input type="reset"
+					value="회원정보수정" onclick="checkModify()"> <input type="reset"
 					value="다시작성"></td>
 			</tr>
 		</table>
 	</form>
 </body>
+<script src="/memberJSP/js/member.js" type="text/javascript"></script>
+<script type="text/javascript">	
+		window.onload=function(){
+		document.modifyForm.gender['<%=memberDTO.getGender()%>'].checked = true;
+		document.modifyForm.email2.value='<%=memberDTO.getEmail2()%>';
+		document.modifyForm.tel1.value='<%=memberDTO.getTel1()%>';
+		
+		//document.getElementById("email22").value='<%=memberDTO.getEmail2()%>';
+		//document.getElementById("tel11").value='<%=memberDTO.getTel1()%>';
+	}
+</script>
 </html>
