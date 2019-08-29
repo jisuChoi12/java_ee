@@ -9,7 +9,7 @@
 <body>
 	<form name="writeForm" method="post" action="write.jsp">
 		<h2>회원가입</h2>
-		<table border=3 cellspacing="2" cellpadding="2">
+		<table border=3 cellspacing="0" cellpadding="5">
 			<tr>
 				<th width=120>이름</th>
 				<td><input type="text" id="irum" name="name" size=20

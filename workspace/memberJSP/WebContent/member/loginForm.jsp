@@ -9,7 +9,7 @@
 <body>
 	<form name="loginForm" method="post" action="login.jsp">
 		<h1>로그인</h1>
-		<table border=1 cellspacing="2" cellpadding="5">
+		<table border=1 cellspacing="0" cellpadding="5">
 			<tr>
 				<th>아이디</th>
 				<td><input type="text" name="id"></td>

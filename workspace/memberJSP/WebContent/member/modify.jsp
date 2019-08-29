@@ -43,10 +43,16 @@
 <title>회원정보수정</title>
 </head>
 <body>
-	<%if (cnt!=0) {%>
-		회원정보수정 성공
-	<%} else { %>
-		회원정보수정 실패
-	<%} %>
 </body>
+<script type="text/javascript">
+	window.onload=function(){
+		if(<%=cnt%>==1){
+			alert("회원정보수정 성공");
+			location.href="loginForm.jsp";
+		} else {
+			alert("회원정보수정 실패");
+			location.href="modifyForm.jsp";
+		}
+	}
+</script>
 </html>

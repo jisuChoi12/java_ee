@@ -2,6 +2,7 @@
 	pageEncoding="UTF-8"%>
 <%@ page import="memberJSP.bean.MemberDTO"%>
 <%@ page import="memberJSP.dao.MemberDAO"%>
+<%@ page import="java.net.URLEncoder"%>
 
 <%
 	//데이터
@@ -10,9 +11,8 @@
 	String pwd = request.getParameter("pwd");
 
 	// DB
-	String name = MemberDAO.getInstance().login(id,pwd);
+	String name = MemberDAO.getInstance().login(id, pwd);
 %>
-
 
 <!DOCTYPE html>
 <html>
@@ -21,16 +21,18 @@
 <title>로그인</title>
 </head>
 <body>
-<form name="" method="post" action="modifyForm.jsp">
-	<%if (name != null) { %>
-		<%=name %>님 로그인
-		<br><br>
-		<input type="button" value="로그아웃" onclick="">
-		<input type="submit" value="회원정보수정">
-		<input type="hidden" name="id" value="<%=id%>">
-	<%} else { %>
-		아이디 또는 비밀번호가 맞지 않습니다
-	<%} %>
-</form>
+	<form name="" method="post" action="modifyForm.jsp">
+		<img src="../image/ni2.png" width="80" height="80"
+			onclick="location.href='../main/index.jsp'" style="cursor: pointer;"><br>
+		<%
+			if (name != null) {
+				response.sendRedirect("loginOk.jsp?name="+URLEncoder.encode(name,"UTF-8"));
+				//request.getSession().setAttribute("name", name);
+				//response.sendRedirect("loginOk.jsp");
+			} else {
+				response.sendRedirect("loginFail.jsp");
+			}
+		%>
+	</form>
 </body>
 </html>

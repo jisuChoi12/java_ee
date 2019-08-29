@@ -48,13 +48,20 @@ function checkIdClose(id) {
 }
 
 function checkPostClose(zipcode, address){
-	//opener.writeForm.zipcode.value = zipcode;
-	//opener.writeForm.addr1.value = address;
+//	opener.writeForm.zipcode.value = zipcode;
+//	opener.writeForm.addr1.value = address;
+//	window.close();
+//	opener.writeForm.addr2.focus();
 
 	opener.document.getElementById("daum_zipcode").value = zipcode;
 	opener.document.getElementById("daum_addr1").value = address;
 	window.close();
 	opener.document.getElementById("daum_addr2").focus();
+	
+//	opener.document.forms[0].zipcode.value = zipcode;
+//	opener.document.forms[0].zddr1.value = address;
+//	window.close;
+//	opener.document.forms[0].addr2.focus();
 }
 
 function checkPost() {
