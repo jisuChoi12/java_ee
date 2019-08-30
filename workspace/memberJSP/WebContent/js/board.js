@@ -10,4 +10,14 @@ function checkBoardWrite(){
 	}
 }
 
+function isLogin(id, seq){
+	if(id=='null'){
+		alert("로그인 먼저");
+	} else {
+		location.href="boardView.jsp?seq="+seq;
+	}
+}
+
+
+
 

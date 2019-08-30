@@ -109,18 +109,28 @@ public class MemberDAO {
 		return exist;
 	}
 
-	public String login(String id, String pwd) {
-		String name = null;
+	public MemberDTO login(String id, String pwd) {
+		MemberDTO memberDTO = null;
 		String sql = "select * from member where id=? and pwd=?";
 		getConnection();
 		try {
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, id);
 			pstmt.setString(2, pwd);
-
 			rs = pstmt.executeQuery();
 			if (rs.next()) {
-				name = rs.getString("name");
+				memberDTO = new MemberDTO();
+				memberDTO.setName(rs.getString("name"));
+				memberDTO.setId(rs.getString("id"));
+				memberDTO.setGender(rs.getString("gender"));
+				memberDTO.setEmail1(rs.getString("email1"));
+				memberDTO.setEmail2(rs.getString("email2"));
+				memberDTO.setTel1(rs.getString("tel1"));
+				memberDTO.setTel2(rs.getString("tel2"));
+				memberDTO.setTel3(rs.getString("tel3"));
+				memberDTO.setZipcode(rs.getString("zipcode"));
+				memberDTO.setAddr1(rs.getString("addr1"));
+				memberDTO.setAddr2(rs.getString("addr2"));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -136,7 +146,7 @@ public class MemberDAO {
 				e.printStackTrace();
 			}
 		}
-		return name;
+		return memberDTO;
 	}
 
 	public MemberDTO getMember(String id) {
@@ -255,4 +265,34 @@ public class MemberDAO {
 		}
 		return cnt;
 	}
+	
+//	public String getEmail(String id) {
+//		String email = null;
+//		getConnection();
+//		String sql = "select email1,email2 from member where id=?";
+//		try {
+//			pstmt = conn.prepareStatement(sql);
+//			pstmt.setString(1, id);
+//			rs = pstmt.executeQuery();
+//			if(rs.next()) {
+//				String email1 = rs.getString("email1");
+//				String email2 = rs.getString("email2");
+//				email = email1+email2;
+//			}
+//		} catch (SQLException e) {
+//			e.printStackTrace();
+//		} finally {
+//			try {
+//				if (rs != null)
+//					rs.close();
+//				if (pstmt != null)
+//					pstmt.close();
+//				if (conn != null)
+//					conn.close();
+//			} catch (SQLException e) {
+//				e.printStackTrace();
+//			}
+//		}
+//		return email;
+//	}
 }

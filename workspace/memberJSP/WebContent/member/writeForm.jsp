@@ -8,6 +8,8 @@
 </head>
 <body>
 	<form name="writeForm" method="post" action="write.jsp">
+	<img src="../image/ni2.png" width="80" height="80"
+			onclick="location.href='../main/index.jsp'" style="cursor: pointer;">
 		<h2>회원가입</h2>
 		<table border=3 cellspacing="0" cellpadding="5">
 			<tr>
