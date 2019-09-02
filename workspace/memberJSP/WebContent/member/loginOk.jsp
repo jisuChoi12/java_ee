@@ -7,6 +7,7 @@
 	
 	String name = null;
 	String id = null;
+	String email = null;
 	
 	// 쿠키 - 특정 쿠키만 가져오기 안됨... 모든 쿠키를 가져온다
 	/*
@@ -28,9 +29,10 @@
 	// 세션
 	name = (String)session.getAttribute("memName");
 	id = (String)session.getAttribute("memId");
+	email = (String)session.getAttribute("memEmail");
 %>
 
-<img src="../image/ni2.png" width="80" height="80"
+<img src="../image/ni7.gif" width="80" height="80"
 			onclick="location.href='../main/index.jsp'" style="cursor: pointer;"><br>
 <%=name%>님 로그인
 <br>

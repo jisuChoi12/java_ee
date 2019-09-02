@@ -1,6 +1,6 @@
-<%@page import="memberJSP.dao.MemberDAO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@page import="memberJSP.dao.MemberDAO"%>
 <%@page import="board.bean.BoardDTO"%>
 <%@page import="board.dao.BoardDAO"%>
 
@@ -13,10 +13,9 @@
 
 	String subject = request.getParameter("subject");
 	String content = request.getParameter("content");
-	String id = (String)session.getAttribute("memId");
-	String name = (String)session.getAttribute("memName");
-	String email = (String)session.getAttribute("memEmail");
-	//String email = MemberDAO.getInstance().getEmail(id);
+	String id = (String) session.getAttribute("memId");
+	String name = (String) session.getAttribute("memName");
+	String email = (String) session.getAttribute("memEmail");
 
 	BoardDTO boardDTO = new BoardDTO();
 	boardDTO.setId(id);
@@ -48,6 +47,7 @@
 <script type="text/javascript">
 	window.onload = function() {
 		alert("글쓰기 성공");
+		location.href = "../board/boardList.jsp?pg=1";
 	}
 </script>
 </html>

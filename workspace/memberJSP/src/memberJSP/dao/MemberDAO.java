@@ -8,20 +8,33 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.naming.Context;
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
+import javax.sql.DataSource;
+
 import memberJSP.bean.MemberDTO;
 import memberJSP.bean.ZipcodeDTO;
 
 public class MemberDAO {
 	public static MemberDAO instance;
-	private String driver = "oracle.jdbc.driver.OracleDriver";
-	private String url = "jdbc:oracle:thin:@localhost:1521:xe";
-	private String user = "java";
-	private String password = "dkdlxl";
-
+	
 	private Connection conn;
 	private PreparedStatement pstmt;
 	private ResultSet rs;
+	
+	private DataSource ds;
 
+	public MemberDAO() {
+		try {
+			Context ctx = new InitialContext(); // Naming Service 이름으로 서비스 
+			ds = (DataSource) ctx.lookup("java:comp/env/jdbc/oracle"); // tomcat의 경우
+//			ds = (DataSource) ctx.lookup("jdbc/oracle"); // 그 외
+		} catch (NamingException e) {
+			e.printStackTrace();
+		}
+	}
+	
 	public static MemberDAO getInstance() {
 		if (instance == null) {
 			synchronized (MemberDAO.class) {
@@ -31,27 +44,11 @@ public class MemberDAO {
 		return instance;
 	}
 
-	public MemberDAO() {
-		try {
-			Class.forName(driver);
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-		}
-	}
-
-	public void getConnection() {
-		try {
-			conn = DriverManager.getConnection(url, user, password);
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-	}
-
 	public int insert(MemberDTO memberDTO) {
-		getConnection();
 		int cnt = 0;
 		String sql = "insert into member values (?,?,?,?,?,?,?,?,?,?,?,?,sysdate)";
 		try {
+			conn = ds.getConnection();
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, memberDTO.getName());
 			pstmt.setString(2, memberDTO.getId());
@@ -83,9 +80,9 @@ public class MemberDAO {
 
 	public boolean isExistId(String id) {
 		boolean exist = false;
-		getConnection();
 		String sql = "select * from member where id=?";
 		try {
+			conn = ds.getConnection();
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, id);
 			rs = pstmt.executeQuery();
@@ -112,8 +109,8 @@ public class MemberDAO {
 	public MemberDTO login(String id, String pwd) {
 		MemberDTO memberDTO = null;
 		String sql = "select * from member where id=? and pwd=?";
-		getConnection();
 		try {
+			conn = ds.getConnection();
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, id);
 			pstmt.setString(2, pwd);
@@ -151,9 +148,9 @@ public class MemberDAO {
 
 	public MemberDTO getMember(String id) {
 		MemberDTO memberDTO = null;
-		getConnection();
 		String sql = "select * from member where id=?";
 		try {
+			conn = ds.getConnection();
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, id);
 			rs = pstmt.executeQuery();
@@ -190,10 +187,10 @@ public class MemberDAO {
 
 	public List<ZipcodeDTO> getZipcodeList(String sido, String sigungu, String roadname) {
 		List<ZipcodeDTO> list = new ArrayList<ZipcodeDTO>();
-		getConnection();
 		String sql = "select * from newzipcode where sido like ? and nvl(sigungu,'0') like ? and roadname like ?";
 
 		try {
+			conn = ds.getConnection();
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, "%" + sido + "%");
 			pstmt.setString(2, "%" + sigungu + "%");
@@ -231,9 +228,9 @@ public class MemberDAO {
 	
 	public int update(MemberDTO memberDTO) {
 		int cnt = 0;
-		getConnection();
 		String sql = "update member set name=?, pwd=?, gender=?, email1=?, email2=?, tel1=?, tel2=?, tel3=?, zipcode=?, addr1=?, addr2=?, logtime=sysdate where id=?";
 		try {
+			conn = ds.getConnection();
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, memberDTO.getName());
 			pstmt.setString(2, memberDTO.getPwd());
@@ -265,34 +262,4 @@ public class MemberDAO {
 		}
 		return cnt;
 	}
-	
-//	public String getEmail(String id) {
-//		String email = null;
-//		getConnection();
-//		String sql = "select email1,email2 from member where id=?";
-//		try {
-//			pstmt = conn.prepareStatement(sql);
-//			pstmt.setString(1, id);
-//			rs = pstmt.executeQuery();
-//			if(rs.next()) {
-//				String email1 = rs.getString("email1");
-//				String email2 = rs.getString("email2");
-//				email = email1+email2;
-//			}
-//		} catch (SQLException e) {
-//			e.printStackTrace();
-//		} finally {
-//			try {
-//				if (rs != null)
-//					rs.close();
-//				if (pstmt != null)
-//					pstmt.close();
-//				if (conn != null)
-//					conn.close();
-//			} catch (SQLException e) {
-//				e.printStackTrace();
-//			}
-//		}
-//		return email;
-//	}
 }

@@ -21,7 +21,7 @@
 </head>
 <body>
 	<form name="modifyForm" method="post" action="modify.jsp">
-	<img src="../image/ni2.png" width="80" height="80"
+	<img src="../image/ni13.gif" width="80" height="80"
 			onclick="location.href='../main/index.jsp'" style="cursor: pointer;">
 		<h2>회원정보수정</h2>
 		<table border=3 cellspacing="2" cellpadding="2">

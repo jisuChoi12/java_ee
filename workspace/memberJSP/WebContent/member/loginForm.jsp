@@ -7,7 +7,7 @@
 <title>로그인</title>
 </head>
 <body>
-	<img src="../image/ni2.png" width="80" height="80"
+	<img src="../image/ni10.gif" width="80" height="80"
 		onclick="location.href='../main/index.jsp'" style="cursor: pointer;">
 	<form name="loginForm" method="post" action="login.jsp">
 		<h1>로그인</h1>

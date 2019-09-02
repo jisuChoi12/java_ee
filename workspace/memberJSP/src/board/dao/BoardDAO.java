@@ -11,39 +11,36 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.naming.Context;
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
+import javax.sql.DataSource;
+
 import board.bean.BoardDTO;
 
 public class BoardDAO {
 	public static BoardDAO instance;
-	private String driver = "oracle.jdbc.driver.OracleDriver";
-	private String url = "jdbc:oracle:thin:@localhost:1521:xe";
-	private String user = "java";
-	private String password = "dkdlxl";
+
 	private Connection conn;
 	private PreparedStatement pstmt;
 	private ResultSet rs;
+	
+	private DataSource ds;
 
 	public BoardDAO() {
 		try {
-			Class.forName(driver);
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-		}
-	}
-
-	public void getConnection() {
-		try {
-			conn = DriverManager.getConnection(url, user, password);
-		} catch (SQLException e) {
+			Context ctx = new InitialContext();
+			ds = (DataSource) ctx.lookup("java:comp/env/jdbc/oracle");
+		} catch (NamingException e) {
 			e.printStackTrace();
 		}
 	}
 
 	public int write(BoardDTO boardDTO) {
 		int cnt = 0;
-		getConnection();
 		String sql = "insert into board values(seq_board.nextval,?,?,?,?,?,seq_board.currval,0,0,0,0,0,sysdate)";
 		try {
+			conn = ds.getConnection();
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, boardDTO.getId());
 			pstmt.setString(2, boardDTO.getName());
@@ -69,7 +66,6 @@ public class BoardDAO {
 	public List<BoardDTO> boardList(int startNum, int endNum) {
 		List<BoardDTO> list = new ArrayList<BoardDTO>();
 		BoardDTO boardDTO = null;
-		getConnection();
 //		String sql = "select * from "+ 
 //						"(select rownum rs, temp.* from "+ 
 //							"(select seq,id,name,email,subject,content,ref,lev,step,pseq,reply,hit,to_char(logtime,'YYYY.MM.DD') as logtime from board order by seq desc"+ 
@@ -78,6 +74,7 @@ public class BoardDAO {
 //					"where rs between ? and ?";
 		String sql = "select * from (select rownum rs, temp.* from (select * from board order by seq desc) temp) where rs between ? and ?";
 		try {
+			conn = ds.getConnection();
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1, startNum);
 			pstmt.setInt(2, endNum);
@@ -119,14 +116,14 @@ public class BoardDAO {
 	}
 
 	public int getTotalArticle() {
-		int totArticle = 0;
-		getConnection();
-		String sql = "select count(*) as totArticle from board";
+		int totalA = 0;
+		String sql = "select count(*) as totalA from board";
 		try {
+			conn = ds.getConnection();
 			pstmt = conn.prepareStatement(sql);
 			rs = pstmt.executeQuery();
 			if (rs.next()) {
-				totArticle = rs.getInt("totArticle");
+				totalA = rs.getInt("totalA");
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -142,16 +139,16 @@ public class BoardDAO {
 				e.printStackTrace();
 			}
 		}
-		return totArticle;
+		return totalA;
 	}
 	
-	public BoardDTO getBoard(String seq) {
+	public BoardDTO getBoard(int seq) {
 		BoardDTO boardDTO = new BoardDTO();
-		getConnection();
 		String sql = "select * from board where seq=?";
 		try {
+			conn = ds.getConnection();
 			pstmt = conn.prepareStatement(sql);
-			pstmt.setString(1, seq);
+			pstmt.setInt(1, seq);
 			rs = pstmt.executeQuery();
 			if(rs.next()) {
 				boardDTO.setSeq(rs.getInt("seq"));
@@ -187,13 +184,38 @@ public class BoardDAO {
 		return boardDTO;
 	}
 	
-	public int updateHit(String seq) {
+	public int boardHit(int seq) {
 		int cnt = 0;
-		getConnection();
 		String sql = "update board set hit=hit+1 where seq=?";
 		try {
+			conn = ds.getConnection();
 			pstmt = conn.prepareStatement(sql);
-			pstmt.setString(1, seq);
+			pstmt.setInt(1, seq);
+			cnt = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (pstmt != null)
+					pstmt.close();
+				if (conn != null)
+					conn.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return cnt;
+	}
+	
+	public int updateBoard(String subject, String content, int seq) {
+		int cnt=0;
+		String sql = "update board set subject=?, content=? where seq=?";
+		try {
+			conn = ds.getConnection();
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, subject);
+			pstmt.setString(2, content);
+			pstmt.setInt(3, seq);
 			cnt = pstmt.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();

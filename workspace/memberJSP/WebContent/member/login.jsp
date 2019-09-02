@@ -23,7 +23,7 @@
 <body>
 	<form name="" method="post" action="modifyForm.jsp">
 		<img src="../image/ni2.png" width="80" height="80"
-			onclick="location.href='../main/index.jsp'" style="cursor: pointer;"><br>
+			onclick="location.href='../main/index.jsp'" style="cursor: pointer;"><br> <!-- 메인으로 돌아가기 -->
 		<%
 			if (memberDTO != null) {
 				//response.sendRedirect("loginOk.jsp?name="+URLEncoder.encode(name,"UTF-8"));
@@ -46,7 +46,7 @@
 				session.setAttribute("memName", memberDTO.getName());
 				session.setAttribute("memId", id);		
 				session.setAttribute("memEmail", memberDTO.getEmail1()+"@"+memberDTO.getEmail2());
-				//session.setAttribute("memDTP",memberDTO); 한번에 다 담기
+				session.setAttribute("memDTO",memberDTO); //한번에 다 담기
 				
 				response.sendRedirect("loginOk.jsp"); // 모든 정보가 쿠키 안에 있으니까 그냥 가면 된다
 				
