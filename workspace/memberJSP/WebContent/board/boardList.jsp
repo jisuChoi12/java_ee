@@ -34,14 +34,21 @@
 	boardPaging.makePagingHTML(); // 페이징html
 
 	// 쿠키 boardView.jsp
-	Cookie[] cookies = request.getCookies(); // 쿠기 불러오기
+	/* Cookie[] cookies = request.getCookies(); // 쿠기 불러오기
 	if (cookies != null) {
 		for (int i = 0; i < cookies.length; i++) {
-			if (cookies[i].getName().equals("cookie")) {
+			if (cookies[i].getName().equals("memHit")) {
 				cookies[i].setMaxAge(0); // 쿠키삭제
 				response.addCookie(cookies[i]); // 클라이언트에 저장
 			}
 		}
+	} */
+	
+	// 강사님 방법2 조회수 - 새로고침 방지
+	if(session.getAttribute("memId")!=null){
+		Cookie cookie = new Cookie("memHit","0");
+		cookie.setMaxAge(30*60); 
+		response.addCookie(cookie); // 클라이언트에 저장
 	}
 %>
 

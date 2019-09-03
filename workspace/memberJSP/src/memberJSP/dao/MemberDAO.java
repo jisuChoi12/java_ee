@@ -23,13 +23,14 @@ public class MemberDAO {
 	private PreparedStatement pstmt;
 	private ResultSet rs;
 	
+	// connection pool
 	private DataSource ds;
 
 	public MemberDAO() {
 		try {
 			Context ctx = new InitialContext(); // Naming Service 이름으로 서비스 
 			ds = (DataSource) ctx.lookup("java:comp/env/jdbc/oracle"); // tomcat의 경우
-//			ds = (DataSource) ctx.lookup("jdbc/oracle"); // 그 외
+			//ds = (DataSource) ctx.lookup("jdbc/oracle"); // 그 외
 		} catch (NamingException e) {
 			e.printStackTrace();
 		}

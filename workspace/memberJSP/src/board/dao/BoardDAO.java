@@ -10,6 +10,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import javax.naming.Context;
 import javax.naming.InitialContext;
@@ -230,5 +231,28 @@ public class BoardDAO {
 			}
 		}
 		return cnt;
+	}
+	
+	public void boardModify(Map<String,String> map) {
+		String sql = "update board set subject=?, content=?, logtime=sysdate where seq=?";
+		try {
+			conn = ds.getConnection();
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, map.get("subject"));
+			pstmt.setString(2, map.get("content"));
+			pstmt.setInt(3, Integer.parseInt(map.get("seq")));
+			pstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (pstmt != null)
+					pstmt.close();
+				if (conn != null)
+					conn.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
 	}
 }

@@ -8,14 +8,14 @@
 </head>
 <body>
 	<form name="boardWriteForm" method="post" action="boardWrite.jsp">
-	<img src="../image/ni13.gif" width="80" height="80"
+		<img src="../image/ni13.gif" width="80" height="80"
 			onclick="location.href='../main/index.jsp'" style="cursor: pointer;">
 		<h2>글쓰기</h2>
 		<table border="1" cellpadding="5" cellspacing="0">
 			<tr>
 				<th>제목</th>
-				<td><input type="text" name="subject" id="subject" style="width: 300px"
-					placeholder="제목 입력"></td>
+				<td><input type="text" name="subject" id="subject"
+					style="width: 300px" placeholder="제목 입력"></td>
 			</tr>
 			<tr>
 				<th>내용</th>
@@ -25,8 +25,7 @@
 			</tr>
 			<tr>
 				<td colspan="2" align="center"><input type="button" value="글쓰기"
-					onclick="checkBoardWrite()"> <input type="reset"
-					value="다시작성"></td>
+					onclick="checkBoard()"> <input type="reset" value="다시작성"></td>
 			</tr>
 		</table>
 	</form>

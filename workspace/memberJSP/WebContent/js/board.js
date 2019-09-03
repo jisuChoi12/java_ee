@@ -1,4 +1,4 @@
-function checkBoardWrite() {
+ function checkBoard() {
 	if (document.getElementById("subject").value == "") {
 		alert("제목을 입력하세요");
 		document.boardWriteForm.subject.focus();
