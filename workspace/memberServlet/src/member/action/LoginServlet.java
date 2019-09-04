@@ -48,3 +48,5 @@ public class LoginServlet extends HttpServlet {
 	}
 
 }
+
+// 모델1기법 
