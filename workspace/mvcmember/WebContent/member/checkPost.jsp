@@ -4,23 +4,7 @@
 <%@page import="member.bean.ZipcodeDTO"%>
 <%@page import="member.bean.MemberDTO"%>
 <%@page import="member.dao.MemberDAO"%>
-
-<%
-	// 데이터
-	request.setCharacterEncoding("UTF-8");
-	String sido = request.getParameter("sido");
-	String sigungu = request.getParameter("sigungu");
-	String roadname = request.getParameter("roadname");
-	System.out.println(sido + " " + sigungu + " " + roadname);
-
-	// DB
-	List<ZipcodeDTO> list = null;
-	MemberDAO memberDAO = MemberDAO.getInstance();
-	if (sido != null && roadname != null) {
-		list = memberDAO.getZipcodeList(sido, sigungu, roadname);
-	}
-%>
-
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
 <!DOCTYPE html>
 <html>
@@ -31,14 +15,30 @@
 td {
 	font-size: 8pt;
 }
-#addressA:Link { color: black; text-decoration: none; } 
-#addressA:visited { color: black; text-decoration: none; } 
-#addressA:hover { color: green; text-decoration: underline; }
-#addressA:active { color: black; text-decoration: none; } 
+
+#addressA:Link {
+	color: black;
+	text-decoration: none;
+}
+
+#addressA:visited {
+	color: black;
+	text-decoration: none;
+}
+
+#addressA:hover {
+	color: green;
+	text-decoration: underline;
+}
+
+#addressA:active {
+	color: black;
+	text-decoration: none;
+}
 </style>
 </head>
 <body>
-	<form name="" method="post" action="checkPost.jsp">
+	<form name="" method="post" action="/mvcmember/member/checkPost.do">
 		<table border=1 width="100%" cellpadding="2" cellspacing="1">
 			<tr>
 				<td align="center">시도</td>
@@ -67,30 +67,26 @@ td {
 			<tr>
 				<td align="center">도로명</td>
 				<td colspan="3"><input type="text" name="roadname" size="35">
-					<input type="submit" value="검색" onclick=""></td>
+					<input type="submit" value="검색"></td>
 			</tr>
 			<tr>
 				<td align="center">우편번호</td>
 				<td align="center" colspan="3">주소</td>
 			</tr>
-
-			<%if(list!=null) { %>
-			<% for (ZipcodeDTO zipcodeDTO : list) { 
-				String address = zipcodeDTO.getSido()+" "
-						+zipcodeDTO.getSigungu()+" "
-						+zipcodeDTO.getYubmyundong()+" "
-						+zipcodeDTO.getRi()+" "
-						+zipcodeDTO.getRoadname()+" "
-						+zipcodeDTO.getBuildingname();
-			%><tr>
-				<td align="center"><%=zipcodeDTO.getZipcode()%></td>
-				<td colspan="3"><a id="addressA" href="#" onclick="checkPostClose('<%=zipcodeDTO.getZipcode()%>','<%=address%>')"><%=address%></a></td>
-			</tr>
-			<%} %>
-			<%} %>
-
+			<c:if test="${requestScope.list!=null }">
+				<c:forEach var="zipcodeDTO" items="${requestScope.list }">
+					<c:set var="address"
+						value="${zipcodeDTO.sido } ${zipcodeDTO.sigungu } ${zipcodeDTO.yubmyundong } ${zipcodeDTO.ri } ${zipcodeDTO.roadname } ${zipcodeDTO.buildingname }"></c:set>
+					<tr>
+						<td align="center">${zipcodeDTO.zipcode }</td>
+						<td colspan="3"><a id="addressA" href="#"
+							onclick="checkPostClose('${zipcodeDTO.zipcode}', '${address }')"><c:out
+									value="${address }" /></a></td>
+					</tr>
+				</c:forEach>
+			</c:if>
 		</table>
 	</form>
 </body>
-<script src="/memberJSP/js/member.js" type="text/javascript"></script>
+<script src="/mvcmember/js/member.js" type="text/javascript"></script>
 </html>

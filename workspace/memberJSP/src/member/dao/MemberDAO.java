@@ -1,4 +1,4 @@
-package memberJSP.dao;
+package member.dao;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -13,8 +13,8 @@ import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
 
-import memberJSP.bean.MemberDTO;
-import memberJSP.bean.ZipcodeDTO;
+import member.bean.MemberDTO;
+import member.bean.ZipcodeDTO;
 
 public class MemberDAO {
 	public static MemberDAO instance;

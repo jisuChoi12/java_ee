@@ -1,13 +1,13 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%@ page import="memberJSP.bean.MemberDTO"%>
-<%@ page import="memberJSP.dao.MemberDAO"%>
+<%@ page import="member.bean.MemberDTO"%>
+<%@ page import="member.dao.MemberDAO"%>
 
 <%
 	// 데이터
 	request.setCharacterEncoding("UTF-8");
 %>
-<jsp:useBean id="memberDTO" class="memberJSP.bean.MemberDTO"
+<jsp:useBean id="memberDTO" class="member.bean.MemberDTO"
 	scope="session"></jsp:useBean>
 <jsp:setProperty property="*" name="memberDTO" />
 

@@ -18,7 +18,7 @@
 <form name="" method="post" action="jstlModify.jsp">
 	<h2>수정</h2>
 	<table border=1 cellspacing="0" cellpadding="5">
-		<c:forEach var="row" items="${rs.rowsByIndex }">
+		<%-- <c:forEach var="row" items="${rs.rowsByIndex }">
 			<tr>
 				<th width=120>이름</th>
 				<td><input type="text" id="name" name="name" size=20
@@ -35,6 +35,30 @@
 				<th>비밀번호</th>
 				<td><input type="password" name="pwd" size=30
 					value="${row[2] }"></td>
+			</tr>
+			<tr>
+				<td colspan=2 align="center">
+					<input type="submit" value="수정">
+				</td>
+			</tr>
+		</c:forEach> --%>
+		<c:forEach var="rows" items="${rs.rows }">
+			<tr>
+				<th width=120>이름</th>
+				<td><input type="text" id="name" name="name" size=20
+					value="${rows.name}"></td>
+			</tr>
+
+			<tr>
+				<th>아이디</th>
+				<td><input type="text" name="id" size=25 value="${rows.id }"
+					readonly="readonly"></td>
+			</tr>
+
+			<tr>
+				<th>비밀번호</th>
+				<td><input type="password" name="pwd" size=30
+					value="${rows.pwd }"></td>
 			</tr>
 			<tr>
 				<td colspan=2 align="center">

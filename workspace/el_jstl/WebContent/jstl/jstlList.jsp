@@ -31,10 +31,17 @@
 				</c:forEach>
 				<td width="150" align="center">
 					<input type="button" value="수정" onclick="location.href='jstlModifyForm.jsp?id=${row[1]}'">
-					<input type="button" value="삭제" onclick="location.href='jstlDelete.jsp?id=${row[1]}'">
+					<input type="button" value="삭제" onclick="del('${row[1]}')">
 				</td> 
 			</tr>
 		</c:forEach>
 	</table>
 </body>
+<script type="text/javascript">
+function del(id){
+	if(confirm("정말 삭제하시겠습니까?")){
+		location.href="jstlDelete.jsp?id="+id;
+	}
+}
+</script>
 </html>
