@@ -7,12 +7,11 @@
 <title>Ok</title>
 </head>
 <body>
-	${param.id} : 사용 가능
+	${id} : 사용 가능
 	<br>
 	<br>
-	<input type="button" value="사용하기" onclick="checkIdClose('${param.id}')">
+	<input type="button" value="사용하기" onclick="checkIdClose('${id}')">
 </body>
-<script src="/mvcmember/js/member.js" type="text/javascript">
-	
+<script src="/mvcmember/js/member.js" type="text/javascript">	
 </script>
 </html>

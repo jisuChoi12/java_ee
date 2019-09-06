@@ -73,10 +73,16 @@ td {
 				<td align="center">우편번호</td>
 				<td align="center" colspan="3">주소</td>
 			</tr>
-			<c:if test="${requestScope.list!=null }">
-				<c:forEach var="zipcodeDTO" items="${requestScope.list }">
-					<c:set var="address"
-						value="${zipcodeDTO.sido } ${zipcodeDTO.sigungu } ${zipcodeDTO.yubmyundong } ${zipcodeDTO.ri } ${zipcodeDTO.roadname } ${zipcodeDTO.buildingname }"></c:set>
+			<c:if test="${list!=null }">
+				<c:forEach var="zipcodeDTO" items="${list }">
+					<c:set var="address">
+						${zipcodeDTO.sido
+						} ${zipcodeDTO.sigungu
+						} ${zipcodeDTO.yubmyundong
+						} ${zipcodeDTO.ri
+						} ${zipcodeDTO.roadname
+						} ${zipcodeDTO.buildingname }
+					</c:set>
 					<tr>
 						<td align="center">${zipcodeDTO.zipcode }</td>
 						<td colspan="3"><a id="addressA" href="#"

@@ -16,13 +16,13 @@
 			<tr>
 				<th width=120>이름</th>
 				<td><input type="text" name="name" size=20
-					value="${sessionScope.memName }"></td>
+					value="${requestScope.memDTO.getName() }"></td>
 			</tr>
 
 			<tr>
 				<th>아이디</th>
 				<td><input type="text" name="id" size=25
-					value="${sessionScope.memId }" readonly></td>
+					value="${memDTO.id }" readonly></td>
 			</tr>
 
 			<tr>
@@ -45,7 +45,7 @@
 			<tr>
 				<th>이메일</th>
 				<td><input type="text" name="email1" size=15
-					value="${sessionScope.memDTO.getEmail1() }"> @ <input list="mailaddr"
+					value="${memDTO.email1 }"> @ <input list="mailaddr"
 					name="email2" id="email22" size=15 placeholder="직접입력"> <datalist
 						id="mailaddr">
 						<option value="gmail.com"></option>
@@ -61,19 +61,19 @@
 						<option value="019">019</option>
 						<option value="011">011</option>
 				</select> <input type="text" name="tel2" size=5
-					value="${sessionScope.memDTO.getTel2() }"> <input type="text"
+					value="${memDTO.tel2 }"> <input type="text"
 					name="tel3" size=5 value="${sessionScope.memDTO.getTel3() }"></td>
 			</tr>
 
 			<tr>
 				<th>주소</th>
 				<td><input type="text" id="daum_zipcode" name="zipcode" size=5
-					value="${sessionScope.memDTO.getZipcode() }" readonly> <input
+					value="${memDTO.zipcode }" readonly> <input
 					type="button" value="우편번호검색" onclick="checkPost()"> <br>
 					<input type="text" id="daum_addr1" name="addr1" size=40
-					placeholder="주소 " value="${sessionScope.memDTO.getAddr1() }" readsonly><br>
+					placeholder="주소 " value="${memDTO.getAddr1() }" readsonly><br>
 					<input type="text" id="daum_addr2" name="addr2" size=40
-					placeholder="상세 주소 " value="${sessionScope.memDTO.getAddr2() }"></td>
+					placeholder="상세 주소 " value="${memDTO.getAddr2() }"></td>
 			</tr>
 
 			<tr>
@@ -87,9 +87,9 @@
 <script src="/mvcmember/js/member.js" type="text/javascript"></script>
 <script type="text/javascript">	
 		window.onload=function(){
-		document.modifyForm.gender['${sessionScope.memDTO.getGender()}'].checked = true;
-		document.modifyForm.email2.value='${sessionScope.memDTO.getEmail2()}';
-		document.modifyForm.tel1.value='${sessionScope.memDTO.getTel1()}';
+		document.modifyForm.gender['${memDTO.gender}'].checked = true;
+		document.modifyForm.email2.value='${memDTO.email2}';
+		document.modifyForm.tel1.value='${memDTO.tel1}';
 	}
 </script>
 </html>

@@ -21,9 +21,9 @@ public class ModifyFormAction implements CommandProcess {
 		
 		// DB
 		MemberDTO memberDTO = MemberDAO.getInstance().getMember(id);
-		session.setAttribute("memDTO", memberDTO);
 		
 		// 응답
+		request.setAttribute("memDTO", memberDTO);
 		return "/member/modifyForm.jsp";
 	}
 

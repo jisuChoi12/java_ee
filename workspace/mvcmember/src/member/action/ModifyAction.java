@@ -13,7 +13,6 @@ public class ModifyAction implements CommandProcess {
 	@Override
 	public String requestPro(HttpServletRequest request, HttpServletResponse response) throws Throwable {
 		// 데이터
-		request.setCharacterEncoding("UTF-8");
 		String name = request.getParameter("name");
 		String id= request.getParameter("id");
 		String pwd = request.getParameter("pwd");

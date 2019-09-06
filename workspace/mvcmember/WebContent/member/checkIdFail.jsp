@@ -8,7 +8,7 @@
 </head>
 <body>
 	<form name="" method="get" action="/mvcmember/member/checkId.do">
-		${param.id } : 사용 불가능 <br>
+		${id } : 사용 불가능 <br>
 		<br> 아이디 <input type="text" name="id"> <input
 			type="submit" value="중복체크">
 	</form>
