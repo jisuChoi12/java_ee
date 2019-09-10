@@ -60,8 +60,7 @@
 </head>
 <body>
 	<c:if test="${boardDTO!=null }">
-		<table border="1" frame="hsides" rules="rows" cellspacing="0"
-			cellpadding="5">
+		<table border="1" frame="hsides" rules="rows" cellspacing="0" cellpadding="5">
 			<tr>
 				<td colspan="6" style="font-weight: bold; font-size: 1.4em">${boardDTO.subject }</td>
 			</tr>
@@ -71,23 +70,17 @@
 				<td align="right">조회수: ${boardDTO.hit }</td>
 			</tr>
 			<tr>
-				<td colspan="6"><pre
-						style="overflow: auto; white-space: pre-line; word-break: break-all; width: 400px; height: 200px">${boardDTO.content }</pre></td>
+				<td colspan="6">
+					<pre style="overflow: auto; white-space: pre-line; word-break: break-all; width: 400px; height: 200px">${boardDTO.content }</pre>
+				</td>
 			</tr>
-		</table>
-		<br>
+		</table><br>
 		<input type="button" value="목록"
 			onclick="location.href='/mvcboard/board/boardList.do?pg=${pg}'">
-		<%-- <%
-		if (boardDTO.getId().equals(session.getAttribute("memId"))) {
-	%> --%>
-		<input type="button" value="글수정"
-			onclick="location.href='/mvcboard/board/boardModifyForm.do?seq=${boardDTO.seq}&pg=${pg}'">
-		<input type="button" value="글삭제" onclick="location.href='/mvcboard/board/boardDelete.do?seq=${boardDTO.seq}'">
-		<br>
-		<%-- <%
-		}
-	%> --%>
+		<c:if test="${sessionScope.memId == boardDTO.id }">
+			<input type="button" value="글수정" onclick="location.href='/mvcboard/board/boardModifyForm.do?seq=${boardDTO.seq}&pg=${pg}'">
+			<input type="button" value="글삭제" onclick="location.href='/mvcboard/board/boardDelete.do?seq=${boardDTO.seq}'">
+		</c:if><br>
 	</c:if>
 </body>
 </html>

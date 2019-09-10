@@ -7,7 +7,7 @@
   	<servlet-class>com.control.ControlServlet</servlet-class>
   	<init-param>
   		<param-name>propertyConfig</param-name>
-  		<param-value>C:/Users/bitcamp/Documents/GitHub/java_ee/workspace/mvcboard/WebContent/WEB-INF/command.properties</param-value>
+  		<param-value>C:/Users/Jisu/Documents/GitHub/java_ee/workspace/mvcboard/WebContent/WEB-INF/command.properties</param-value>
   	</init-param>
   </servlet>
   <servlet-mapping>
