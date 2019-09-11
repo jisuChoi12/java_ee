@@ -6,6 +6,6 @@
 <script type="text/javascript">
 	window.onload=function(){
 		alert("회원정보수정 성공");
-		location.href="/miniproject/member/loginForm.do";
+		location.href="/miniproject/main/index.do";
 	}
 </script>

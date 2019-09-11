@@ -41,7 +41,7 @@ public class ModifyAction implements CommandProcess {
 		memberDTO.setAddr2(addr2);
 		
 		// DB
-		int cnt = MemberDAO.getInstance().update(memberDTO);
+		MemberDAO.getInstance().update(memberDTO);
 		
 		// 응답
 		return "/member/modify.jsp";

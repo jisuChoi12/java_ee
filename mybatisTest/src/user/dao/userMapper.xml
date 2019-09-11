@@ -1,19 +1,48 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="userSQL">
-	<insert id="write" parameterType="user.bean.UserDTO">
+	<!-- <resultMap type="user" id="userResult">
+		<result property="name" column="NAME"/> 클래스 필드명 / 디비 컬럼명
+		<result property="id" column="PASSWORD"/> 강제매핑: 이름 통일 안하면 이렇게 하나씩 해줘야함
+		<result property="pwd" column="PWD"/>
+	</resultMap> -->
+
+	<insert id="write" parameterType="user">
 		insert into usertable values(#{name},#{id},#{pwd})
 	</insert>
 	<delete id="delete" parameterType="String">
 		delete from usertable where id= #{id}
 	</delete>
-	<select id="getList" resultType="user.bean.UserDTO">
+	<select id="getList" resultType="user"> <!-- 하나씩 매핑해준 경우 resultMap="userResult" 이렇게 해야함 -->
 		select * from usertable
 	</select>
-	<select id="search" parameterType="String" resultType="user.bean.UserDTO">
+	<select id="check" parameterType="String" resultType="user">
 		select * from usertable where id= #{id}
 	</select>
-	<update id="update" parameterType="user.bean.UserDTO">
+	<update id="update" parameterType="java.util.Map">
 		update usertable set name=#{name}, pwd=#{pwd} where id=#{id}
 	</update>
+	<!-- <select id="search" parameterType="java.util.Map" resultType="user">
+		select * from usertable where ${columnName} like '%'||#{value}||'%'
+	</select> -->
+	<!-- <select id="search" parameterType="java.util.Map" resultType="user">
+		select * from usertable where
+		<if test="columnName == 'name'">
+			name like '%'||#{value}||'%'		
+		</if>
+		<if test="columnName == 'id'">
+			id like '%'||#{value}||'%'	
+		</if>
+	</select> -->
+	<select id="search" parameterType="java.util.Map" resultType="user">
+		select * from usertable where
+		<choose>
+			<when test="columnName == 'name'">
+				name like '%'||#{value}||'%'
+			</when>
+			<otherwise>
+				id like '%'||#{value}||'%'
+			</otherwise>
+		</choose>
+	</select>
 </mapper>

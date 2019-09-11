@@ -6,7 +6,6 @@
 <%@page import="member.dao.MemberDAO"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
-
 <style type="text/css">
 td {
 	font-size: 8pt;

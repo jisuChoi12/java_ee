@@ -3,7 +3,6 @@
 <%@ page import="member.bean.MemberDTO"%>
 <%@ page import="member.dao.MemberDAO"%>
 
-
 회원가입을 축하합니다
 <br>
 <br>

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="boardSQL">
+	<!-- 게시글 작성 -->
+	<insert id="write" parameterType="board">
+		insert into board values(seq_board.nextval,#{id},#{name},#{email},#{subject},#{content},seq_board.currval,0,0,0,0,0,sysdate)
+	</insert>
+	<!-- 게시글 목록 -->
+	<select id="boardList" parameterType="java.util.Map" resultType="board">
+		select * from (select rownum rs, temp.* from (select
+		seq,id,name,email,subject,content,ref,lev,step,pseq,reply,hit,to_char(logtime,'YYYY.MM.DD')
+		as logtime from board order by seq desc) temp) where rs between
+		#{startNum} and #{endNum}
+	</select>
+	<!-- 총 개시글 수 -->
+	<select id="getTotalArticle" resultType="Integer">
+		select count(*) as totalA from board
+	</select>
+	<!-- 게시글 -->
+	<select id="getBoard" parameterType="Integer" resultType="board">
+		select * from board where seq=#{seq}
+	</select>
+	<!-- 조회수 업데이트 -->
+	<update id="boardHit" parameterType="Integer">
+		update board set hit=hit+1 where seq=#{seq}
+	</update>
+	<!-- 게시글 수정 -->
+	<update id="boardModify" parameterType="java.util.Map">
+		update board set subject=#{subject}, content=#{content}, logtime=sysdate where seq=#{seq}
+	</update>
+	<delete id="boardDelete" parameterType="Integer">
+		delete from board where seq=#{seq}
+	</delete>
+</mapper>
+

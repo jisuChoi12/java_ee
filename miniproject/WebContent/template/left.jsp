@@ -15,8 +15,8 @@
 	<br>
 	<a href="/miniproject/member/modifyForm.do">회원정보수정</a>
 	<br>
-	<a href="">글쓰기</a>
+	<a href="/miniproject/board/boardWriteForm.do">글쓰기</a>
 	<br>
 </c:if>
-<a href="">목록</a>
+<a href="/miniproject/board/boardList.do?pg=1">목록</a>
 <br>

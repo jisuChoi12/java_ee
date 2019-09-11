@@ -3,6 +3,7 @@ package user.dao;
 import java.io.IOException;
 import java.io.Reader;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.SqlSession;
@@ -56,7 +57,7 @@ public class UserDAO {
 		return list;
 	}
 
-	public UserDTO search(String id) {
+	public UserDTO check(String id) {
 		SqlSession sqlSession = sqlSessionFactory.openSession();
 		UserDTO userDTO = sqlSession.selectOne("userSQL.search", id);
 		sqlSession.close();
@@ -64,11 +65,19 @@ public class UserDAO {
 		return userDTO;
 	}
 
-	public void update(UserDTO userDTO) {
+	public void update(Map<String, String> map) {
 		SqlSession sqlSession = sqlSessionFactory.openSession();
-		sqlSession.update("userSQL.update", userDTO);
+		sqlSession.update("userSQL.update", map);
 		sqlSession.commit();
 		sqlSession.close();
+	}
+
+	public List<UserDTO> search(Map<String, String> map) {
+		SqlSession sqlSession = sqlSessionFactory.openSession();
+		List<UserDTO> list = sqlSession.selectList("userSQL.search", map);
+		sqlSession.close();
+		
+		return list;
 	}
 }
 

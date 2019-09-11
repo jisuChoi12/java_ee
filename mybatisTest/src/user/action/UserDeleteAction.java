@@ -12,16 +12,16 @@ public class UserDeleteAction implements UserAction {
 		Scanner scan = new Scanner(System.in);
 		
 		// 데이터
-		System.out.print("찾고자 하는 아이디 입력: ");
+		System.out.print("삭제할 아이디 입력: ");
 		String id = scan.next();
 		
 		// DB
 		UserDAO userDAO = UserDAO.getInstance();
-		UserDTO userDTO = userDAO.search(id);
+		UserDTO userDTO = userDAO.check(id);
 		
 		// 응답
 		if(userDTO == null) {
-			System.out.println("찾고자 하는 아이디가 없습니다");
+			System.out.println("삭제할 아이디가 없습니다");
 		} else {
 			userDAO.delete(id);
 			System.out.println("데이터를 삭제하였습니다");

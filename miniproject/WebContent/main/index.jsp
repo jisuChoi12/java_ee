@@ -14,9 +14,9 @@
 					page="../template/top.jsp" /></td>
 		</tr>
 		<tr>
-			<td width="20%" height="300"><jsp:include
+			<td width="20%" height="400"><jsp:include
 					page="../template/left.jsp" /></td>
-			<td><jsp:include page="${display }" /></td>
+			<td align="center"><jsp:include page="${display }" /></td>
 		</tr>
 		<tr>
 			<td colspan="2"><jsp:include page="../template/bottom.jsp" /></td>

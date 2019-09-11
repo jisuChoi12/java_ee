@@ -1,6 +1,8 @@
 package member.action;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -23,7 +25,11 @@ public class CheckPostAction implements CommandProcess {
 		List<ZipcodeDTO> list = null;
 		MemberDAO memberDAO = MemberDAO.getInstance();
 		if (sido != null && roadname != null) {
-			list = memberDAO.getZipcodeList(sido, sigungu, roadname);
+			Map<String, String> map = new HashMap<String, String>();
+			map.put("sido", sido);
+			map.put("sigungu", sigungu);
+			map.put("roadname", roadname); 
+			list = memberDAO.getZipcodeList(map);
 		}
 		request.setAttribute("list", list);
 		
