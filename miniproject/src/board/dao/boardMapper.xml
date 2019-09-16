@@ -3,33 +3,67 @@
 <mapper namespace="boardSQL">
 	<!-- 게시글 작성 -->
 	<insert id="write" parameterType="board">
-		insert into board values(seq_board.nextval,#{id},#{name},#{email},#{subject},#{content},seq_board.currval,0,0,0,0,0,sysdate)
+		insert into board
+		values(seq_board.nextval,#{id},#{name},#{email},#{subject},#{content},seq_board.currval,0,0,0,0,0,sysdate)
 	</insert>
 	<!-- 게시글 목록 -->
-	<select id="boardList" parameterType="java.util.Map" resultType="board">
-		select * from (select rownum rs, temp.* from (select
-		seq,id,name,email,subject,content,ref,lev,step,pseq,reply,hit,to_char(logtime,'YYYY.MM.DD')
-		as logtime from board order by seq desc) temp) where rs between
-		#{startNum} and #{endNum}
+	<select id="boardList" parameterType="java.util.Map"
+		resultType="board">
+		<![CDATA[
+			select * from 
+			(select rownum rn, temp.* from 
+			(select seq,id,name,email,subject,content,
+					ref,lev,step,pseq,reply,hit,
+					to_char(logtime,'YYYY.MM.DD') as logtime from board order by seq desc) temp
+			) where rn >=#{startNum} and rn<=#{endNum}
+		]]>
+		<!-- select * from (select rownum rn, temp.* from (select seq,id,name,email,subject,content,ref,lev,step,pseq,reply,hit,to_char(logtime,'YYYY.MM.DD') 
+			as logtime from board order by seq desc) temp) where rn between #{startNum} 
+			and #{endNum} -->
 	</select>
 	<!-- 총 개시글 수 -->
 	<select id="getTotalArticle" resultType="Integer">
-		select count(*) as totalA from board
+		select count(*) as
+		totalA from board
 	</select>
 	<!-- 게시글 -->
 	<select id="getBoard" parameterType="Integer" resultType="board">
-		select * from board where seq=#{seq}
+		select
+		* from board where seq=#{seq}
 	</select>
 	<!-- 조회수 업데이트 -->
 	<update id="boardHit" parameterType="Integer">
-		update board set hit=hit+1 where seq=#{seq}
+		update board set hit=hit+1
+		where seq=#{seq}
 	</update>
 	<!-- 게시글 수정 -->
 	<update id="boardModify" parameterType="java.util.Map">
-		update board set subject=#{subject}, content=#{content}, logtime=sysdate where seq=#{seq}
+		update board set
+		subject=#{subject}, content=#{content}, logtime=sysdate where
+		seq=#{seq}
 	</update>
+	<!-- 게시글 삭제 -->
 	<delete id="boardDelete" parameterType="Integer">
-		delete from board where seq=#{seq}
+		delete from board where
+		seq=#{seq}
 	</delete>
+	<!-- 게시글 검색 결과 목록 -->
+	<select id="boardSearchList" parameterType="java.util.Map"
+		resultType="board">
+		<!-- select * from (select rownum rs, temp.* from (select seq,id,name,email,subject,content,ref,lev,step,pseq,reply,hit,to_char(logtime,'YYYY.MM.DD') 
+			as logtime from board order by ref desc, step asc) temp) where ${columnName} 
+			like '%'||#{keyword}||'%' and (rs between #{startNum} and #{endNum}) -->
+		select * from
+		(select rownum rn, temp.* from
+		(select seq,id,name,email,subject,content,ref,lev,step,pseq,reply,hit,to_char(logtime,'YYYY.MM.DD')
+		as logtime from board where ${columnName} like '%'||#{keyword}||'%'order by ref desc, step asc)
+		temp) where rn between #{startNum} and #{endNum}
+	</select>
+	<!-- 검색된 글 수 -->
+	<select id="getTotalSearchArticle" parameterType="java.util.Map"
+		resultType="Integer">
+		select count(*) as totalA from board where ${columnName}
+		like '%'||#{keyword}||'%'
+	</select>
 </mapper>
 

@@ -20,7 +20,7 @@
 			</td>
 		</tr>
 		<tr>
-			<td colspan="6"><input type="button" value="목록"
+			<td colspan="6" align="center"><input type="button" value="목록"
 				onclick="location.href='/miniproject/board/boardList.do?pg=${pg}'">
 				<c:if test="${sessionScope.memId == boardDTO.id }">
 					<input type="button" value="글수정"

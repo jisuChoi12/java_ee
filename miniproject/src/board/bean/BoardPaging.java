@@ -71,3 +71,8 @@ public class BoardPaging {
 		
 	}
 }
+
+
+// /miniproject/board/boardList.do?pg=1
+
+// /miniproject/board/boardSearch.do?searchOption="+document.getElementById("searchOption").value+"&keyword="+document.getElementById("keyword").value+"&pg=1

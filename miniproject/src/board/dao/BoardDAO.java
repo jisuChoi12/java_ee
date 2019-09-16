@@ -97,4 +97,18 @@ public class BoardDAO {
 		sqlSession.close();
 		
 	}
+
+	public List<BoardDTO> boardSearchList(Map<String, Object> map) {
+		SqlSession sqlSession = sqlSessionFactory.openSession();
+		List<BoardDTO> list = sqlSession.selectList("boardSQL.boardSearchList", map);
+		sqlSession.close();
+		return list;
+	}
+
+	public int getTotalSearchArticle(Map<String, Object> map) {
+		SqlSession sqlSession = sqlSessionFactory.openSession();
+		int totalA = sqlSession.selectOne("boardSQL.getTotalSearchArticle",map);
+		sqlSession.close();
+		return totalA;
+	}
 }
