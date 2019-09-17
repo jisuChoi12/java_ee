@@ -52,8 +52,7 @@ function checkSearch(){
 	if(document.getElementById("keyword").value==""){
 		alert("검색어를 입력하세요");
 	} else {
-		location.href="/miniproject/board/boardSearch.do?searchOption="+document.getElementById("searchOption").value+"&keyword="+document.getElementById("keyword").value+"&pg=1";
-		
+		location.href="/miniproject/board/boardSearch.do?searchOption="+document.getElementById("searchOption").value+"&keyword="+document.getElementById("keyword").value+"&pg=1";	
 	}
 }
 </script>

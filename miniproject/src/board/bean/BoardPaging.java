@@ -70,6 +70,38 @@ public class BoardPaging {
 		}
 		
 	}
+	
+	public void makePagingHTML(String searchOption, String keyword){
+		//ex)
+		//[1][2][3][다음]
+		//[이전][4][5][6][다음]
+		//[이전][7][8]
+		pagingHTML = new StringBuffer();
+		int totalPage = (totalA+(pageSize-1))/pageSize; // 총페이지수
+		int startPage = (currentPage-1)/pageBlock*pageBlock+1; // 시작페이지
+		int endPage = startPage+pageBlock-1; // 끝페이지
+		
+		if(endPage>totalPage) { // 예를 들어 totalPage가 8이고 endPage가 9인 경우
+			endPage = totalPage; // endPage를 totalPage와 같게 만든다 -> [이전][7][8] 이런식으로
+		}
+		
+		if(startPage>pageBlock) { // [이전]이 나오는 시점
+			pagingHTML.append("[<a id='prev' href='boardSearch.do?searchOption="+searchOption+"&keyword="+keyword+"&pg="+(startPage-1)+"'>이전</a>]"); // [이전]을 누르면 startPage-1 페이지로 이동 
+		}
+		
+		for (int i = startPage; i <= endPage; i++) {
+			if(i==currentPage) {
+				pagingHTML.append("[<a id='currentPaging' href='boardSearch.do?searchOption="+searchOption+"&keyword="+keyword+"&pg="+i+"'>"+i+"</a>]");
+			} else { 
+				pagingHTML.append("[<a id='paging' href='boardSearch.do?searchOption="+searchOption+"&keyword="+keyword+"&pg="+i+"'>"+i+"</a>]");
+			}
+		}
+		
+		if(endPage<totalPage) { // [다음]이 나오는 시점
+			pagingHTML.append("[<a id='next' href='boardSearch.do?searchOption="+searchOption+"&keyword="+keyword+"&pg="+(endPage+1)+"'>다음</a>]"); // [다음]을 누르면 endPage+1 페이지로 이동
+		}
+		
+	}
 }
 
 

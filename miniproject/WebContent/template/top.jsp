@@ -8,16 +8,16 @@
 		style="cursor: pointer"><br>MVC를 이용한 미니프로젝트
 </h3>
 <br>
-<font size="3" style="font-weight: bold;">
-<c:if test="${sessionScope.memId != null }">
-	<!-- 로그인 상태 -->
-	<a href="/miniproject/board/boardWriteForm.do">글쓰기</a>
-	&emsp;
-	<c:if test="${sessionScope.memId == 'admin' }">
-		<a href="/miniproject/imageboard/imageBoardWriteForm.do">이미지등록</a> <!-- 로그인 아이디가 admin 비밀번호는 111 -->
-		&emsp;
-	</c:if>
-</c:if>
-<a href="/miniproject/board/boardList.do?pg=1">목록</a>
+<font size="3" style="font-weight: bold;"> <c:if
+		test="${sessionScope.memId != null }">
+		<!-- 로그인 상태 -->
+		<a href="/miniproject/board/boardWriteForm.do">글쓰기</a>&emsp;
+		<c:if test="${sessionScope.memId == 'admin' }">
+			<a href="/miniproject/imageboard/imageBoardWriteForm.do">이미지등록</a>
+			<!-- 로그인 아이디가 admin 비밀번호는 111 -->
+			&emsp;
+		</c:if>
+		<a href="/miniproject/imageboard/imageboardList.do?pg=1">이미지목록</a>&emsp;
+	</c:if> <a href="/miniproject/board/boardList.do?pg=1">목록</a>
 </font>
 

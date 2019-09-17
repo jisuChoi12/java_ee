@@ -16,7 +16,7 @@
 	<br>
 	<table border="1" width="100%" cellspacing="0" cellpadding="5">
 		<tr>
-			<td valign="top" width="20.1%"><jsp:include page="../template/left.jsp" /></td>
+			<td valign="top" width="20.1%" height="500"><jsp:include page="../template/left.jsp" /></td>
 			<td align="center"><jsp:include page="${display }" /></td>
 		</tr>
 	</table>

@@ -1,10 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 
-<form name="boardModifyForm" method="post"
-	action="/miniproject/board/boardModify.do">
-	<input type="hidden" name="seq" value="${seq }"> <input
-		type="hidden" name="pg" value="${pg }">
+<form name="boardModifyForm" method="post" action="/miniproject/board/boardModify.do">
+	<input type="hidden" name="seq" value="${seq }">
+	<input type="hidden" name="pg" value="${pg }">
 	<table border="1" cellspacing="0" cellpadding="5">
 		<tr>
 			<td>제목</td>

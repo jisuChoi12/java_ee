@@ -2,6 +2,10 @@ package imageboard.dao;
 
 import java.io.IOException;
 import java.io.Reader;
+import java.util.List;
+import java.util.Map;
+
+import javax.websocket.Session;
 
 import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.SqlSession;
@@ -38,5 +42,27 @@ public class ImageBoardDAO {
 		sqlSession.commit();
 		sqlSession.close();
 	}
+
+	public List<ImageBoardDTO> imageboardList(Map<String, Integer> map) {
+		SqlSession sqlSession = sqlSessionFactory.openSession();
+		List<ImageBoardDTO> list = sqlSession.selectList("imageBoardSQL.imageboardList", map);
+		sqlSession.close();
+		return list;
+	}
+
+	public int getTotalArticle() {
+		SqlSession sqlSession = sqlSessionFactory.openSession();
+		int totalA = sqlSession.selectOne("imageBoardSQL.getTotalArticle");
+		sqlSession.close();
+		return totalA;
+	}
+
+	public ImageBoardDTO getImageBoard(Map<String, Integer> map) {
+		SqlSession sqlSession = sqlSessionFactory.openSession();
+		ImageBoardDTO imageBoardDTO = sqlSession.selectOne("imageBoardSQL.getImageBoard", map);
+		sqlSession.close();
+		return imageBoardDTO;
+	}
+
 
 }

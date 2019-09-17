@@ -60,7 +60,7 @@ public class BoardSearchAction implements CommandProcess {
 		boardPaging.setPageBlock(3); // 1블록당 페이지 3개씩
 		boardPaging.setPageSize(5); // 1페이지당 글 5개씩
 		boardPaging.setTotalA(totalA); // 총글수
-		boardPaging.makePagingHTML(); // 페이징html
+		boardPaging.makePagingHTML(searchOption, keyword); // 페이징html
 		
 		request.setAttribute("pg", pg);
 		request.setAttribute("boardPaging", boardPaging);

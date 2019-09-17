@@ -20,6 +20,7 @@ public class BoardListAction implements CommandProcess {
 
 	@Override
 	public String requestPro(HttpServletRequest request, HttpServletResponse response) throws Throwable {		
+		// 세션
 		String memId = "";
 		HttpSession session = request.getSession();
 		if ((String) session.getAttribute("memId") != null) {
@@ -50,6 +51,7 @@ public class BoardListAction implements CommandProcess {
 		int totArticle = BoardDAO.getInstance().getTotalArticle();
 		int totPage = (totArticle + 4) / 5;
 		
+		// 페이징
 		BoardPaging boardPaging = new BoardPaging(); // 클래스 생성
 		int totalA = BoardDAO.getInstance().getTotalArticle(); // 총글수를 board테이블에서 가져오기
 		boardPaging.setCurrentPage(pg); // 현재 페이지는 pg
@@ -61,7 +63,6 @@ public class BoardListAction implements CommandProcess {
 		request.setAttribute("pg", pg);
 		request.setAttribute("boardPaging", boardPaging);
 		request.setAttribute("list", list);
-		
 		
 		request.setAttribute("display", "/board/boardList.jsp");
 		return "/main/index.jsp";

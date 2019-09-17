@@ -3,7 +3,7 @@
     
 <script type="text/javascript">
 	window.onload = function() {
-		alert("글쓰기 성공");
-		location.href = "/miniproject/main/index.do";
+		alert("이미지 등록 성공");
+		location.href = "/miniproject/imageboard/imageboardList.do?pg=1";
 	}
 </script>
