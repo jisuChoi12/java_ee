@@ -3,10 +3,10 @@
 	
 <form name="loginForm" method="post"
 	action="/miniproject/member/login.do">
-	<table border="1" cellspacing="0" cellpadding="5">
+	<table border="0" cellspacing="0" cellpadding="5" style="width: 260px">
 		<tr>
 			<th>아이디</th>
-			<td><input type="text" name="id"></td>
+			<td><input type="text" name="id" style=""></td>
 		</tr>
 		<tr>
 			<th>비밀번호</th>
@@ -14,8 +14,8 @@
 		</tr>
 		<tr>
 			<td colspan="2" align="center"><input type="button" value="로그인"
-				onclick="checkLogin()"> <input type="button" value="회원가입"
-				onclick="location.href='/miniproject/member/writeForm.do'"></td>
+				onclick="checkLogin()" style="width: 100%; border: 0; outline: 0;"><br><input type="button" value="회원가입"
+				onclick="location.href='/miniproject/member/writeForm.do'" style="width: 100%; border: 0; outline: 0;"></td>
 		</tr>
 	</table>
 </form>

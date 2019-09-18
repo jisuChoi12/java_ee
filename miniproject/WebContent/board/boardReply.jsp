@@ -3,7 +3,7 @@
 
 <script type="text/javascript">
 	window.onload = function() {
-		alert("글 수정 완료");
+		alert("답글 작성 완료");
 		location.href="/miniproject/board/boardList.do?pg=${pg}";
 	} 
 </script>

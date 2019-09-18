@@ -10,13 +10,14 @@
 <link rel="stylesheet" href="../css/mini.css">
 </head>
 <body>
-	<%-- <header><jsp:include page="../template/top.jsp"/></header><br> --%>
-	<div display="inline"><jsp:include page="../template/top.jsp" />
-	</div>
+	<header style="background-color: #39373b; height: 200px;"><jsp:include page="../template/top.jsp"/></header><br>
+	<%-- <header>
+	<div display="inline" style="background-color: aqua;"><jsp:include page="../template/top.jsp" />
+	</div></header> --%>
 	<br>
-	<table border="1" width="100%" cellspacing="0" cellpadding="5">
+	<table border="0" width="100%" cellspacing="0" cellpadding="5">
 		<tr>
-			<td valign="top" width="20.1%" height="500"><jsp:include page="../template/left.jsp" /></td>
+			<td valign="top" width="20.1%" height="500"><c:if test="${memId != null }"><img src="../image/jordy.png" style="width: 70px; height: 70px;"><br></c:if><jsp:include page="../template/left.jsp" /></td>
 			<td align="center"><jsp:include page="${display }" /></td>
 		</tr>
 	</table>
@@ -28,6 +29,6 @@
 		<article></article>
 	</section>
 	</div> --%>
-	<footer><jsp:include page="../template/bottom.jsp" /></footer>
+	<footer style="background-color: #39373b;"><jsp:include page="../template/bottom.jsp" /></footer>
 </body>
 </html>

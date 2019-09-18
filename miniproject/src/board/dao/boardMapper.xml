@@ -14,7 +14,7 @@
 			(select rownum rn, temp.* from 
 			(select seq,id,name,email,subject,content,
 					ref,lev,step,pseq,reply,hit,
-					to_char(logtime,'YYYY.MM.DD') as logtime from board order by seq desc) temp
+					to_char(logtime,'YYYY.MM.DD') as logtime from board order by ref desc, step asc) temp
 			) where rn >=#{startNum} and rn<=#{endNum}
 		]]>
 		<!-- select * from (select rownum rn, temp.* from (select seq,id,name,email,subject,content,ref,lev,step,pseq,reply,hit,to_char(logtime,'YYYY.MM.DD') 
@@ -55,9 +55,12 @@
 			like '%'||#{keyword}||'%' and (rs between #{startNum} and #{endNum}) -->
 		select * from
 		(select rownum rn, temp.* from
-		(select seq,id,name,email,subject,content,ref,lev,step,pseq,reply,hit,to_char(logtime,'YYYY.MM.DD')
-		as logtime from board where ${columnName} like '%'||#{keyword}||'%'order by ref desc, step asc)
-		temp) where rn between #{startNum} and #{endNum}
+		(select
+		seq,id,name,email,subject,content,ref,lev,step,pseq,reply,hit,to_char(logtime,'YYYY.MM.DD')
+		as logtime from board where ${columnName} like
+		'%'||#{keyword}||'%'order by ref desc, step asc)
+		temp) where rn between
+		#{startNum} and #{endNum}
 	</select>
 	<!-- 검색된 글 수 -->
 	<select id="getTotalSearchArticle" parameterType="java.util.Map"
@@ -65,5 +68,44 @@
 		select count(*) as totalA from board where ${columnName}
 		like '%'||#{keyword}||'%'
 	</select>
+	<!-- 글 순서 수정 -->
+	<update id="boardReply1" parameterType="board">
+		update board set
+		step=step+1 where ref=#{ref} and step>#{step}
+	</update>
+	<!-- 답글 작성 -->
+	<insert id="boardReply2" parameterType="board">
+		insert into board
+		values(seq_board.nextval
+		,#{id}
+		,#{name}
+		,#{email}
+		,#{subject}
+		,#{content}
+		,#{ref}
+		,#{lev}
+		,#{step}
+		,#{pseq}
+		,0
+		,0
+		,sysdate)
+	</insert>
+	<!-- 답글 수 수정 -->
+	<update id="boardReply3" parameterType="Integer">
+		update board set
+		reply=reply+1 where seq=#{pseq}
+	</update>
+	<!-- 삭제할 글의 원글을 찾아서 답글수 1 감소 -->
+	<update id="boardDelete1" parameterType="Integer">
+		update board set reply=reply-1 where seq=(select pseq from board where seq=#{seq})
+	</update>
+	<!-- 삭제할 글의 답글을 찾아서 제목에 [원글이 삭제된 답글] 추가 -->
+	<update id="boardDelete2" parameterType="Integer">
+		update board set subject='[원글이 삭제된 답글] '||subject where pseq=#{seq}
+	</update>
+	<!-- 글 삭제 -->
+	<delete id="boardDelete3" parameterType="Integer">
+		delete from board where seq=#{seq}
+	</delete>
 </mapper>
 
