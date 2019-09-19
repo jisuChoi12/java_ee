@@ -102,6 +102,33 @@ public class BoardPaging {
 		}
 		
 	}
+	
+	public void makeSearchPagingHTML() {
+		pagingHTML = new StringBuffer();
+		int totalPage = (totalA+(pageSize-1))/pageSize; // 총페이지수
+		int startPage = (currentPage-1)/pageBlock*pageBlock+1; // 시작페이지
+		int endPage = startPage+pageBlock-1; // 끝페이지
+		
+		if(endPage>totalPage) { // 예를 들어 totalPage가 8이고 endPage가 9인 경우
+			endPage = totalPage; // endPage를 totalPage와 같게 만든다 -> [이전][7][8] 이런식으로
+		}
+		
+		if(startPage>pageBlock) { // [이전]이 나오는 시점
+			pagingHTML.append("[<span id='prev' onclick='boardSearch("+(startPage-1)+")'>이전</span>]"); // [이전]을 누르면 startPage-1 페이지로 이동 
+		}
+		
+		for (int i = startPage; i <= endPage; i++) {
+			if(i==currentPage) {
+				pagingHTML.append("[<span id='currentPaging' onclick='boardSearch("+i+")'>"+i+"</span>]");
+			} else {
+				pagingHTML.append("[<span id='paging' onclick='boardSearch("+i+")'>"+i+"</span>]");
+			}
+		}
+		
+		if(endPage<totalPage) { // [다음]이 나오는 시점
+			pagingHTML.append("[<span id='next' onclick='boardSearch("+(endPage+1)+")'>다음</span>]"); // [다음]을 누르면 endPage+1 페이지로 이동
+		}
+	}
 }
 
 

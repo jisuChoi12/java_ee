@@ -64,5 +64,17 @@ public class ImageBoardDAO {
 		return imageBoardDTO;
 	}
 
-
+	public void deleteImage(String seq) {
+		SqlSession sqlSession = sqlSessionFactory.openSession();
+		sqlSession.delete("imageBoardSQL.deleteImage", seq); 
+		sqlSession.commit();
+		sqlSession.close(); 
+	}
+	
+	/*
+	 * public void deleteImage(String[] seq) { SqlSession sqlSession =
+	 * sqlSessionFactory.openSession();
+	 * sqlSession.delete("imageBoardSQL.deleteImage", seq); sqlSession.commit();
+	 * sqlSession.close(); }
+	 */
 }

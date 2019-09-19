@@ -95,27 +95,27 @@ public class BoardDAO {
 		
 		// 삭제할 글의 원글을 찾아서 답글수 1 감소 (update)
 		sqlSession.update("boardSQL.boardDelete1", seq);
-		
 		// 삭제할 글의 답글을 찾아서 제목에 [원글이 삭제된 답글] 추가 (upadte)
 		sqlSession.update("boardSQL.boardDelete2", seq);
-		
 		// 글 삭제 (delete)		
 		sqlSession.delete("boardSQL.boardDelete3", seq);
+		
+//		sqlSession.delete("boardSQL.boardDelete",seq);
 		
 		sqlSession.commit();
 		sqlSession.close();
 	}
 
-	public List<BoardDTO> boardSearchList(Map<String, Object> map) {
+	public List<BoardDTO> boardSearch(Map<String, Object> map) {
 		SqlSession sqlSession = sqlSessionFactory.openSession();
-		List<BoardDTO> list = sqlSession.selectList("boardSQL.boardSearchList", map);
+		List<BoardDTO> list = sqlSession.selectList("boardSQL.boardSearch", map);
 		sqlSession.close();
 		return list;
 	}
 
-	public int getTotalSearchArticle(Map<String, Object> map) {
+	public int getSearchTotalArticle(Map<String, Object> map) {
 		SqlSession sqlSession = sqlSessionFactory.openSession();
-		int totalA = sqlSession.selectOne("boardSQL.getTotalSearchArticle",map);
+		int totalA = sqlSession.selectOne("boardSQL.getSearchTotalArticle",map);
 		sqlSession.close();
 		return totalA;
 	}

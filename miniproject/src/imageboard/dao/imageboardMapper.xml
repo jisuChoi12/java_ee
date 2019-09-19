@@ -16,8 +16,12 @@
 	<select id="getTotalArticle" resultType="Integer">
 		select count(*) as totalA from imageboard 
 	</select>
-	<!-- 이미지 상세 -->
+	<!-- 이미지뷰 -->
 	<select id="getImageBoard" parameterType="java.util.Map" resultType="imageboard">
 		select * from imageboard where seq=#{seq}
 	</select>
+	<!-- 이미지 삭제 -->
+	<delete id="deleteImage" parameterType="String">
+		delete from imageboard where seq=#{seq}
+	</delete>
 </mapper>

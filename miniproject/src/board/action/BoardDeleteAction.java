@@ -13,6 +13,7 @@ public class BoardDeleteAction implements CommandProcess {
 		// 데이터
 		int seq = Integer.parseInt(request.getParameter("seq"));
 		
+		// DB
 		BoardDAO.getInstance().boardDelete(seq);
 		
 		request.setAttribute("display", "/board/boardDelete.jsp");

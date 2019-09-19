@@ -3,16 +3,18 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
 <link rel="stylesheet" href="../css/board.css">
+
 <c:if test="${list!=null }">
-	<div>
-		<select id="searchOption">
-			<option value="id">작성자</option>
-			<option value="subject">제목</option>
-		</select> <input type="text" id="keyword" placeholder="검색어를 입력하세요"> <input
-			type="button" value="검색" onclick="checkSearch()"><br>
+	<div style="width: 700px;">
+		<select id="searchOption" style="width: 100px;">
+			<option value="id" id="id">작성자</option>
+			<option value="subject" id="subject">제목</option>
+		</select> <input type="text" id="keyword" value="${keyword }" placeholder="검색어를 입력하세요" size="30%">
+		<input type="button" value="검색" onclick="checkSearch()"><br>
 		<br>
 	</div>
-	<table border="1" frame="hsides" rules="rows" cellspacing="0" cellpadding="2" width="800px">
+	<table border="1" frame="hsides" rules="rows" cellspacing="0"
+		cellpadding="2" width="800px">
 		<tr>
 			<th>글번호</th>
 			<th>제목</th>
@@ -28,14 +30,14 @@
 				<c:if test="${boardDTO.pseq == 0 }">
 					<td align="center">${boardDTO.seq }</td>
 				</c:if>
-				<td width="300"><a href="javascript:void(0)" id="subjectA" onclick="isLogin('${boardDTO.seq}','${pg }')">
-					<c:if test="${boardDTO.pseq != 0 }">
-						<c:forEach var="i" begin="1" end="${boardDTO.lev }" step="1">
-							&emsp;
-						</c:forEach>
-						<img src="../image/reply.gif">
-					</c:if>${boardDTO.subject }</a>
-				</td>
+				<td width="400"><a href="javascript:void(0)" id="subjectA"
+					onclick="isLogin('${boardDTO.seq}','${pg }')"> <c:if
+							test="${boardDTO.pseq != 0 }">
+							<c:forEach var="i" begin="1" end="${boardDTO.lev }" step="1">
+								&emsp;
+							</c:forEach>
+							<img src="../image/reply.gif">
+						</c:if>${boardDTO.subject }</a></td>
 				<td align="center">${boardDTO.id }</td>
 				<td align="center">${boardDTO.logtime }</td>
 				<td align="center">${boardDTO.hit }</td>
@@ -45,11 +47,10 @@
 	</table>
 	<br>
 	<div
-		style="display: inline-block; float: left; text-align: center; width: 100%;">${boardPaging.pagingHTML }
+		style="display: inline-block; float: left; text-align: center; width: 100%; cursor: pointer;">${boardPaging.pagingHTML }
 	</div>
-
-
 </c:if>
+
 <script type="text/javascript">
 	function isLogin(seq, pg) {
 		if ("${memId}" == "") {
@@ -68,5 +69,15 @@
 					+ "&keyword=" + document.getElementById("keyword").value
 					+ "&pg=1";
 		}
+	}
+	
+	window.onload=function(){
+		if("${searchOption}" == "subject" || "${searchOption}" == "id"){
+			document.getElementById("searchOption").value = "${searchOption}";
+		}
+	}
+	function boardSearch(pg){
+		location.href="/miniproject/board/boardSearch.do?searchOption=${searchOption}&keyword=${keyword}&pg="+pg;
+/* 		location.href="/miniproject/board/boardSearch.do?searchOption=${searchOption}&keyword="+encodeURIComponent("${keyword}")+"&pg="+pg; */ 
 	}
 </script>

@@ -27,7 +27,7 @@
 					<input type="button" value="글수정"
 						onclick="location.href='/miniproject/board/boardModifyForm.do?seq=${boardDTO.seq}&pg=${pg}'">
 					<input type="button" value="글삭제"
-						onclick="location.href='/miniproject/board/boardDelete.do?seq=${boardDTO.seq}'">
+						onclick="location.href='/miniproject/board/boardDelete.do?seq=${boardDTO.seq}'"> <!-- 다시 비밀번호 물어보는거 추가하기 -->
 				</c:if>
 			</td>
 		</tr>

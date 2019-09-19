@@ -38,35 +38,42 @@ public class BoardSearchAction implements CommandProcess {
 			}
 		}
 		
+		// 데이터
 		String searchOption = request.getParameter("searchOption");
 		String keyword = request.getParameter("keyword");	
+		
+		// 한 페이지당 5개
 		int pg = Integer.parseInt(request.getParameter("pg"));
 		int endNum = pg * 5;
 		int startNum = endNum - 4;
 		
 		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("columnName",searchOption);
+		map.put("searchOption",searchOption);
 		map.put("keyword", keyword);
 		map.put("startNum",startNum);
 		map.put("endNum", endNum);
 		
-		List<BoardDTO> list = BoardDAO.getInstance().boardSearchList(map);
-		int totArticle = BoardDAO.getInstance().getTotalSearchArticle(map);
+		List<BoardDTO> list = BoardDAO.getInstance().boardSearch(map);
+		int totArticle = BoardDAO.getInstance().getSearchTotalArticle(map);
 		int totPage = (totArticle + 4) / 5;
 		
 		BoardPaging boardPaging = new BoardPaging(); // 클래스 생성
-		int totalA = BoardDAO.getInstance().getTotalSearchArticle(map); // 총글수를 board테이블에서 가져오기
+		int totalA = BoardDAO.getInstance().getSearchTotalArticle(map); // 총글수를 board테이블에서 가져오기
 		boardPaging.setCurrentPage(pg); // 현재 페이지는 pg
 		boardPaging.setPageBlock(3); // 1블록당 페이지 3개씩
 		boardPaging.setPageSize(5); // 1페이지당 글 5개씩
 		boardPaging.setTotalA(totalA); // 총글수
-		boardPaging.makePagingHTML(searchOption, keyword); // 페이징html
+		//boardPaging.makePagingHTML(searchOption, keyword); // 페이징html
+		boardPaging.makeSearchPagingHTML(); // 페이징html
 		
 		request.setAttribute("pg", pg);
 		request.setAttribute("boardPaging", boardPaging);
 		request.setAttribute("list", list);
+		request.setAttribute("searchOption", searchOption);
+		request.setAttribute("keyword", keyword);
 		
-		request.setAttribute("display", "/board/boardSearchList.jsp");
+//		request.setAttribute("display", "/board/boardSearchList.jsp");
+		request.setAttribute("display", "/board/boardList.jsp");
 		return "/main/index.jsp";
 	}
 
