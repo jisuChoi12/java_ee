@@ -13,7 +13,7 @@
 		) where rn between #{startNum} and #{endNum}
 	</select>
 	<!-- 전체 이미지 수 -->
-	<select id="getTotalArticle" resultType="Integer">
+	<select id="getImageboardTotalArticle" resultType="Integer">
 		select count(*) as totalA from imageboard 
 	</select>
 	<!-- 이미지뷰 -->
@@ -21,7 +21,13 @@
 		select * from imageboard where seq=#{seq}
 	</select>
 	<!-- 이미지 삭제 -->
-	<delete id="deleteImage" parameterType="String">
+	<!-- <delete id="deleteImage" parameterType="String">
 		delete from imageboard where seq=#{seq}
+	</delete> -->
+	<!-- <delete id="deleteImage">
+		delete imageboard where seq in <foreach item="item" index="index" collection="check" open="(" separator="," close=")">#{item}</foreach>
+	</delete> -->
+	<delete id="deleteImage" parameterType="java.util.Map">
+		delete imageboard where seq in <foreach item="seq" index="index" collection="check" open="(" separator="," close=")">#{seq}</foreach>
 	</delete>
 </mapper>

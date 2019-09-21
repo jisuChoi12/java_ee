@@ -32,12 +32,12 @@ public class ImageBoardListAction implements CommandProcess {
 
 		// DB
 		List<ImageBoardDTO> list = ImageBoardDAO.getInstance().imageboardList(map);
-		int totArticle = ImageBoardDAO.getInstance().getTotalArticle();
+		int totArticle = ImageBoardDAO.getInstance().getImageboardTotalArticle();
 		int totPage = (totArticle + 2) / 3;
 
 		// 페이징
 		ImageBoardPaging boardPaging = new ImageBoardPaging(); // 클래스 생성
-		int totalA = ImageBoardDAO.getInstance().getTotalArticle(); // 총글수를 board테이블에서 가져오기
+		int totalA = ImageBoardDAO.getInstance().getImageboardTotalArticle(); // 총글수를 board테이블에서 가져오기
 		boardPaging.setCurrentPage(pg); // 현재 페이지는 pg
 		boardPaging.setPageBlock(3); // 1블록당 페이지 3개씩
 		boardPaging.setPageSize(3); // 1페이지당 글 3개씩

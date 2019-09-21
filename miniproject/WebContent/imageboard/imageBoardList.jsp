@@ -5,13 +5,13 @@
 
 
 <link rel="stylesheet" href="../css/board.css">
-<form name="imageBoardList" action="/miniproject/imageboard/imageboardDelete.do">
+<form name="imageBoardList" method="get" action="/miniproject/imageboard/imageboardDelete.do">
 <c:if test="${list!=null }">
 	<br>
 	<table border="1" frame="hsides" rules="rows" cellspacing="0"
 		cellpadding="2" width="600px">
 		<tr>
-			<th><input type="checkbox" name="checkAll" onclick="check_All()">번호</th>
+			<th><input type="checkbox" name="checkAll" id="all" onclick="check_All()">번호</th>
 			<th>이미지</th>
 			<th>상품명</th>
 			<th>단가</th>
@@ -20,7 +20,7 @@
 		</tr>
 		<c:forEach var="imageBoardDTO" items="${list }">
 			<tr>
-				<td align="center"><input type="checkbox" value="${imageBoardDTO.seq }" name="chk">${imageBoardDTO.seq }</td>
+				<td align="center"><input type="checkbox" value="${imageBoardDTO.seq }" name="check">${imageBoardDTO.seq }</td>
 				<td align="center"><a href="/miniproject/imageboard/imageboardView.do?pg=${pg }&seq=${imageBoardDTO.seq}"><img src="http://localhost:8080/miniproject/storage/${imageBoardDTO.image1 }" width="110" height="110"></a></td>
 				<td align="left">${imageBoardDTO.imageName }</td>
 				<td align="center"><fmt:formatNumber value="${imageBoardDTO.imagePrice }" pattern="#,###"/></td>
@@ -29,7 +29,9 @@
 			</tr>
 		</c:forEach> 
 	</table>
-	<input type="button" value="선택삭제" onclick="checkDelete()">
+	<div style="float: center; border: 0; width: 600px; ">
+		<input type="button" value="선택삭제" onclick="checkDelete()" style="float: right;">
+	</div>
 	<br>
 	<div
 		style="display: inline-block; float: left; text-align: center; width: 100%;">${boardPaging.pagingHTML }
@@ -38,7 +40,7 @@
 </form>
 
 <script>
-function check_All(){
+/* function check_All(){
 		if(imageBoardList.checkAll.checked){
 			for(i=0; i<imageBoardList.chk.length; i++){
 				imageBoardList.chk[i].checked=true;
@@ -50,21 +52,55 @@ function check_All(){
 		}
 	}	
 function checkDelete(){
-	var seqs = new Array();
+	var check = new Array();
 	for(i=0; i<imageBoardList.chk.length; i++){
 		if(imageBoardList.chk[i].checked) {
-			seqs.push(imageBoardList.chk[i].value);
+			check.push(imageBoardList.chk[i].value);
 		}
 	}
 
-	if(seqs.length==0){
+	if(check.length==0){
 		alert("항목을 선택하세요");
 	} else {
 		if(confirm("정말로 삭제하시겠습니까?")){
-			location.href="/miniproject/imageboard/imageboardDelete.do?seqs="+seqs;
+			location.href="/miniproject/imageboard/imageboardDelete.do?check="+check;
 		} 
+	}
+} */
+/* 강사님 */
+function check_All(){
+	var check = document.getElementsByName("check")
+	
+	if(document.getElementById("all").checked){
+		for(i=0; i<check.length; i++){
+			check[i].checked = true;
+		}
+	}else{
+		for(i=0; i<check.length; i++){
+			check[i].checked = false;
+		}
+	}	
+}
+
+function checkDelete(){
+	var check = document.getElementsByName("check")
+	var count=0;
+	for(i=0; i<check.length; i++){
+		if(check[i].checked) count++;
+	}
+	
+	if(count==0) 
+		alert("항목을 선택하세요");
+	else{
+		if(confirm("정말로 삭제하시겠습니까?"))
+			document.imageBoardList.submit();
 	}
 }
 </script>
 
+<!-- 
+	document.getElementById("all").checked; // 보통 하나일때 Id속성
+	
+	document.getElementsByName("check") // 여러개일때는 name속성
 
+ -->
