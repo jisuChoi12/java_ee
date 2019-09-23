@@ -8,6 +8,7 @@
 <meta charset="UTF-8">
 <title>MVC를 이용한 미니프로젝트</title>
 <link rel="stylesheet" href="../css/mini.css">
+<link rel="shortcut icon" href="https://marymond.kr//data/icon/favicon/favicon1552013679.ico" />
 </head>
 <body>
 	<header style="background-color: #39373b; height: 200px;"><jsp:include page="../template/top.jsp"/></header><br>

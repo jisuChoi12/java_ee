@@ -4,12 +4,13 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
-<c:set var="now" value="<%=new java.util.Date()%>" />
-<c:set var="sysYear"><fmt:formatDate value="${now}" pattern="yyyy" /></c:set>
-<c:set var="year" value="${fn:substring(sysYear,0,4)}" />
-
+<jsp:useBean id="now" class="java.util.Date"/>
+<fmt:formatDate var="toady" value="${now }" pattern="yyyy" />
 <fmt:requestEncoding value="UTF-8" />
-<c:set var="dateParts" value="${fn:split(param.birth, '/') }" />
+<c:set var="birth" value="${fn:split(param.birth, '/') }" />
+<c:set var="year" value="${birth[0]}"/>
+<c:set var="month" value="${birth[1]}"/>
+<c:set var="day" value="${birth[2]}"/>
 
-${param.name}님의 생일은 ${dateParts[0]}년 ${dateParts[1]}월 ${dateParts[2]}일
-입니다 나이는 ${year-dateParts[0]+1}살 입니다
+${param.name}님의 생일은 ${year}년 ${month}월 ${day}일 입니다.
+ 나이는 ${toady-year+1}살 입니다

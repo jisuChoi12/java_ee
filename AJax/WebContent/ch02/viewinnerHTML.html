@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>viewinnerHTML</title>
+</head>
+<body>
+<p id="p1"><strong>AJax</strong> 프로그래밍,<br>기초</p>
+<input type="button" value="보기" onclick="view()" />
+</body>
+<script type="text/javascript">
+function view(){
+	var p1 = document.getElementById("p1");
+	//alert(p1); // [object HTMLParagraphElement]
+	//alert(p1.tagName); // P
+	//alert(p1.innerText); // AJax 프로그래밍, 기초 -> 문자열
+	alert(p1.innerHTML); // <strong>AJax</strong> 프로그래밍,<br>기초 -> 태그
+}
+</script>
+</html>

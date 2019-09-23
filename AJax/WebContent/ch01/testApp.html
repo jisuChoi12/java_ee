@@ -2,11 +2,11 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>testApp</title>
 </head>
 <body>
 	<form name="testApp" method="post">
-		<table>
+		<table cellpadding="5">
 			<tr>
 				<td>이름</td>
 				<td><input type="text" name="name"></td>
@@ -16,7 +16,7 @@
 				<td><input type="text" placeholder="ex)1990/01/01" name="birth"></td>
 			</tr>
 			<tr>
-				<td colspan="2"><input type="button" value="보내기"
+				<td colspan="2" align="center"><input type="button" value="보내기"
 					onclick="testToServer()"></td>
 			</tr>
 		</table>
@@ -25,14 +25,14 @@
 <script type="text/javascript">
 	var xhr = null;
 	function testToServer() {
+		// 데이ㅓ
 		name = encodeURIComponent(document.testApp.name.value);
-		birth = encodeURIComponent(document.testApp.birth.value);
+		birth = document.testApp.birth.value;
 
 		xhr = new XMLHttpRequest();
 		xhr.onreadystatechange = testFromServer;
 		xhr.open("POST", "test.jsp", true);
-		xhr.setRequestHeader("Content-Type",
-				"application/x-www-form-urlencoded");
+		xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
 		xhr.send("name=" + name + "&birth=" + birth);
 	}
 	function testFromServer() {

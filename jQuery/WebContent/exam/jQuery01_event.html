@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>jQuery01</title>
+</head>
+<body>
+	<input type="button" id="btn1" value="commit_1" onclick="process()"><!-- javascript -->
+	<input type="button" id="btn2" value="commit_2"><!-- jQuery -->
+	<input type="button" id="btn3" value="commit_3"><!-- jQuery -->
+</body>
+<script type="text/javascript" src="../js/jquery-3.4.1.min.js"></script>
+<script type="text/javascript">
+	function process(){
+		alert("commit_1 호출");
+	}
+	$(document).ready(function(){ /* jquery... window.onload와 같은 의미이다 */
+		// 선택자.이벤트(함수)
+		$('#btn2').click(function(){
+			alert("commit_2 호출");
+		});
+		$('#btn3').bind('click',function(){
+			alert("commit_3 호출");
+		});
+	}); 
+</script>
+</html>
+
+<!-- 비동적 : 추가된 것들에는 이벤트 적용 X -->

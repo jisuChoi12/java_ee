@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+현재 시간은 <span id="clock" style="border:1px dotted red"></span> 입니다.
+</body>
+<script type="text/javascript">
+window.onload = function() {
+	printTime();
+}
+
+function printTime() {
+	var clock = document.getElementById("clock");
+	var now = new Date(); // 자바스크립트의 Date 클래스
+	clock.innerHTML = now.getFullYear() + "년 " 
+					+ (now.getMonth() + 1)+ "월 " 
+					+ now.getDate() + "일 " 
+					+ now.getHours() + "시 "
+					+ now.getMinutes() + "분 " 
+					+ now.getSeconds() + "초";
+	
+	setTimeout("printTime()", 1000); // 정해진 시간마다 함수를 부르겠다
+}
+</script>
+</html>
+

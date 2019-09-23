@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>jQuery02</title>
+<style type="text/css">
+.backColor{
+	background: green;
+}
+</style>
+</head>
+<body>
+<h1 class="back">Hello jQuery</h1>
+<button id="hellobtn">헬로우 제이쿼리</button>
+</body>
+<script type="text/javascript" src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+<script type="text/javascript">
+	$(document).ready(function(){
+		$('.back').addClass('backColor');
+		// 크롬X
+		/* $('#hellobtn').click(function(){
+			$(this).hide();
+			alert("jQuery 연습!!!");
+			$(this).show();
+		}); */
+		// 크롬O
+		$('#hellobtn').click(function(){
+			/* $(this).hide(function(){
+				alert("jQuery 연습!!!");
+			}).show(function(){}); */
+			$(this).hide(100,function(){
+				alert("jQuery 연습!!!");
+			}).show(function(){});
+		});
+	});
+</script>
+</html>

@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>jQuery03</title>
+</head>
+<body>
+	<button id="btn1">slideUp</button>
+	<button id="btn2">slideDown</button>
+	&nbsp;&nbsp;&nbsp;
+
+	<button id="btn3">fadeIn</button>
+	<button id="btn4">fadeOut</button>
+	&nbsp;&nbsp;&nbsp;
+
+	<button id="btn5">slide toggle</button>
+	<button id="btn6">fade toggle</button>
+	<button id="btn7">toggle</button>
+
+	<p>이미지</p>
+	<img src="../image/ni5.gif" width="400" height="400">
+
+</body>
+<script type="text/javascript"
+	src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+<script type="text/javascript">
+	$(document).ready(function() {
+		// slideUp(speed) : speed값을 지정해서 슬라이드업 효과를 줄 수 있다
+		// spped : "slow" or "fast" or milliseconds(1/1000)초
+		// width, height 속성을 주면 slide에서 위, 아래로 움직인다
+		// width, height 속성이 없으면 toggle처럼 움직인다
+		$('#btn1').click(function() {
+			$('img').slideUp(500);
+		});
+		$('#btn2').click(function() {
+			$('img').slideDown(500);
+		});
+		$('#btn3').bind('click',function(){
+			$('img').fadeIn(500);
+		});
+		$('#btn4').bind('click',function(){
+			$('img').fadeOut(500);
+		});
+		$('#btn5').bind('click',function(){
+			// slideUp, slideDown 번갈아
+			$('img').slideToggle(500);
+		});
+		$('#btn6').bind('click',function(){
+			// fadeIn, fadeOut 번갈아
+			$('img').fadeToggle(500);
+		});
+		$('#btn7').bind('click',function(){
+			// slideUp, slideDown, fadeIn, fadeOut 섞여있다 (색이 흐려지면서 slideUp, slideDown)
+			$('img').toggle(500);
+		});
+	});
+</script>
+</html>
