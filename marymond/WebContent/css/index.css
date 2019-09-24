@@ -1,0 +1,13 @@
+@charset "UTF-8";
+
+.header .gnb_wrap .gnb_box.deco_ver .gnb_deco_ver .gnb_logo .deco_box {
+    display: inline-block;
+    width: 100%;
+    font-size: 0;
+}
+
+.deco_box {
+    display: inline-block;
+    width: 100%;
+}
+

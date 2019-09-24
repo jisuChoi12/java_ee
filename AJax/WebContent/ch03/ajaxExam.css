@@ -1,0 +1,14 @@
+@charset "UTF-8";
+
+div#displayArea {
+	width: 200px;
+	height: 200px;
+	border-color: #6699ff;
+	border-style: dotted;
+	background-color: #ffcc00;
+}
+
+table#table {
+	height: 200px;
+	width: 200px;
+}
