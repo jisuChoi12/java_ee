@@ -7,13 +7,6 @@ body {font-family: Verdana, sans-serif;}
 .mySlides {display: none;}
 img {vertical-align: middle;}
 
-/* Slideshow container */
-/* .slideshow-container {
-  max-width: 1000px;
-  position: relative;
-  margin: auto;
-} */
-
 /* Number text (1/3 etc) */
 .numbertext {
   color: #f2f2f2;
@@ -25,17 +18,18 @@ img {vertical-align: middle;}
 
 /* The dots/bullets/indicators */
 .dot {
-  height: 12px;
-  width: 12px;
-  margin: 2.7px;
-  background-color: #bbb;
+  height: 10px;
+  width: 10px;
+  margin: 2.5px;
+  background-color: #ccc;
   border-radius: 60%;
   display: inline-block;
   transition: background-color 0.6s ease;
 }
 
 .active {
-  background-color: #717171;
+  background-color: white;
+/*   background-color: #717171; */
 }
 
 /* Fading animation */
@@ -61,7 +55,7 @@ img {vertical-align: middle;}
   .text {font-size: 11px}
 }
 </style>
-<div class="slideshow-container">
+<div class="slideshow-container" align="center">
 	<div class="mySlides fade">
 		<img src="../image/slide1.PNG" style="width: 100%" style="width:100%">
 	</div>
@@ -97,6 +91,8 @@ img {vertical-align: middle;}
 		}
 		slides[slideIndex - 1].style.display = "block";
 		dots[slideIndex - 1].className += " active";
-		setTimeout(showSlides, 7000); // Change image every 2 seconds
+		setTimeout(showSlides, 5000); // Change image every 2 seconds
 	}
 </script>
+
+ 

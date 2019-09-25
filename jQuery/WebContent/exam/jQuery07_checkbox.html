@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<form name="form1">
+		<input type="checkbox" name="chk" value="1" class="cb">농구
+		<input type="checkbox" name="chk" value="3" class="cb">낚시
+		<input type="checkbox" name="chk" value="4" class="cb">여행
+		<input type="checkbox" name="chk" value="5" class="cb">바둑
+		<input type="checkbox" name="chk" value="6" class="cb">게임
+		<input type="button" value="선택된 취미의 개수?" onclick="go()">
+		<input type="button" value="선택된 취미의 개수?" id="go2">
+	</form><br><br>
+	
+	<div id="result"></div>
+	<div id="result2"></div>
+</body>
+<script type="text/javascript"
+	src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+<script type="text/javascript">
+	$(document).ready(function(){
+		$('#go2').click(function(){
+			$('#result2').html('선택된 취미는 '+$('.cb:checked').length+'개').css('color','blue');
+		});
+	});
+	function go(){
+		var count = 0;
+		/*
+		var length = document.form1.chk.length;
+		for(var i=0; i<length; i++){
+			if(document.form1.chk[i].checked){
+				count++;
+			}
+		}
+		*/
+		
+		var chk = document.getElementsByName("chk");
+		for(var i=0; i<chk.length; i++){
+			if(chk[i].checked){
+				count++;
+			}
+		}
+		
+		document.getElementById("result").innerHTML = "<font color='red'>"+"선택된 취미는 "+count+"개</font>";
+	}
+</script>
+</html>

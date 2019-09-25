@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>jQuery13_offset</title>
+<style type="text/css">
+/* *{
+	position: absolute;
+	margin: 0 0;
+	padding: 0 0;
+}
+.d1 {
+	width: 50px;
+	height: 50px;
+	background: red;
+}
+.d2 {
+	width: 50px;
+	height: 50px;
+	background: green;
+	top: 100px;
+	left: 100px;
+}
+.d3 {
+	width: 50px;
+	height: 50px;
+	background: blue;
+	top: 200px;
+	left: 200px;
+} */
+*{
+	margin: 0 0;
+	padding: 0 0;
+}
+.d1 {
+	width: 50px;
+	height: 50px;
+	background: red;
+}
+.d2 {
+	width: 50px;
+	height: 50px;
+	background: green;
+	margin-top: 100px;
+	margin-left: 100px;
+}
+.d3 {
+	width: 50px;
+	height: 50px;
+	background: blue;
+	margin-top: 200px;
+	margin-left: 200px;
+}
+</style>
+</head>
+<body>
+<div class="d1"></div>
+<div class="d2"></div>
+<div class="d3"></div>
+</body>
+<script type="text/javascript"
+	src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+<script type="text/javascript">
+	$(document).ready(function() {
+		$('div').click(function(){
+			var divOffset = $(this).offset();
+			alert(divOffset.top+", "+divOffset.left);
+		});
+	});
+</script>
+</html>
+
+<!-- offset()
+document객체의 좌측 상단 모서리에서부터 요소까지의 좌표를 가지고 오거나 지정하는 메소드 -->

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>jQuery06_load</title>
+<style type="text/css">
+.container{
+	position: absolute;
+	top: 10px;
+	left: 100px;
+	height: 300px;
+	width: 600px;
+	border: 1px dotted red;
+	font-size: 10px;
+}
+</style>
+</head>
+<body>
+<a id="welcome" href="javascript:void(0)">처음화면</a><br><br> <!-- 주소 안바뀜 -->
+<a id="sample" href="#">샘플화면</a> <!-- 주소에 # 붙음 -->
+<div id="result" class="container" style="font-size: 20px;"></div>
+<div></div>
+</body>
+<script type="text/javascript"
+	src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+<script type="text/javascript">
+	$(document).ready(function(){
+		//result.innerText = '왼쪽 메뉴를 선택하시오';
+		$('#result').text('왼쪽 메뉴를 선택하시오');
+		
+		$('#welcome').click(function(){
+			$('#result').text('Welcome jQuery');
+			$('#result').css('font-size','50px');
+			$('#result').css('font-weight','bold');
+			$('#result').css('color','red');
+		});
+		$('#sample').click(function(){
+			$('#result').removeAttr('style');
+			$('#result').load('sample.txt');
+		});
+	});
+	
+</script>
+</html>

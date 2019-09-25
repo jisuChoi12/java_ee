@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>jQuery10_load</title>
+<style type="text/css">
+table{
+	border: #000000 1px solid;
+	/* padding: 0 0 0 0; */
+	padding: 0;    /* top right bottom left  */
+}
+th{
+	background: yellow;
+	width: 100px; 
+	border: #000000 1px solid; 
+	/* padding: 10px 0px 10px 0px; */ /* top right bottom left */
+	padding: 10px 0;   /* (top,bottom) (left,right)  */
+	padding-top: 10px;
+	padding-bottom: 10px;
+}
+td{
+	width: 100px; 
+	border: #000000 1px solid; 
+	padding: 0 0 0 0;
+	text-align: center;
+}
+</style>
+</head>
+<body>
+<p style="font-size:20px">sample.txt 파일 가져오기</p>
+<button id="b1">제목</button>&nbsp;&nbsp;&nbsp;
+<button id="b2">내용</button><br><br>
+ 
+<table>
+	<tr id="div1"></tr>
+	<tr id="div2"></tr>
+</table>
+</body>
+
+<script type="text/javascript" src="http://code.jquery.com/jquery-3.4.1.min.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){
+	$('#b1').click(function(){
+		$('#div1').load('sample.txt #key');
+	});
+	
+	$('#b2').click(function(){
+		$('#div2').load('sample.txt .value');
+	});
+});
+</script>
+</html>

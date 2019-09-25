@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>jQuery09_not</title>
+<style type="text/css">
+body *:not(a) {
+	color: red;
+}
+</style>
+</head>
+<body>
+	<div>
+		<ul class="tab">
+			<li><a href="#tab1" class="selected">Javascript</a></li>
+			<li><a href="#tab2">CSS</a></li>
+			<li><a href="#tab3">HTML</a></li>
+			<li><a href="#tab4">jQuery</a></li>
+			<li><a href="#tab5">XHTML</a></li>
+		</ul>
+		<ul class="panel">
+			<li id="tab1">Javascript를 선택하셨네요</li>
+			<li id="tab2">CSS를 선택하셨네요</li>
+			<li id="tab3">HTML를 선택하셨네요</li>
+			<li id="tab4">jQuery를 선택하셨네요</li>
+			<li id="tab5">XHTML를 선택하셨네요</li>
+		</ul>
+	</div>
+</body>
+<script type="text/javascript"
+	src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+<script type="text/javascript">
+	$(document).ready(function() {
+		//alert($('ul.tab li a.selected').attr('href'));
+
+		//$('ul.panel li#tab1').hide();
+		//$('ul.panel li'+$('ul.tab li a.selected').attr('href')).hide(); 
+		//$('ul.panel li:not('+$('ul.tab li a.selected').attr('href')+')').hide(); 
+
+		//#tab1를 제외한 모든 것을 숨겨라
+		$('ul.panel li:not('+$('ul.tab li a.selected').attr('href')+')').hide(); 
+
+		//a태그를 클릭했을 때
+		$('ul.tab li a').click(function() {
+			//a에 있는 모든 클래스 속성 selected를 제거
+			$('ul.tab li a').removeClass('selected');
+			//선택한 요소에 클래스 속성 selected를 추가
+			$(this).addClass('selected');
+			//panel li를 모두 hide
+			$('ul.panel li').hide();
+			//선택한 href의 값인 id를 찾아서 표시
+			$($(this).attr('href')).show();
+			return false;
+		});
+	});
+</script>
+</html>
+
+<!-- 
+CSS에는 없고 CSS3에는 특정한 요소에 스타일을 적용시키지 않는 :not이 존재한다
+
+body * {
+	color: red;
+}
+a태그를 제외하고 body의 모든 태그에 스타일 적용
+boay *:not(a){
+	colol: red;
+}
+ -->
+
+
