@@ -28,6 +28,13 @@
 	/* margin-top: -100px;
 		padding-bottom: 100px; */
 }
+
+a:link { color: black; text-decoration: none; }
+a:visited { color: black; text-decoration: none; }
+a:hover { text-decoration: none; font-weight: bold;}
+a:active { color: black; text-decoration: none; font-weight: bold;}
+a{ cursor: pointer; }
+
 </style>
 
 
@@ -66,7 +73,9 @@
 			</span>&emsp;</li>
 		</ul>
 		<div style="padding-bottom: 25px; padding-top: 10px;">
-			<span>홈</span>&emsp; <span>폰케이스</span>&emsp; <span>패턴스토리</span>&emsp;
+			<span><a href="/marymond/main/index.do">홈</a></span>&emsp; 
+			<span><a href="/marymond/main/phonecase.do">폰케이스</a></span>&emsp; 
+			<span><a href="/marymond/main/pattern.do">패턴스토리</a></span>&emsp;
 			<span>이벤트</span>
 		</div>
 	</div>
@@ -86,11 +95,27 @@
 <div id="loginModal" class="modal">
 	<div class="modal-content">
 		<div align="center">
-			<table style="background-color: white;">
+			<!-- <table style="background-color: white;">
 				<tr>
 					<td>안녕하세요</td>
 				</tr>
-			</table>
+			</table> -->
+			<table border="0" cellspacing="0" cellpadding="5" style="width: 100%; background-color: white;">
+			<tr style="width: 100%;">
+				<td><input type="text" name="id" id="id" style="width: 100%; height: 35px;" placeholder="아이디를 입력해주세요.">
+					<div id="idDiv"></div></td>
+			</tr>
+			<tr>
+				<td><input type="password" name="pwd" id="pwd" style="width: 100%; height: 35px;" placeholder="비밀번호를 입력해주세요.">
+					<div id="pwdDiv"></div></td>
+			</tr>
+			<tr>
+				<td colspan="1" align="center"><input type="button"
+					id="loginBtn" value="로그인"
+					style="width: 100%; height: 50px; border: 0; outline: 0; background-color: black; color: white; font-size: 16px;"><br>
+					<div id="loginResult"></div></td>
+			</tr>
+		</table>
 			<div
 				style="cursor: pointer; background-color: #DDDDDD; text-align: center; padding-bottom: 10px; padding-top: 10px;"
 				onclick="close_pop();">

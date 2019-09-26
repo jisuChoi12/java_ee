@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>jQuery16_mouse</title>
+</head>
+<body>
+	<img src="../image/ni10.gif">
+</body>
+<script type="text/javascript"
+	src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+<script type="text/javascript">
+	$(document).ready(function() {
+		$('img').mouseover(function() {
+			$(this).attr('src', '../image/ni11.gif');
+		}).mouseout(function() {
+			$(this).attr('src', '../image/ni12.gif');
+		});
+	});
+</script>
+</html>

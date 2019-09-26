@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>jQuery15_bind</title>
+<style type="text/css">
+.redColor{
+	color: red;
+}
+div{
+	cursor: pointer;
+}
+</style>
+</head>
+<body>
+<div id="mainMenu">
+	<div id="naver" class="redColor">네이버</div>
+	<div id="daum" class="redColor">다음</div>
+	<div id="google" class="redColor">구글</div>
+</div>
+</body>
+<script type="text/javascript"
+	src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+<script type="text/javascript">
+	$(document).ready(function(){
+		/* $('#naver').bind('click',function(){
+			$('#mainMenu div').removeClass('redColor');
+			$(this).addClass('redColor');
+		}); */
+		$('#mainMenu div').bind('click',function(){
+			alert($(this).text());
+			$('#mainMenu .redColor').removeClass('redColor');
+			$(this).addClass('redColor');
+		});
+	});
+</script>
+</html>

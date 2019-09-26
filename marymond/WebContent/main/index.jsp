@@ -25,9 +25,7 @@ a#topBtn {
 </head>
 <body>
 	<header><jsp:include page="../template/top.jsp" /></header>
-	<jsp:include page="../template/slide.jsp"></jsp:include>
 	<jsp:include page="${display }"></jsp:include>
-	<div class="jbContent"></div>
 	<a id="topBtn" href="#"><img src="../image/go_top_btn.png"
 		width="50px;" height="50px;"></a>
 	<footer><jsp:include page="../template/bottom.jsp" /></footer>

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>jQueryAJax02</title>
+</head>
+<body>
+<form>
+	<label>이름을 입력하시오</label>
+	<input type="text" name="username" class="user">
+	<input type="button" id="submit" value="입력">
+</form>
+<br><br>
+<div id="message"></div>
+</body>
+<script type="text/javascript" src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+<script type="text/javascript">
+	$(document).ready(function() {
+		$('#submit').on('click',function(){
+			/* var sendData = $('.user').val(); */
+			/* var sendData = $('input[name=username]').val(); */
+			var sendData = $('input[class=user]').val();
+			
+			$.ajax({
+				type : 'POST',
+				url : 'jQueryAJax02_data.jsp',
+				data : {'username' : sendData},
+				dataType : 'html',
+				success : function(result){
+					$('#message').html(result);
+				},
+				error : function(){
+					alert("실패");
+				}
+			}); 
+		});
+	});
+</script>
+</html>

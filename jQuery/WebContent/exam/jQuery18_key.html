@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>jQuery18_key</title>
+</head>
+<body>
+<p>키보드 이벤트 발생</p>
+<h1>0/50</h1>
+<textarea rows="5" cols="70"></textarea>
+</body>
+<script type="text/javascript"
+	src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+<script type="text/javascript">
+	$(document).ready(function() {
+		$('textarea').keyup(function(){
+			var len = $(this).val().length;
+			
+			$('h1').html(len+'/50');
+			if(len>50){
+				$('h1').css('color','red');
+			} else {
+				$('h1').css('color','blue');
+			}
+		});
+	});
+</script>
+</html>
+
+
+<!-- 
+	keydown : 키보드가 눌러지는 순간 발생
+		특수키 인식
+		대소문자 구분X
+	keypress : 글자가 입력될때 발생
+		한글X 특수키 인식X CTRL SHIFT ALT
+		대소문자 구분O
+	keyup : 입력후 손가락이 떼어질때 발생
+		keydown과 같다
+ -->

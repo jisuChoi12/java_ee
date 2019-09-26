@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>jQuery17_hover</title>
+<style type="text/css">
+p {
+	margin: 9px;
+	font-size: 16px;
+	color: blue;
+}
+.highlight {
+	background-color: yellow;
+	color: red;
+}
+</style>
+</head>
+<body>
+<p>Java</p>
+<p>JQuery</p>
+<p>AJax</p>
+</body>
+<script type="text/javascript"
+	src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+<script type="text/javascript">
+	$(document).ready(function() {
+		$('p').hover(function(){ //handlerIn
+			$(this).addClass('highlight');
+		},function(){ //handlerOut
+			$(this).removeClass('highlight');
+		});
+	});
+</script>
+</html>
+
+<!-- $(선택자).hover(handlerIn,handlerOut)
+$(선택자).mouseenter(handlerIn).mouseleave(handlerOut) -->
