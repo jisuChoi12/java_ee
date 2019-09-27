@@ -5,6 +5,8 @@
 <head>
 <meta charset="UTF-8">
 <title>마리몬드를 따라해보자</title>
+<link href="https://fonts.googleapis.com/css?family=Nanum+Myeongjo&amp;subset=korean" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css?family=Noto+Sans+KR:400,500,700,900&amp;subset=korean" rel="stylesheet">
 <link rel="stylesheet" href="../css/index.css">
 <link rel="shortcut icon"
 	href="https://marymond.kr//data/icon/favicon/favicon1552013679.ico" />
@@ -12,6 +14,10 @@
 .jbContent {
 	height: 2000px;
 }
+
+/* * {
+	font-family: 'Nanum Myeongjo';
+} */
 
 a#topBtn {
 	position: fixed; /* 포지션 고정 */
