@@ -4,29 +4,35 @@
 <style>
 .join_form_mary {
 	padding-top: 70px;
-	border: 1px solid red;
+	/* 	border: 1px solid red; */
 }
 
 .formContainer {
 	width: 100%;
-	border: 1px solid red;
+	/* 	border: 1px solid red; */
 }
 
 .joinForm_wrap {
 	width: 620px;
 	margin: 0 auto;
-	border: 1px solid red;
+	/* 	border: 1px solid red; */
 }
 
 .join_form {
 	padding-bottom: 133px;
-	border: 1px solid red;
+	/* 	border: 1px solid red; */
 }
 
 .sub_title_box {
 	border-bottom: none;
 	position: relative;
-	border: 1px solid red;
+	/* 	border: 1px solid red; */
+	margin-top: 50px;
+}
+
+.join_table td {
+	padding-top: 10px;
+	padding-bottom: 10px;
 }
 </style>
 
@@ -38,65 +44,53 @@
 					<div class="sub_title_box">
 						<h3>회원가입</h3>
 					</div>
-					<!-- <div class="join_id">
-						<span>아이디</span>&emsp;<input type="text" placeholder="아이디를 입력해주세요">
-					</div>
-					<div class="join_pwd">
-						<span>비밀번호</span> <input type="password"
-							placeholder="비밀번호 영문+숫자 조합 8~16자리">
-					</div>
-					<div class="join_repwd">
-						<span>비밀번호확인</span> <input type="password" placeholder="비밀번호 재확인">
-					</div>
-					<div class="join_name">
-						<span>이름</span> <input type="text" placeholder="이름을 입력해주세요">
-					</div>
-					<div class="join_birthday"></div>
-					<div class="join_email">
-						<span>이메일</span> <input type="text">&emsp;@&emsp;<input
-							type="text">
-					</div>
-					<div class="join_gender">
-						<input type="button" name="gender" value="여성" checked="checked">
-						<input type="button" name="gender" value="남성">
-					</div> -->
-					<table>
+					<table class="join_table" style="width: 100%;">
 						<tr>
 							<td>아이디</td>
-							<td><input type="text" name="id" id="id"
-								style="width: 100%; height: 35px;" placeholder="아이디를 입력해주세요.">
-								<div id="idDiv"></div></td>
+							<td><input type="text" name="join_id" id="join_id"
+								style="width: 80%; height: 35px;" placeholder="아이디를 입력해주세요."><input
+								type="button" value="중복확인" style="height: 36px;"
+								onclick="checkId()">
+								<div id="join_idDiv"></div></td>
 						</tr>
 						<tr>
 							<td>비밀번호</td>
-							<td><input type="password" name="pwd" id="pwd"
-								style="width: 100%; height: 35px;"
+							<td><input type="password" name="join_pwd" id="join_pwd"
+								style="width: 95%; height: 35px;"
 								placeholder="비밀번호 영문+숫자 조합 8~16자리">
-								<div id="pwdDiv"></div></td>
+								<div id="join_pwdDiv"></div></td>
 						</tr>
 						<tr>
 							<td>비밀번호확인</td>
 							<td><input type="password" name="repwd" id="repwd"
-								style="width: 100%; height: 35px;" placeholder="비밀번호 재확인">
+								style="width: 95%; height: 35px;" placeholder="비밀번호 재확인">
 								<div id="repwdDiv"></div></td>
 						</tr>
 						<tr>
 							<td>이름</td>
 							<td><input type="text" name="name" id="name"
-								style="width: 100%; height: 35px;" placeholder="이름을 입력해주세요">
+								style="width: 95%; height: 35px;" placeholder="이름을 입력해주세요">
 								<div id="nameDiv"></div></td>
 						</tr>
 						<tr>
 							<td>이메일</td>
 							<td><input type="text" name="email1" id="email1"
-								style="width: 35%; height: 35px;"><span
+								style="width: 34%; height: 35px;"><span
 								style="font-size: 16px;"> @ </span> <input type="text"
 								name="email2" id="email2" style="width: 55%; height: 35px;">
-								<div id="email"></div><div id="emailDiv"></div></td>
+								<div id="emailDiv"></div></td>
 						</tr>
 						<tr>
 							<td>생년월일</td>
-							<td><div class="birthdayDiv"></div></td>
+							<td><select id="birthYear"></select> 년 <select
+								id="birthMonth"></select> 월 <select id="birthDay"></select> 일
+								<div class="birthdayDiv"></div></td>
+						</tr>
+						<tr>
+							<td colspan="2"><input type="button" value="회원가입"
+								style="width: 98%; height: 40px; border: 0; outline: 0; background-color: #333; color: white; font-size: 16px;"
+								onclick="checkWrite()">
+								<div class="writeDiv"></div></td>
 						</tr>
 					</table>
 				</div>
@@ -108,11 +102,149 @@
 <script type="text/javascript"
 	src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 <script type="text/javascript">
-	$(document).ready(function(){
-		var today = new Date();
-		var year = today.getFullYear();
-		var month = (today.getMonth()+1);
-		var day = today.getDate();
+	var today = new Date();
+	$(document).ready(
+			function() {
+				for (var i = today.getFullYear(); i >= 1900; i--) {
+					$('#birthYear').append('<option>' + i + '</option');
+				}
+				for (var i = 1; i <= 12; i++) {
+					$('#birthMonth').append('<option>' + i + '</option>');
+				}
+				for (var i = 1; i <= 31; i++) {
+					$('#birthDay').append('<option>' + i + '</option>');
+				}
+
+				$('#birthYear, #birthMonth').change(
+						function() {
+							var birthday = new Date($('#birthYear').val(), $(
+									'#birthMonth').val(), 0);
+							var lastday = birthday.getDate();
+							$('#birthDay').empty();
+							for (var i = 1; i <= lastday; i++) {
+								$('#birthDay').append(
+										'<option>' + i + '</option>');
+							}
+						});
+
+				$('#join_id')
+						.keyup(
+								function() {
+									var id = $('#join_id').val();
+									if (id.length == 0) {
+										$('#join_idDiv').text("아이디를 입력하세요")
+												.css('color', 'red').css(
+														'font-size', '8pt');
+									} else {
+										$('#join_idDiv').empty();
+									}
+								});
+				$('#join_pwd')
+						.keyup(
+								function() {
+									var pwd = $('#join_pwd').val();
+									if (pwd.length == 0) {
+										$('#join_pwdDiv').text("비밀번호를 입력하세요")
+												.css('color', 'red').css(
+														'font-size', '8pt');
+									} else {
+										$('#join_pwdDiv').empty();
+									}
+								});
+				$('#repwd')
+						.keyup(
+								function() {
+									var pwd = $('#join_pwd').val();
+									var repwd = $('#repwd').val();
+									if (pwd != repwd) {
+										$('#repwdDiv').text("비밀번호가 같지않습니다")
+												.css('color', 'red').css(
+														'font-size', '8pt');
+									} else {
+										$('#repwdDiv').empty();
+									}
+								});
+				$('#name').keyup(
+						function() {
+							var name = $('#name').val();
+							if (name.length == 0) {
+								$('#nameDiv').text("이름을 입력하세요").css('color',
+										'red').css('font-size', '8pt');
+							} else {
+								$('#nameDiv').empty();
+							}
+						});
+				$('#email1, #email2').keyup(
+						function() {
+							var email1 = $('#email1').val();
+							var email2 = $('#email2').val();
+							if (email1 == '' || email2 == '') {
+								$('#emailDiv').text("이메일을 입력하세요").css('color',
+										'red').css('font-size', '8pt');
+							} else {
+								$('#emailDiv').empty();
+							}
+						});
+
+			});
+</script>
+<script type="text/javascript">
+	function checkId() {
+		var id = $('#join_id').val();
+		if (id.length == 0) {
+			$('#join_idDiv').text("아이디를 입력하세요").css('color', 'red').css(
+					'font-size', '8pt');
+		}
+		if (id.length != 0) {
+			$.ajax({
+				type : 'POST',
+				url : '/marymond/member/checkId.do',
+				data : "id=" + id,
+				dataType : 'json',
+				success : function(data) {
+					if (data.result == 'ok') {
+						$('#join_idDiv').text("사용 가능한 아이디입니다").css('color',
+								'blue').css('font-size', '10pt');
+					} else if (data.result == 'fail') {
+						$('#join_idDiv').text("이미 존재하는 아이디입니다").css('color',
+								'blue').css('font-size', '10pt');
+					}
+				},
+				error : function() {
+					alert("실패");
+				}
+			});
+		}
+	}
+	function checkWrite() {
+		var id = $('#join_id').val();
+		var pwd = $('#join_pwd').val();
+		var name = $('#name').val();
+		var email1 = $('#email1').val();
+		var email2 = $('#email2').val();
+		var birthYear = $('#birthYear').val();
+		var birthMonth = $('#birthMonth').val();
+		var birthDay = $('#birthDay').val();
 		
-	});
+		alert(id+" "+pwd+" "+name+" "+email1+" "+email2+" "+birthYear+" "+birthMonth+" "+birthDay);
+		
+		$.ajax({
+			type : 'POST',
+			url : '/marymond/member/join.do',
+			data : {'id' : id, 'pwd' : pwd, 'name' : name, 'email1' : email1, 'email2' : email2, 'birthYear' : birthYear, 'birthMonth' : birthMonth, 'birthDay' : birthDay},
+			dataType : 'json',
+			success : function(data) {
+				if (data.result == 'ok') {
+					alert("회원가입 성공");
+					location.href="/marymond/main/index.do";
+				} else if (data.result == 'fail') {
+					alert("회원가입 실패");
+					location.href="/marymond/member/joinForm.do";
+				}
+			},
+			error : function() {
+				alert("실패");
+			}
+		});
+	}
 </script>
