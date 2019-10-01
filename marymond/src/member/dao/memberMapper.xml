@@ -15,4 +15,12 @@
 		resultType="member">
 		select * from marymond_member where id=#{id} and pwd=#{pwd}
 	</select>
+	<!-- 회원정보 mypage -->
+	<select id="getMemberInfo" parameterType="String" resultType="member">
+		select * from marymond_member where id=#{id}
+	</select>
+	<!-- qna -->
+	<select id="getFaq" resultType="faq">
+		select * from marymond_faq 
+	</select>
 </mapper>

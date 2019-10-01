@@ -1,0 +1,46 @@
+@charset "UTF-8";
+
+.mainContent {
+	display: block;
+	width: 1280px;
+	font-size: 0px;
+	margin: 0 auto;
+	margin-top: -40px;
+}
+
+.main_img_list_left {
+	display: inline-block;
+	width: 50%;
+	margin-bottom: 50px;
+}
+.main_img_list_right {
+	display: inline-block;
+    width: 50%;
+    font-size: 0;
+    vertical-align: top;
+    padding-top: 200px;
+    margin-bottom: 100px;
+}
+
+.mainContent img{
+	height: 640px;
+	width: 640px;
+}
+
+.mainContent ul {
+	list-style: none;
+	padding-left: 0px;
+}
+
+.mainBody {
+	height: auto;
+}
+
+.main_img_list_left #home_banner_2 {
+	margin-top: 50px;
+}
+
+.main_img_list_right #pc_home_company {
+	height: 230px;
+	width: 640px;
+}

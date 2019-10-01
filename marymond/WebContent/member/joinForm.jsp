@@ -1,40 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 
-<style>
-.join_form_mary {
-	padding-top: 70px;
-	/* 	border: 1px solid red; */
-}
-
-.formContainer {
-	width: 100%;
-	/* 	border: 1px solid red; */
-}
-
-.joinForm_wrap {
-	width: 620px;
-	margin: 0 auto;
-	/* 	border: 1px solid red; */
-}
-
-.join_form {
-	padding-bottom: 133px;
-	/* 	border: 1px solid red; */
-}
-
-.sub_title_box {
-	border-bottom: none;
-	position: relative;
-	/* 	border: 1px solid red; */
-	margin-top: 50px;
-}
-
-.join_table td {
-	padding-top: 10px;
-	padding-bottom: 10px;
-}
-</style>
+<link rel="stylesheet" href="../css/joinForm.css">
 
 <div id="join_form_mary">
 	<form class="joinForm" action="">
@@ -134,7 +101,7 @@
 									if (id.length == 0) {
 										$('#join_idDiv').text("아이디를 입력하세요")
 												.css('color', 'red').css(
-														'font-size', '8pt');
+														'font-size', '10pt');
 									} else {
 										$('#join_idDiv').empty();
 									}
@@ -146,7 +113,7 @@
 									if (pwd.length == 0) {
 										$('#join_pwdDiv').text("비밀번호를 입력하세요")
 												.css('color', 'red').css(
-														'font-size', '8pt');
+														'font-size', '10pt');
 									} else {
 										$('#join_pwdDiv').empty();
 									}
@@ -157,9 +124,9 @@
 									var pwd = $('#join_pwd').val();
 									var repwd = $('#repwd').val();
 									if (pwd != repwd) {
-										$('#repwdDiv').text("비밀번호가 같지않습니다")
+										$('#repwdDiv').text("비밀번호가 같지 않습니다")
 												.css('color', 'red').css(
-														'font-size', '8pt');
+														'font-size', '10pt');
 									} else {
 										$('#repwdDiv').empty();
 									}
@@ -169,7 +136,7 @@
 							var name = $('#name').val();
 							if (name.length == 0) {
 								$('#nameDiv').text("이름을 입력하세요").css('color',
-										'red').css('font-size', '8pt');
+										'red').css('font-size', '10pt');
 							} else {
 								$('#nameDiv').empty();
 							}
@@ -180,7 +147,7 @@
 							var email2 = $('#email2').val();
 							if (email1 == '' || email2 == '') {
 								$('#emailDiv').text("이메일을 입력하세요").css('color',
-										'red').css('font-size', '8pt');
+										'red').css('font-size', '10pt');
 							} else {
 								$('#emailDiv').empty();
 							}
@@ -225,26 +192,32 @@
 		var birthYear = $('#birthYear').val();
 		var birthMonth = $('#birthMonth').val();
 		var birthDay = $('#birthDay').val();
+		var join_idDiv = $('#join_idDiv').text();
+		var join_pwdDiv = $('#join_pwdDiv').text();
+		var join_repwdDiv = $('#join_repwdDiv').text();
+
 		
-		alert(id+" "+pwd+" "+name+" "+email1+" "+email2+" "+birthYear+" "+birthMonth+" "+birthDay);
-		
-		$.ajax({
-			type : 'POST',
-			url : '/marymond/member/join.do',
-			data : {'id' : id, 'pwd' : pwd, 'name' : name, 'email1' : email1, 'email2' : email2, 'birthYear' : birthYear, 'birthMonth' : birthMonth, 'birthDay' : birthDay},
-			dataType : 'json',
-			success : function(data) {
-				if (data.result == 'ok') {
-					alert("회원가입 성공");
-					location.href="/marymond/main/index.do";
-				} else if (data.result == 'fail') {
-					alert("회원가입 실패");
-					location.href="/marymond/member/joinForm.do";
+		if(id != "" && pwd != "" && name != "" && email1 !="" && email2 !="" && join_idDiv == "사용 가능한 아이디입니다" && join_pwdDiv == "" && join_repwdDiv == ""){
+			$.ajax({
+				type : 'POST',
+				url : '/marymond/member/join.do',
+				data : {'id' : id, 'pwd' : pwd, 'name' : name, 'email1' : email1, 'email2' : email2, 'birthYear' : birthYear, 'birthMonth' : birthMonth, 'birthDay' : birthDay},
+				dataType : 'json',
+				success : function(data) {
+					if (data.result == 'ok') {
+						alert("회원가입 성공");
+						location.href="/marymond/main/index.do";
+					} else if (data.result == 'fail') {
+						alert("회원가입 실패");
+						location.href="/marymond/member/joinForm.do";
+					}
+				},
+				error : function() {
+					alert("실패");
 				}
-			},
-			error : function() {
-				alert("실패");
-			}
-		});
+			});
+		} else {
+			$('.writeDiv').text("항목을 다시 확인해주세요").css('color','red').css('font-size', '10pt');
+		}
 	}
 </script>

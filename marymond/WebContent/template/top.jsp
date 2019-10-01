@@ -2,157 +2,86 @@
 	pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
-<style>
-/* The Modal (background) */
-.modal {
-	display: none; /* Hidden by default */
-	position: fixed; /* Stay in place */
-	z-index: 1; /* Sit on top */
-	left: 0;
-	top: 0;
-	width: 100%; /* Full width */
-	height: 100%; /* Full height */
-	overflow: auto; /* Enable scroll if needed */
-	background-color: rgb(0, 0, 0); /* Fallback color */
-	background-color: rgba(0, 0, 0, 0.4); /* Black w/ opacity */
-}
-/* Modal Content/Box */
-.modal-content {
-	margin: auto; /* 15% from the top and centered */
-	width: 375px; /* Could be more or less, depending on screen size */
-}
+<link rel="stylesheet" href="../css/top.css">
 
-.jbFixed {
-	position: fixed;
-	top: 0px;
-	/* margin-top: -100px;
-		padding-bottom: 100px; */
-}
-
-a:link {
-	color: black;
-	text-decoration: none;
-}
-
-a:visited {
-	color: black;
-	text-decoration: none;
-}
-
-a:hover {
-	text-decoration: none;
-	/* font-weight: bold; */
-}
-
-a:active {
-	color: black;
-	text-decoration: none;
-	/* font-weight: bold; */
-}
-
-a {
-	cursor: pointer;
-}
-</style>
-
-
-<div class="gnb_wrap"
-	style="background-color: white; width: 100%; overflow: hidden; display: block;">
-	<div class="gnb_box.deco_ver" style="padding-left: 3%;">
-		<div class="deco_box"
-			style="display: inline-block; cursor: pointer; width: 300px;">
-			<div class="img_box" style="display: inline-block;">
-				<img src="../image/logo-deco2.jpg"
-					style="width: 100px; height: 100px; padding: 0px;">
+<div class="gnb_wrap">
+	<div class="gnb_box_deco_ver">
+		<div class="deco_box">
+			<div class="img_box">
+				<img id="logo_deco2" src="../image/logo-deco2.jpg">
 			</div>
-			<div class="deco_txt"
-				style="display: inline-block; font-size: 1; vertical-align: top; padding-top: 20px; height: 80px;">
-				<dl style="font-family: 'Nanum Myeongjo';">
+			<div class="deco_txt">
+				<dl>
 					<dt style="font-size: 12px;">꿋꿋이 희망의 기록을 남기는</dt>
-					<dt>들국화</dt>
+					<dt style="font-family: 'Nanum Myeongjo';">들국화</dt>
 				</dl>
 			</div>
 		</div>
-		<ul
-			style="padding-inline-start: 0px; display: inline-block; float: right; padding-left: 800px; padding-right: 0; padding: 12 0px; width: 1150px; position: fixed;">
-			<li style="display: inline-block;"><span id="cartIcon"
-				style="cursor: pointer; font-size: 13px;"> <img
-					src="../image/cart.png" style="height: 20px; width: 20px;">
-					장바구니
-			</span>&emsp;</li>
-			<li style="display: inline-block;" id="loginStatus"></li>
-			<li style="display: inline-block;"><span id="myPageIcon"
-				style="cursor: pointer; font-size: 13px;"> <img
-					src="../image/mypage.png" style="height: 20px; width: 20px;">
+		<ul id="options">
+			<li><span id="cartIcon"> <img src="../image/cart.png">장바구니
+			</span> &emsp;</li>
+			<li id="loginStatus"></li>
+			<li><span id="myPageIcon"> <img src="../image/mypage.png">
 					마이페이지
 			</span>&emsp;</li>
 		</ul>
-
-		<div style="padding-bottom: 25px; padding-top: 10px; width: 300px;">
+		<div id="pages">
 			<span><a href="/marymond/main/index.do">홈</a></span>&emsp; <span><a
 				href="/marymond/main/phonecase.do">폰케이스</a></span>&emsp; <span><a
-				href="/marymond/main/pattern.do">패턴스토리</a></span>&emsp; <span>이벤트</span>
+				href="/marymond/main/pattern.do">패턴스토리</a></span>&emsp; <span><a
+				href="/marymond/main/event.do">이벤트</a></span>
 		</div>
 	</div>
 </div>
 <!-- 로고모달 -->
 <div id="myModal" class="modal">
-	<div class="modal-content" style="position: relative;">
-		<img src="../image/popup.jpg" height="667px;" width="375px;">
-		<div class="btn_x" onclick="close_pop();"
-			style="position: absolute; top: 20px; right: 20px;">
-			<a href="javaxcript:void(0);" style="font-size: 20px; color: white;">X</a>
+	<div class="modal-content">
+		<img src="../image/popup.jpg">
+		<div class="btn_x" onclick="close_pop();">
+			<a href="javaxcript:void(0);">X</a>
 		</div>
 	</div>
 </div>
 <!-- 로그인모달 -->
 <div id="loginModal" class="modal">
-	<div class="modal-content"
-		style="background-color: white; padding: 0 30px; padding-bottom: 30px;">
+	<div class="modal-content">
 		<div align="center">
-			<div class="top_title"
-				style="padding: 10px 0 0 20px; position: relative;">
-				<h3
-					style="font-size: 24px; line-height: 28px; text-align: left; color: #111; font-weight: 400;">로그인</h3>
-				<div class="btn_x" onclick="close_pop();"
-					style="position: absolute; top: 15px; right: 0px; font-size: 15px">
+			<div class="top_title">
+				<h3>로그인</h3>
+				<div class="btn_x" onclick="close_pop();">
 					<a href="javaxcript:void(0);">X</a>
 				</div>
 			</div>
 			<form id="loginForm" method="post" action="/marymond/member/login.do">
-				<table style="width: 100%; background-color: white;">
-					<tr style="width: 100%;">
-						<td><div id="loginResultDiv"></div> <input type="text"
-							name="id" id="id" style="width: 100%; height: 35px;"
-							placeholder="아이디를 입력해주세요.">
-							<div id="idDiv"></div></td>
+				<table>
+					<tr>
+						<td><div id="loginResultDiv"></div>
+							<input type="text" name="id" id="id" style="width: 100%; height: 35px;" placeholder="아이디를 입력해주세요.">
+							<div id="idDiv"></div>
+						</td>
 					</tr>
 					<tr>
-						<td><input type="password" name="pwd" id="pwd"
-							style="width: 100%; height: 35px;" placeholder="비밀번호를 입력해주세요.">
-							<div id="pwdDiv"></div></td>
+						<td>
+							<input type="password" name="pwd" id="pwd" style="width: 100%; height: 35px;" placeholder="비밀번호를 입력해주세요.">
+							<div id="pwdDiv"></div>
+						</td>
 					</tr>
 					<tr>
 						<td colspan="1" align="left" style="font-size: 12px;">
 							<div style="vertical-align: middle;">
-								<p
-									style="line-height: 12px; margin-top: 5px; margin-bottom: 5px; margin-left: -3px;">
-									<input type="checkbox" name="keepLogin" id="keepLogin">로그인
-									유지
+								<p>
+									<input type="checkbox" name="keepLogin" id="keepLogin">로그인 유지
 								</p>
 							</div>
 						</td>
 					</tr>
 					<tr>
-						<td colspan="1" align="center"><input type="button"
-							id="loginBtn" value="로그인"
-							style="width: 100%; height: 40px; border: 0; outline: 0; background-color: #333; color: white; font-size: 16px;"><br>
+						<td colspan="1" align="center">
+							<input type="button" id="loginBtn" value="로그인"><br>
 							<div id="loginResult"></div></td>
 					</tr>
 					<tr>
-						<td colspan="1" align="center"><input type="button"
-							id="joinBtn" value="회원가입"
-							style="width: 100%; height: 40px; border: 0; outline: 0; background-color: #333; color: white; font-size: 16px;"><br>
+						<td colspan="1" align="center"><input type="button" id="joinBtn" value="회원가입"><br>
 						</td>
 					</tr>
 				</table>
@@ -164,130 +93,87 @@ a {
 <script type="text/javascript"
 	src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 <script type="text/javascript">
-	$(document)
-			.ready(
-					function() {
-						if ('${memId}' != "") {
-							$('#loginStatus')
-									.append(
-											"<span id='logoutIcon' style='cursor: pointer; font-size: 13px;'><img src='../image/log-out.png' style='height: 20px; width: 20px;'><span> ${memId}: 로그아웃</span></span>&emsp;");
-						} else if ('${memId}' == "") {
-							$('#loginStatus')
-									.append(
-											"<span id='loginIcon' style='cursor: pointer; font-size: 13px;'><img src='../image/log-in.png' style='height: 20px; width: 20px;'><span> 로그인</span></span>&emsp;");
+	$(document).ready(function() {
+		if ('${memId}' != "") {
+			$('#loginStatus').append("<span id='logoutIcon'><img src='../image/log-out.png'><span> ${memId}: 로그아웃</span></span>&emsp;");
+		} else if ('${memId}' == "") {
+			$('#loginStatus').append("<span id='loginIcon'><img src='../image/log-in.png'><span> 로그인</span></span>&emsp;");
+		}
+		// 로고모달
+		$('.deco_box').click(function() {
+			$('#myModal').show();
+		});
+		var offSet = $('.gnb_wrap').offset();
+		$(window).scroll(function() {
+			if ($(document).scrollTop() > offSet.top) {
+				$('.gnb_wrap').addClass('jbFixed');
+			} else {
+				$('.gnb_wrap').removeClass('jbFixed');
+			}
+		});
+		// 로그인 모달
+		$('#loginIcon').click(function() {
+			$('#loginModal').show();
+		});
+		// 로그아웃
+		$('#logoutIcon').click(function() {
+			location.href = "/marymond/member/logout.do";
+		});
+		$('#myPageIcon').click(function() {
+			var id = '${memId}';
+			if (id == "") {
+				alert("로그인이 필요한 페이지입니다");
+				$('#loginModal').show();
+			} else {
+				location.href="/marymond/member/mypage.do";
+			}
+		});
+		$('#cartIcon').click(function() {
+			alert("장바구니페이지로 이동");
+		});
+		// 로그인
+		$('#loginBtn').click(function() {
+			$('#idDiv').empty();
+			$('#pwdDiv').empty();
+
+			var id = $('#id').val();
+			var pwd = $('#pwd').val();
+			var keepLogin = document
+					.getElementById("keepLogin").checked;
+
+			if (id == '') {
+				$('#idDiv').text("아이디를 입력하세요").css('color', 'red').css('font-size', '8pt');
+			} else if (pwd == '') {
+				$('#pwdDiv').text("비밀번호를 입력하세요").css('color', 'red').css('font-size', '8pt');
+			} else {
+				$.ajax({
+					type : 'POST',
+					url : '/marymond/member/login.do',
+					data : {
+						'id' : id,
+						'pwd' : pwd,
+						'keepLogin' : keepLogin
+					},
+					dataType : 'json',
+					success : function(data) {
+						if (data.result == 'ok') {
+							alert(id+ "님 환영합니다");
+							location.href = "/marymond/main/index.do";
+						} else if (data.result == 'fail') {
+							$('#loginResultDiv').text("아이디와 비밀번호를 다시 확인해주세요").css('color','red').css('font-size','8pt');
 						}
-						// 로고모달
-						$('.deco_box').click(function() {
-							$('#myModal').show();
-						});
-						var offSet = $('.gnb_wrap').offset();
-						$(window).scroll(function() {
-							if ($(document).scrollTop() > offSet.top) {
-								$('.gnb_wrap').addClass('jbFixed');
-							} else {
-								$('.gnb_wrap').removeClass('jbFixed');
-							}
-						});
-						// 로그인 모달
-						$('#loginIcon').click(function() {
-							$('#loginModal').show();
-						});
-						// 로그아웃
-						$('#logoutIcon').click(function() {
-							location.href = "/marymond/member/logout.do";
-							/* $.ajax({
-								type : 'POST',
-								url : '/marymond/member/logout.do',
-								data : {'id' : id},
-								dataType : 'json',
-								success : function(data){
-									if(data.result == 'ok'){
-										alert("로그아웃");
-										location.href="/marymond/main/index.do";
-									} else if (data.result == 'fail') {
-										alert("로그아웃 실패");
-										location.href="/marymond/main/index.do";
-									}
-								},
-								error : function(){
-									alert("실패");
-								}
-							});  */
-						});
-						$('#myPageIcon').click(function() {
-							var id = '${memId}';
-							if (id == "") {
-								alert("로그인이 필요한 페이지입니다");
-								$('#loginModal').show();
-							} else {
-							}
-						});
-						$('#cartIcon').click(function() {
-							alert("장바구니페이지로 이동");
-						});
-						// 로그인
-						$('#loginBtn')
-								.click(
-										function() {
-											$('#idDiv').empty();
-											$('#pwdDiv').empty();
-
-											var id = $('#id').val();
-											var pwd = $('#pwd').val();
-											var keepLogin = document
-													.getElementById("keepLogin").checked;
-
-											if (id == '') {
-												$('#idDiv')
-														.text("아이디를 입력하세요")
-														.css('color', 'red')
-														.css('font-size', '8pt');
-											} else if (pwd == '') {
-												$('#pwdDiv')
-														.text("비밀번호를 입력하세요")
-														.css('color', 'red')
-														.css('font-size', '8pt');
-											} else {
-												$
-														.ajax({
-															type : 'POST',
-															url : '/marymond/member/login.do',
-															data : {
-																'id' : id,
-																'pwd' : pwd,
-																'keepLogin' : keepLogin
-															},
-															dataType : 'json',
-															success : function(
-																	data) {
-																if (data.result == 'ok') {
-																	alert(id
-																			+ "님 환영합니다");
-																	location.href = "/marymond/main/index.do";
-																} else if (data.result == 'fail') {
-																	$(
-																			'#loginResultDiv')
-																			.text(
-																					"아이디와 비밀번호를 다시 확인해주세요")
-																			.css(
-																					'color',
-																					'red')
-																			.css(
-																					'font-size',
-																					'8pt');
-																}
-															},
-															error : function() {
-																alert("실패");
-															}
-														});
-											}
-										});
-						// 회원가입
-						$('#joinBtn').click(function() {
-							location.href = "/marymond/member/joinForm.do";
-						});
-					});
+					},
+					error : function() {
+						alert("실패");
+					}
+				});
+			}
+		});
+		// 회원가입
+		$('#joinBtn').click(function() {
+			location.href = "/marymond/member/joinForm.do";
+		});
+	});
 	function close_pop() {
 		/* $('#myModal').hide(); */
 		/* $('.modal').find('text').val('').end(); */

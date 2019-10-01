@@ -12,10 +12,6 @@ public class LogoutAction implements CommandProcess {
 
 	@Override
 	public String requestPro(HttpServletRequest request, HttpServletResponse response) throws Throwable {
-		// 데이터
-		// String id = request.getParameter("id");
-		// System.out.println("로그아웃 할 사람: "+id);
-
 		// 세션
 		HttpSession session = request.getSession();
 		String id = (String) session.getAttribute("memId");

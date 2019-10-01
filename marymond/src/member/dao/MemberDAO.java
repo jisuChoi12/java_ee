@@ -2,6 +2,7 @@ package member.dao;
 
 import java.io.IOException;
 import java.io.Reader;
+import java.util.List;
 import java.util.Map;
 
 import org.apache.ibatis.io.Resources;
@@ -10,6 +11,7 @@ import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 
 import member.bean.MemberDTO;
+import member.bean.FaqDTO;
 
 public class MemberDAO {
 	public static MemberDAO instance;
@@ -58,5 +60,19 @@ public class MemberDAO {
 		MemberDTO memberDTO = sqlSession.selectOne("memberSQL.login",map);
 		sqlSession.close();
 		return memberDTO;
+	}
+
+	public MemberDTO getMemberInfo(String id) {
+		SqlSession sqlSession = sqlSessionFactory.openSession();
+		MemberDTO memberDTO = sqlSession.selectOne("memberSQL.getMemberInfo",id);
+		sqlSession.close();
+		return memberDTO;
+	}
+
+	public List<FaqDTO> getQna() {
+		SqlSession sqlSession = sqlSessionFactory.openSession();
+		List<FaqDTO> list = sqlSession.selectList("memberSQL.getFaq");
+		sqlSession.close();
+		return list;
 	}
 }

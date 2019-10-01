@@ -1,0 +1,34 @@
+@charset "UTF-8";
+
+.join_form_mary {
+	padding-top: 70px;
+	/* 	border: 1px solid red; */
+}
+
+.formContainer {
+	width: 100%;
+	/* 	border: 1px solid red; */
+}
+
+.joinForm_wrap {
+	width: 620px;
+	margin: 0 auto;
+	/* 	border: 1px solid red; */
+}
+
+.join_form {
+	padding-bottom: 133px;
+	/* 	border: 1px solid red; */
+}
+
+.sub_title_box {
+	border-bottom: none;
+	position: relative;
+	/* 	border: 1px solid red; */
+	margin-top: 50px;
+}
+
+.join_table td {
+	padding-top: 10px;
+	padding-bottom: 10px;
+}

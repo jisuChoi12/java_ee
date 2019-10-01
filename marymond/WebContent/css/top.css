@@ -1,0 +1,202 @@
+@charset "UTF-8";
+
+/* The Modal (background) */
+.modal {
+	display: none; /* Hidden by default */
+	position: fixed; /* Stay in place */
+	z-index: 1; /* Sit on top */
+	left: 0;
+	top: 0;
+	width: 100%; /* Full width */
+	height: 100%; /* Full height */
+	overflow: auto; /* Enable scroll if needed */
+	background-color: rgb(0, 0, 0); /* Fallback color */
+	background-color: rgba(0, 0, 0, 0.4); /* Black w/ opacity */
+}
+/* Modal Content/Box */
+.modal-content {
+	margin: auto; /* 15% from the top and centered */
+	width: 375px; /* Could be more or less, depending on screen size */
+	position: relative;
+}
+
+.jbFixed {
+	position: fixed;
+	top: 0px;
+	/* margin-top: -100px;
+		padding-bottom: 100px; */
+}
+
+a:link {
+	color: black;
+	text-decoration: none;
+}
+
+a:visited {
+	color: black;
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: none;
+	/* font-weight: bold; */
+}
+
+a:active {
+	color: black;
+	text-decoration: none;
+	/* font-weight: bold; */
+}
+
+a {
+	cursor: pointer;
+}
+
+.gnb_wrap {
+	background-color: white;
+	width: 100%;
+	overflow: hidden;
+	display: block;
+}
+
+.gnb_box_deco_ver {
+	padding-left: 3%;
+	width: 1200px;
+}
+
+.deco_box {
+	display: inline-block;
+	cursor: pointer;
+	width: 300px;
+}
+
+.img_box {
+	display: inline-block;
+}
+
+#logo_deco2 {
+	width: 100px;
+	height: 100px;
+	padding: 0px;
+}
+
+.deco_txt {
+	display: inline-block;
+	font-size: 1;
+	vertical-align: top;
+	padding-top: 20px;
+	height: 80px;
+}
+
+#options {
+	padding-inline-start: 0px;
+	display: inline-block;
+	float: right;
+	padding-left: 800px;
+	padding-right: 0;
+	padding: 12 0px;
+	width: 1150px;
+	position: fixed;
+}
+
+#options_wrap {
+	border: 1px solid red;
+	width: 100%;
+}
+
+#options li {
+	display: inline-block;
+}
+
+#cartIcon, #myPageIcon, #loginIcon, #logoutIcon {
+	cursor: pointer;
+	font-size: 13px;
+}
+
+#options img {
+	height: 20px;
+	width: 20px;
+}
+
+#pages {
+	padding-bottom: 25px;
+	padding-top: 10px;
+	width: 320px;
+}
+
+#pages a {
+	font-family: 'Nanum Myeongjo';
+	font-size: 20px;
+}
+
+#myModal .modal-content img {
+	height: 667px;
+	width: 375px;
+}
+
+#myModal .modal-content .btn_x {
+	position: absolute;
+	top: 20px;
+	right: 20px;
+}
+
+#myModal .btn_x a {
+	font-size: 20px;
+	color: white;
+}
+
+#loginModal .modal-content {
+	background-color: white;
+	padding: 0 30px;
+	padding-bottom: 30px;
+}
+
+.top_title {
+	padding: 10px 0 0 20px;
+	position: relative;
+}
+
+#loginModal #top_title #login_title {
+	font-size: 24px;
+	line-height: 28px;
+	text-align: left;
+	color: #111;
+	font-weight: 400;
+}
+
+.top_title h3 {
+	font-size: 24px;
+	line-height: 28px;
+	text-align: left;
+	color: #111;
+	font-weight: 400;
+}
+
+.top_title .btn_x {
+	position: absolute;
+	top: 15px;
+	right: 0px;
+	font-size: 15px
+}
+
+#loginModal table {
+	width: 100%;
+	background-color: white;
+}
+
+#loginModal table p {
+	line-height: 12px;
+	margin-top: 5px;
+	margin-bottom: 5px;
+	margin-left: -3px;
+}
+
+#loginModal #loginBtn, #joinBtn { 
+	width: 100%;
+	height: 40px;
+	border: 0;
+	outline: 0;
+	background-color: #333;
+	color: white;
+	font-size: 16px;
+}
