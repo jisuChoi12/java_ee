@@ -11,6 +11,8 @@
 			<!-- <p class="sub_title"><a href="/marymond/member/mypage.do">나의 정보</a></p> -->
 			<ul>
 				<li><a href="/marymond/member/modifyForm.do">회원정보 수정</a></li>
+				<li><a href="/marymond/board/qna_Form.do">문의하기</a></li>
+				<li><a href="/marymond/board/qna_list.do">문의내역</a></li>
 				<li><a href="/marymond/member/faq.do">FAQ</a></li>
 			</ul>
 		</div>

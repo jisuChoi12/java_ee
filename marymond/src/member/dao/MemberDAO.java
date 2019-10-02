@@ -69,7 +69,7 @@ public class MemberDAO {
 		return memberDTO;
 	}
 
-	public List<FaqDTO> getQna() {
+	public List<FaqDTO> getFaq() {
 		SqlSession sqlSession = sqlSessionFactory.openSession();
 		List<FaqDTO> list = sqlSession.selectList("memberSQL.getFaq");
 		sqlSession.close();

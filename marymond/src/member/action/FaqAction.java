@@ -15,7 +15,7 @@ public class FaqAction implements CommandProcess {
 	@Override
 	public String requestPro(HttpServletRequest request, HttpServletResponse response) throws Throwable {
 		// DB
-		List<FaqDTO> list = MemberDAO.getInstance().getQna();
+		List<FaqDTO> list = MemberDAO.getInstance().getFaq();
 		
 		System.out.println("faq 리스트 사이즈"+list.size());
 		

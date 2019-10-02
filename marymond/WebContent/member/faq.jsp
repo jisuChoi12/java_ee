@@ -14,6 +14,7 @@
 	<jsp:include page="mypage_leftside.jsp" />
 	<div class="mypage_right_container_faq">
 		<c:if test="${list != null }">
+			<h3 style="padding-left: 40px; margin-bottom: 20px;">FAQ</h3>
 			<table id="faq_table" border="1" frame="hsides" rules="rows"
 				cellspacing="0" cellpadding="2" width="800px">
 				<tr align="center">
@@ -22,10 +23,10 @@
 				<c:forEach var="faqDTO" items="${list }" varStatus="i">
 					<tr>
 						<td class="subject_wrap"><a href="javascript:void(0)"
-							id='faq${i.count }'>Q.&nbsp;${faqDTO.subject }</a></td>
+							id='faq${i.count }'>Q.&nbsp;${faqDTO.subject }</a></td> 
 					</tr>
 					<tr>
-						<td class="faq${i.count } content_wrap">A.&nbsp;${faqDTO.content }</td>
+						<td class="faq${i.count } content_wrap" style="white-space: pre-wrap;">A.&nbsp;${faqDTO.content }</td>
 					</tr>
 					<tr></tr>
 				</c:forEach>
