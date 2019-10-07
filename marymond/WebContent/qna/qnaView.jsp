@@ -11,11 +11,12 @@
 	vertical-align: top;
 	height: auto;
 }
+
 .mypage_right_container_qnaView tr, td {
 	padding-left: 40px;
 	padding-right: 40px;
-    padding-top: 10px;
-    padding-bottom: 10px;
+	padding-top: 10px;
+	padding-bottom: 10px;
 }
 
 /* .qna_list_wrap tr, td {
@@ -32,7 +33,8 @@
 		<div class="mypage_right_container_qnaView">
 			<!-- 문의글 -->
 			<div class="qna_view_wrap">
-				<h3 style="padding-left: 40px; margin-bottom: 20px;">본인이 작성한 문의글이 아닙니다</h3>
+				<h3 style="padding-left: 40px; margin-bottom: 20px;">본인이 작성한
+					문의글이 아닙니다</h3>
 			</div>
 		</div>
 	</c:if>
@@ -41,15 +43,18 @@
 			<!-- 문의글 -->
 			<div class="qna_view_wrap">
 				<h3 style="padding-left: 40px; margin-bottom: 20px;">나의 문의글</h3>
-				<table id="qna_view_table" border="1" cellspacing="0" frame="hsides" rules="rows" cellpadding="2" width="800px">
+				<table id="qna_view_table" border="1" cellspacing="0" frame="hsides"
+					rules="rows" cellpadding="2" width="800px">
 					<tr>
 						<td>${qnaDTO.qna_subject }</td>
 					</tr>
 					<tr>
-						<td style="height: 200px; vertical-align: top; white-space: pre-wrap;">${qnaDTO.qna_content }</td>
+						<td
+							style="height: 200px; vertical-align: top; white-space: pre-wrap;">${qnaDTO.qna_content }</td>
 					</tr>
 					<tr id="reply_content_tr">
-						<td style="height: 200px; vertical-align: top; background-color: #f8f8f8; white-space: pre-wrap;">${qnaDTO.qna_reply_content }</td>
+						<td
+							style="height: 200px; vertical-align: top; background-color: #f8f8f8; white-space: pre-wrap;">${qnaDTO.qna_reply_content }</td>
 					</tr>
 				</table>
 			</div>

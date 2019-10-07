@@ -13,7 +13,7 @@
 						style="text-decoration: underline; font-size: 12px;">내 정보 수정</a></td>
 				</tr>
 				<tr>
-					<td><span class="hello" style="font-family: 'Nanum Myeongjo'; font-size: 16pt;">헬로 마리몬더 </span></td>
+					<td><span class="hello" style="font-family: 'Nanum Myeongjo'; font-size: 14pt;">헬로 마리몬더 </span></td>
 				</tr>
 			</table>
 		</div>
